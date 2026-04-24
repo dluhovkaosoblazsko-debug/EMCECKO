@@ -1505,6 +1505,8 @@
         {
           id: "S-2026-001",
           rodinaId: "R-2026-001",
+          memberId: "CL-02",
+          memberName: "Eva Dvořáková",
           datumPodpisu: "2026-03-01",
           platnostDo: "2026-09-01",
           pocetDodatku: 0,
@@ -1514,6 +1516,8 @@
         {
           id: "S-2026-002",
           rodinaId: "R-2026-002",
+          memberId: "CL-21",
+          memberName: "Lucie Křížová",
           datumPodpisu: "2026-02-15",
           platnostDo: "2026-05-10",
           pocetDodatku: 1,
@@ -2583,7 +2587,7 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Rodina</th>
+                    <th>Klient</th>
                     <th>Telefon</th>
                     <th>Adresa</th>
                     <th>Členové</th>
@@ -2792,7 +2796,7 @@
                     return `
                       <tr>
                         <td>${item.id}</td>
-                        <td>${escapeHtml(family?.osobni?.nazevRodiny || item.rodinaId || "-")}</td>
+                        <td>${escapeHtml(item.memberName || getPrimaryContractPerson(item)?.jmeno || family?.osobni?.nazevRodiny || item.rodinaId || "-")}</td>
                         <td>${formatDate(item.datumPodpisu)}</td>
                         <td>${formatDate(item.platnostDo)}</td>
                         <td>${escapeHtml(String(item.pocetDodatku || 0))}</td>
@@ -2814,6 +2818,8 @@
                 <p class="hint">Životní cyklus smlouvy o poskytování sociální služby a návaznost na konkrétní rodinu.</p>
               </div>
               <div class="toolbar-right">
+                <button class="btn" type="button" data-download-monitor="${selectedContract.id}">Stáhnout monitorovací list</button>
+                <button class="btn" type="button" data-download-contract="${selectedContract.id}">Stáhnout smlouvu</button>
                 <button class="btn-ghost" type="button" data-edit-contract="${selectedContract.id}">Upravit</button>
                 <button class="btn-ghost" type="button" data-open-contract-case="${selectedContract.rodinaId}">Otevřít případ</button>
               </div>
@@ -2821,6 +2827,7 @@
             <div class="timeline">
               <div class="record">
                 <div class="meta">
+                  <div><span>Klient</span><strong>${escapeHtml(selectedContract.memberName || getPrimaryContractPerson(selectedContract)?.jmeno || "-")}</strong></div>
                   <div><span>Rodina</span><strong>${escapeHtml(getCase(selectedContract.rodinaId)?.osobni?.nazevRodiny || selectedContract.rodinaId || "-")}</strong></div>
                   <div><span>Datum podpisu</span><strong>${formatDate(selectedContract.datumPodpisu)}</strong></div>
                   <div><span>Platnost do</span><strong>${formatDate(selectedContract.platnostDo)}</strong></div>
@@ -2846,6 +2853,12 @@
       });
       document.querySelectorAll("[data-edit-contract]").forEach(btn => {
         btn.addEventListener("click", () => openContractForm(getContract(btn.dataset.editContract)));
+      });
+      document.querySelectorAll("[data-download-contract]").forEach(btn => {
+        btn.addEventListener("click", () => downloadContractDocument(getContract(btn.dataset.downloadContract)));
+      });
+      document.querySelectorAll("[data-download-monitor]").forEach(btn => {
+        btn.addEventListener("click", () => downloadMonitoringSheet(getContract(btn.dataset.downloadMonitor)));
       });
       document.querySelectorAll("[data-open-contract-case]").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -3666,6 +3679,260 @@
       return state.contracts.find(item => item.id === id);
     }
 
+    function getContractMember(contract) {
+      const family = getCase(contract?.rodinaId);
+      const members = family?.osobni?.clenove || [];
+      if (contract?.memberId) {
+        return members.find(member => member.id === contract.memberId) || null;
+      }
+      return null;
+    }
+
+    function getPrimaryContractPerson(contract) {
+      const selectedMember = getContractMember(contract);
+      if (selectedMember) return selectedMember;
+      const family = getCase(contract?.rodinaId);
+      const members = family?.osobni?.clenove || [];
+      return members.find(member => {
+        const role = String(member.role || "").toLowerCase();
+        return role.includes("matka") || role.includes("otec") || role.includes("zákonný zástupce");
+      }) || members[0] || null;
+    }
+
+    function buildContractDocument(contract) {
+      const family = getCase(contract?.rodinaId);
+      const members = family?.osobni?.clenove || [];
+      const legalGuardian = getPrimaryContractPerson(contract);
+      const provider = {
+        nazev: "Emcéčko, z. s.",
+        sluzba: "Sociálně aktivizační služby pro rodiny s dětmi",
+        adresa1: "J. K. Tyla 418",
+        adresa2: "757 01 Valašské Meziříčí",
+        adresa3: "okr. Vsetín",
+        ico: "70238952"
+      };
+      return `<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Smlouva ${escapeHtml(contract?.id || "-")}</title>
+  <style>
+    body { font-family: Georgia, "Times New Roman", serif; margin: 42px; color: #1b2d42; line-height: 1.5; }
+    h1, h2, h3 { margin: 0 0 14px; }
+    h1 { font-size: 28px; }
+    h2 { font-size: 18px; margin-top: 24px; }
+    h3 { font-size: 16px; margin-top: 18px; }
+    p { margin: 0 0 12px; }
+    .meta { margin: 20px 0; padding: 16px; border: 1px solid #cfd8e3; border-radius: 12px; background: #f8fafc; }
+    .meta strong { display: inline-block; min-width: 160px; }
+    .line { display: inline-block; min-width: 220px; border-bottom: 1px solid #7b8ca0; padding-bottom: 2px; }
+    .signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 30px; }
+    .signature-box { padding-top: 24px; }
+    ul { margin: 8px 0 16px 22px; }
+  </style>
+</head>
+<body>
+  <h1>Smlouva o poskytování sociální služby</h1>
+  <h2>I. Smluvní strany</h2>
+  <div class="meta">
+    <p><strong>Název poskytovatele:</strong> ${escapeHtml(provider.nazev)}</p>
+    <p><strong>Služba:</strong> ${escapeHtml(provider.sluzba)}</p>
+    <p><strong>Adresa poskytovatele:</strong> ${escapeHtml(provider.adresa1)}, ${escapeHtml(provider.adresa2)}, ${escapeHtml(provider.adresa3)}</p>
+    <p><strong>IČO:</strong> ${escapeHtml(provider.ico)}</p>
+    <p><strong>Zastoupená:</strong> <span class="line">&nbsp;</span></p>
+    <p><strong>Tel.:</strong> <span class="line">&nbsp;</span> <strong>E-mail:</strong> <span class="line">&nbsp;</span></p>
+  </div>
+  <div class="meta">
+    <p><strong>Uživatel - jméno:</strong> ${escapeHtml(legalGuardian?.jmeno || family?.osobni?.nazevRodiny || "-")}</p>
+    <p><strong>Datum narození:</strong> ${escapeHtml(formatDate(legalGuardian?.datumNarozeni) || "-")}</p>
+    <p><strong>Adresa:</strong> ${escapeHtml(family?.osobni?.adresa || "-")}</p>
+    <p><strong>Telefon / e-mail:</strong> ${escapeHtml([family?.osobni?.telefon, family?.osobni?.email].filter(Boolean).join(" / ") || "-")}</p>
+    <p><strong>Zákonný zástupce dítěte:</strong> ${escapeHtml(legalGuardian?.jmeno || "-")}</p>
+  </div>
+  <p><strong>ID smlouvy:</strong> ${escapeHtml(contract?.id || "-")} | <strong>Datum podpisu:</strong> ${escapeHtml(formatDate(contract?.datumPodpisu))} | <strong>Platnost do:</strong> ${escapeHtml(formatDate(contract?.platnostDo))}</p>
+  <h2>II. Předmět smlouvy</h2>
+  <p>Poskytovatel se zavazuje poskytovat uživateli sociálně aktivizační službu pro rodiny s dětmi (§ 65 ZSS), a to terénní a ambulantní formou.</p>
+  <p>Služba zahrnuje: výchovné, vzdělávací a aktivizační činnosti, zprostředkování kontaktu se společenským prostředím, sociálně terapeutické činnosti, pomoc při uplatňování práv a při obstarávání osobních záležitostí.</p>
+  <h2>III. Místo a čas poskytování</h2>
+  <p>Terénní forma – domácnost uživatele a území ORP Valašské Meziříčí.</p>
+  <p>Ambulantní forma – J. K. Tyla 418, 757 01 Valašské Meziříčí.</p>
+  <h2>IV. Úhrada</h2>
+  <p>Služba je poskytována bezplatně. Náklady třetích stran (např. doprava, kopie) si uživatel hradí sám, pokud není písemně dohodnuto jinak.</p>
+  <h2>V. Práva a povinnosti poskytovatele</h2>
+  <ul>
+    <li>Poskytovat službu v souladu se zákonem, standardy a individuálním plánem.</li>
+    <li>Zachovávat mlčenlivost a chránit osobní údaje.</li>
+    <li>Informovat uživatele o změnách provozu.</li>
+    <li>Vést dokumentaci o průběhu služby.</li>
+  </ul>
+  <h2>VI. Práva a povinnosti uživatele</h2>
+  <ul>
+    <li>Právo na důstojnost a rovné zacházení.</li>
+    <li>Právo kdykoli odmítnout úkon či službu.</li>
+    <li>Právo podat stížnost bez postihu.</li>
+    <li>Povinnost spolupracovat a sdělovat pravdivé informace.</li>
+    <li>Povinnost zajistit bezpečnost při návštěvách.</li>
+  </ul>
+  <h2>VII. Individuální plánování služby</h2>
+  <p>IP se tvoří do 30 dnů od uzavření smlouvy. Cíle stanovuje uživatel společně s klíčovým pracovníkem. Pravidelné vyhodnocení alespoň 1× za 3 měsíce.</p>
+  <h2>VIII. Ochrana osobních údajů (GDPR)</h2>
+  <p>Osobní údaje jsou zpracovávány dle Nařízení (EU) 2016/679. Uživatel byl poučen o právech a uděluje souhlas se zpracováním údajů pro účely poskytování služby. Samostatné souhlasy se sdílením informací tvoří přílohu smlouvy.</p>
+  <h2>IX. Doba trvání a ukončení smlouvy</h2>
+  <p>Smlouva je uzavřena na dobu určitou od ${escapeHtml(formatDate(contract?.datumPodpisu) || "………")} do ${escapeHtml(formatDate(contract?.platnostDo) || "………")}.</p>
+  <p>Uživatel může smlouvu ukončit kdykoli bez udání důvodu. Poskytovatel může smlouvu ukončit při neplnění povinností nebo naplnění cílů. Ukončení se provádí písemně.</p>
+  <h2>X. Závěrečná ustanovení</h2>
+  <p>Smlouva je vyhotovena ve 2 stejnopisech, z nichž každá strana obdrží jedno. Přílohy: 1 – Pravidla poskytování služby, 2 – Informace o zpracování osobních údajů, 3 – Souhlasy se sdílením informací. Smlouva nabývá účinnosti dnem podpisu.</p>
+  <h3>Podkladové údaje rodiny</h3>
+  ${members.length ? `<ul>${members.map(member => `<li>${escapeHtml(member.jmeno || "-")} | ${escapeHtml(member.role || "bez role")} | ${escapeHtml(member.datumNarozeni || "")}</li>`).join("")}</ul>` : `<p>Bez uvedených členů rodiny.</p>`}
+  <div class="signatures">
+    <div class="signature-box">
+      <p><strong>Za poskytovatele</strong></p>
+      <p>________________________________</p>
+      <p>(jméno, podpis)</p>
+    </div>
+    <div class="signature-box">
+      <p><strong>Uživatel / zákonný zástupce</strong></p>
+      <p>________________________________</p>
+      <p>(jméno, podpis)</p>
+    </div>
+  </div>
+</body>
+</html>`;
+    }
+
+    function splitPersonName(fullName) {
+      const parts = String(fullName || "").trim().split(/\s+/).filter(Boolean);
+      if (!parts.length) return { firstName: "", lastName: "" };
+      if (parts.length === 1) return { firstName: parts[0], lastName: "" };
+      return {
+        firstName: parts.slice(0, -1).join(" "),
+        lastName: parts[parts.length - 1]
+      };
+    }
+
+    function splitAddress(address) {
+      const parts = String(address || "").split(",").map(item => item.trim()).filter(Boolean);
+      let street = parts[0] || "";
+      let houseNumber = "";
+      let city = "";
+      let postalCode = "";
+      const streetMatch = street.match(/^(.*?)(?:\s+(\d+[A-Za-z0-9\/-]*))$/);
+      if (streetMatch) {
+        street = streetMatch[1].trim() || street;
+        houseNumber = streetMatch[2] || "";
+      }
+      const rest = parts.slice(1).join(", ");
+      const postalMatch = rest.match(/(\d{3}\s?\d{2})/);
+      if (postalMatch) {
+        postalCode = postalMatch[1];
+        city = rest.replace(postalMatch[1], "").replace(/^[,\s]+|[,\s]+$/g, "");
+      } else {
+        city = parts[1] || "";
+      }
+      return { street, houseNumber, city, postalCode };
+    }
+
+    function inferGender(member) {
+      const role = String(member?.role || "").toLowerCase();
+      if (role.includes("matka") || role.includes("dcera") || role.includes("žena")) return "žena";
+      if (role.includes("otec") || role.includes("syn") || role.includes("muž")) return "muž";
+      return "";
+    }
+
+    function buildContractMemberOptions(caseId, selectedMemberId = "") {
+      const family = getCase(caseId);
+      const members = family?.osobni?.clenove || [];
+      return members.map(member => `
+        <option value="${member.id}"${member.id === selectedMemberId ? " selected" : ""}>
+          ${escapeHtml(member.jmeno)} | ${escapeHtml(member.role || "bez role")}
+        </option>
+      `).join("");
+    }
+
+    function renderContractFamilyPreview(family, member) {
+      return `
+        <strong>Načtená data klienta</strong>
+        <div class="meta" style="margin-top:12px;">
+          <div><span>Klient</span><strong>${escapeHtml(member?.jmeno || "-")}</strong></div>
+          <div><span>Role</span><strong>${escapeHtml(member?.role || "-")}</strong></div>
+          <div><span>Datum narození</span><strong>${escapeHtml(formatDate(member?.datumNarozeni))}</strong></div>
+          <div><span>Rodina</span><strong>${escapeHtml(family?.osobni?.nazevRodiny || "-")}</strong></div>
+          <div><span>Adresa</span><strong>${escapeHtml(family?.osobni?.adresa || "-")}</strong></div>
+          <div><span>Telefon</span><strong>${escapeHtml(family?.osobni?.telefon || "-")}</strong></div>
+          <div><span>E-mail</span><strong>${escapeHtml(family?.osobni?.email || "-")}</strong></div>
+        </div>
+        <div class="hint" style="margin-top:8px;">Monitorovací list i smlouva se budou generovat pro tohoto konkrétního klienta.</div>
+      `;
+    }
+
+    function buildMonitoringSheetPayload(contract) {
+      const family = getCase(contract?.rodinaId);
+      const person = getPrimaryContractPerson(contract);
+      const personName = splitPersonName(person?.jmeno || family?.osobni?.nazevRodiny || "");
+      const address = splitAddress(family?.osobni?.adresa || "");
+      const cityForDate = address.city || "Valašském Meziříčí";
+      const signedAt = contract?.datumPodpisu ? formatDate(contract.datumPodpisu) : formatDate(today());
+      return {
+        fileName: `monitorovaci-list-${((person?.jmeno || family?.osobni?.nazevRodiny || contract?.id || "klient")).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-")}`,
+        fields: {
+          firstName: personName.firstName,
+          lastName: personName.lastName,
+          birthDate: formatDate(person?.datumNarozeni) === "-" ? "" : formatDate(person?.datumNarozeni),
+          fullAddress: family?.osobni?.adresa || "",
+          street: address.street,
+          city: address.city,
+          houseNumber: address.houseNumber,
+          postalCode: address.postalCode,
+          email: family?.osobni?.email || "",
+          phone: family?.osobni?.telefon || "",
+          temporaryAddress: address.city || "",
+          gender: inferGender(person),
+          laborStatus: person?.postaveniTrhPrace || "",
+          education: person?.vzdelani || "",
+          disadvantage: person?.znevyhodneni || "",
+          placeAndDate: `V ${cityForDate} dne ${signedAt}`
+        }
+      };
+    }
+
+    function downloadContractDocument(contract) {
+      if (!contract) return;
+      const blob = new Blob([buildContractDocument(contract)], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `smlouva-${contract.id || today()}.html`;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function downloadMonitoringSheet(contract) {
+      if (!contract) return;
+      try {
+        const payload = buildMonitoringSheetPayload(contract);
+        const response = await fetch("/api/export-monitoring-sheet", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) {
+          throw new Error("Nepodařilo se vygenerovat monitorovací list.");
+        }
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${payload.fileName}.xlsm`;
+        link.click();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error(error);
+        alert("Monitorovací list se nepodařilo stáhnout.");
+      }
+    }
+
     function getGroupActivity(id) {
       return state.groupActivities.find(item => item.id === id);
     }
@@ -3695,7 +3962,6 @@
         osobni: { nazevRodiny: "", telefon: "", email: "", adresa: "", clenove: [] },
         karta: { datumZalozeni: today(), stav: "aktivní", kp: sourceApplicant?.pracovnikKontakt || "", caseManager: "", zdrojDoporuceni: "OSPOD", typZakazky: "kombinovaná zakázka", pocetDeti: 0, vekDeti: "", ospodAnoNe: "ano", miraOhrozeni: "střední", vazbaNaIpod: "ne", poznamka: sourceApplicant?.poznamka || "" }
       };
-
       openModal(existingCase ? "Upravit kartu případu" : "Založit nový případ", `
         <div class="form-grid">
           <label>Název rodiny<input name="nazevRodiny" required value="${escapeAttribute(item.osobni.nazevRodiny)}"></label>
@@ -3719,6 +3985,7 @@
         </div>
         <div class="inline-actions">
           <button class="btn" type="submit">${existingCase ? "Uložit změny" : "Založit případ"}</button>
+          ${existingCase ? `<button class="btn-danger" type="button" id="deleteCaseAction">Smazat klienta</button>` : ""}
           <button class="btn-ghost" type="button" id="cancelModalAction">Zrušit</button>
         </div>
       `, formData => {
@@ -3776,6 +4043,25 @@
         modalEl.close();
         saveState();
       });
+      if (existingCase) {
+        document.getElementById("deleteCaseAction").addEventListener("click", () => {
+          if (!confirm(`Opravdu chcete smazat klienta ${existingCase.osobni?.nazevRodiny || existingCase.id}? Tato akce odstraní i navázané smlouvy a historii případu.`)) return;
+          const caseId = existingCase.id;
+          state.cases = state.cases.filter(itemCase => itemCase.id !== caseId);
+          state.contracts = (state.contracts || []).filter(contract => contract.rodinaId !== caseId);
+          state.applicants = (state.applicants || []).map(applicant => applicant.vazbaKartaPripadu === caseId
+            ? { ...applicant, vazbaKartaPripadu: "" }
+            : applicant);
+          delete selectedCaseSectionByCase[caseId];
+          delete selectedPlanByCase[caseId];
+          delete selectedEvaluationByCase[caseId];
+          delete selectedInterventionByCase[caseId];
+          delete selectedMemberByCase[caseId];
+          selectedCaseId = state.cases[0]?.id || null;
+          modalEl.close();
+          saveState();
+        });
+      }
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
     }
 
@@ -4060,24 +4346,42 @@
     }
 
     function openContractForm(existingContract = null) {
+      const defaultCaseId = selectedCaseId || state.cases[0]?.id || "";
+      const defaultMemberId = (defaultCaseId && selectedMemberByCase[defaultCaseId]) || getCase(defaultCaseId)?.osobni?.clenove?.[0]?.id || "";
       const item = existingContract || {
         id: createId("S"),
-        rodinaId: selectedCaseId || state.cases[0]?.id || "",
+        rodinaId: defaultCaseId,
+        memberId: defaultMemberId,
+        memberName: getCase(defaultCaseId)?.osobni?.clenove?.find(member => member.id === defaultMemberId)?.jmeno || "",
         datumPodpisu: today(),
         platnostDo: addMonths(today(), 6),
         pocetDodatku: 0,
         uhrazenoKlientem: false,
         informovanySouhlas: true
       };
+      const contractFamily = getCase(item.rodinaId) || state.cases[0] || null;
+      const contractMember = getContractMember(item) || contractFamily?.osobni?.clenove?.find(member => member.id === item.memberId) || contractFamily?.osobni?.clenove?.[0] || null;
       openModal(existingContract ? "Upravit smlouvu" : "Nová smlouva", `
         <div class="form-grid">
           <label>ID smlouvy<input name="id" value="${escapeAttribute(item.id)}" ${existingContract ? "readonly" : ""}></label>
-          <label>Rodina${selectHtml("rodinaId", state.cases.map(caseItem => caseItem.id), item.rodinaId || state.cases[0]?.id || "")}</label>
+          <label>Klient / rodina
+            <select name="rodinaId" id="contractFamilySelect">
+              ${state.cases.map(caseItem => `<option value="${caseItem.id}"${caseItem.id === (item.rodinaId || state.cases[0]?.id || "") ? " selected" : ""}>${escapeHtml(caseItem.osobni?.nazevRodiny || caseItem.id)} | ${escapeHtml(caseItem.id)}</option>`).join("")}
+            </select>
+          </label>
+          <label>Klient
+            <select name="memberId" id="contractMemberSelect">
+              ${buildContractMemberOptions(item.rodinaId, contractMember?.id || item.memberId || "")}
+            </select>
+          </label>
           <label>Datum podpisu<input type="date" name="datumPodpisu" required value="${escapeAttribute(item.datumPodpisu || today())}"></label>
           <label>Platnost do<input type="date" name="platnostDo" required value="${escapeAttribute(item.platnostDo || addMonths(today(), 6))}"></label>
           <label>Počet dodatků<input type="number" min="0" step="1" name="pocetDodatku" value="${escapeAttribute(String(item.pocetDodatku || 0))}"></label>
           <label>Uhrazeno klientem<select name="uhrazenoKlientem"><option value="ne"${item.uhrazenoKlientem ? "" : " selected"}>ne</option><option value="ano"${item.uhrazenoKlientem ? " selected" : ""}>ano</option></select></label>
           <label>Informovaný souhlas<select name="informovanySouhlas"><option value="ano"${item.informovanySouhlas !== false ? " selected" : ""}>ano</option><option value="ne"${item.informovanySouhlas === false ? " selected" : ""}>ne</option></select></label>
+          <div class="full form-block-blue" id="contractFamilyPreview">
+            ${renderContractFamilyPreview(contractFamily, contractMember)}
+          </div>
         </div>
         <div class="inline-actions">
           <button class="btn" type="submit">${existingContract ? "Uložit změny" : "Uložit smlouvu"}</button>
@@ -4087,6 +4391,8 @@
         const payload = {
           id: formData.get("id"),
           rodinaId: formData.get("rodinaId"),
+          memberId: formData.get("memberId"),
+          memberName: getCase(formData.get("rodinaId"))?.osobni?.clenove?.find(member => member.id === formData.get("memberId"))?.jmeno || "",
           datumPodpisu: formData.get("datumPodpisu"),
           platnostDo: formData.get("platnostDo"),
           pocetDodatku: Number(formData.get("pocetDodatku") || 0),
@@ -4103,6 +4409,23 @@
         saveState();
       });
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
+      const familySelect = document.getElementById("contractFamilySelect");
+      const memberSelect = document.getElementById("contractMemberSelect");
+      const familyPreview = document.getElementById("contractFamilyPreview");
+      const updateContractPreview = () => {
+        if (!familySelect || !familyPreview || !memberSelect) return;
+        const family = getCase(familySelect.value);
+        const member = family?.osobni?.clenove?.find(item => item.id === memberSelect.value) || family?.osobni?.clenove?.[0] || null;
+        familyPreview.innerHTML = renderContractFamilyPreview(family, member);
+      };
+      if (familySelect && familyPreview && memberSelect) {
+        familySelect.addEventListener("change", () => {
+          const family = getCase(familySelect.value);
+          memberSelect.innerHTML = buildContractMemberOptions(familySelect.value, family?.osobni?.clenove?.[0]?.id || "");
+          updateContractPreview();
+        });
+        memberSelect.addEventListener("change", updateContractPreview);
+      }
     }
 
     function openGroupActivityForm(existingActivity = null) {

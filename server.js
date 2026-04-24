@@ -2,11 +2,13 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const { google } = require("googleapis");
+const XLSX = require("xlsx");
 
 const app = express();
 const port = process.env.PORT || 3000;
 const dataDir = process.env.DATA_DIR || path.join(__dirname, "data");
 const dataFile = path.join(dataDir, "app-state.json");
+const monitoringTemplateFile = path.join(__dirname, "data", "Sablona ML.xlsm");
 const geminiApiKey = process.env.GEMINI_API_KEY || "";
 
 const sheetsId = process.env.GOOGLE_SHEETS_ID || "";
@@ -169,6 +171,78 @@ app.put("/api/state", async (req, res) => {
   } catch (error) {
     console.error("PUT /api/state failed:", error);
     return res.status(500).json({ error: "Nepodařilo se uložit stav." });
+  }
+});
+
+function setWorksheetValue(worksheet, address, value, options = {}) {
+  const current = worksheet[address] || {};
+  const next = { ...current };
+
+  if (options.type === "date") {
+    if (!value) {
+      next.t = "z";
+      delete next.v;
+      delete next.w;
+    } else {
+      next.t = "s";
+      next.v = String(value);
+      next.w = String(value);
+    }
+  } else {
+    if (value === undefined || value === null || value === "") {
+      next.t = "z";
+      delete next.v;
+      delete next.w;
+    } else {
+      next.t = "s";
+      next.v = String(value);
+      next.w = String(value);
+    }
+  }
+
+  worksheet[address] = next;
+}
+
+app.post("/api/export-monitoring-sheet", async (req, res) => {
+  try {
+    if (!fs.existsSync(monitoringTemplateFile)) {
+      return res.status(404).json({ error: "Šablona monitorovacího listu nebyla nalezena." });
+    }
+
+    const fields = req.body?.fields || {};
+    const filenameBase = String(req.body?.fileName || "monitorovaci-list").replace(/[^\w\d-_]+/g, "-");
+    const workbook = XLSX.readFile(monitoringTemplateFile, { bookVBA: true, cellStyles: true });
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+    setWorksheetValue(worksheet, "C7", fields.firstName || "");
+    setWorksheetValue(worksheet, "C8", fields.lastName || "");
+    setWorksheetValue(worksheet, "C9", fields.birthDate || "", { type: "date" });
+    setWorksheetValue(worksheet, "C10", fields.fullAddress || "");
+    setWorksheetValue(worksheet, "C11", fields.street || "");
+    setWorksheetValue(worksheet, "C12", fields.city || "");
+    setWorksheetValue(worksheet, "C13", fields.houseNumber || "");
+    setWorksheetValue(worksheet, "C14", fields.postalCode || "");
+    setWorksheetValue(worksheet, "C15", fields.email || "");
+    setWorksheetValue(worksheet, "C16", fields.phone || "");
+    setWorksheetValue(worksheet, "C17", fields.temporaryAddress || "");
+    setWorksheetValue(worksheet, "C18", fields.gender || "");
+    setWorksheetValue(worksheet, "C19", fields.laborStatus || "");
+    setWorksheetValue(worksheet, "C20", fields.education || "");
+    setWorksheetValue(worksheet, "C21", fields.disadvantage || "");
+    setWorksheetValue(worksheet, "B22", fields.placeAndDate || "V __________________ dne __________________");
+
+    const buffer = XLSX.write(workbook, {
+      type: "buffer",
+      bookType: "xlsm",
+      bookVBA: true
+    });
+
+    res.setHeader("Content-Type", "application/vnd.ms-excel.sheet.macroEnabled.12");
+    res.setHeader("Content-Disposition", `attachment; filename="${filenameBase}.xlsm"`);
+    return res.send(buffer);
+  } catch (error) {
+    console.error("POST /api/export-monitoring-sheet failed:", error);
+    return res.status(500).json({ error: "Nepodařilo se vygenerovat monitorovací list." });
   }
 });
 
