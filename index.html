@@ -6,18 +6,18 @@
   <title>Mosty v rodině | Evidence služby a evaluace</title>
   <style>
     :root {
-      --bg: #cad4de;
-      --panel: #eaf0f5;
-      --panel-soft: #dbe4ec;
-      --line: #bac7d3;
-      --text: #19324a;
-      --muted: #64778b;
-      --primary: #0f6c8d;
-      --primary-dark: #0a4f67;
-      --accent: #d58b2a;
-      --success: #227c57;
-      --danger: #a63a42;
-      --shadow: 0 10px 24px rgba(20, 44, 68, 0.06);
+      --bg: #263341;
+      --panel: #e3e9ef;
+      --panel-soft: #d3dde7;
+      --line: #b1c0ce;
+      --text: #152f47;
+      --muted: #5f7387;
+      --primary: #0f6b8b;
+      --primary-dark: #09516a;
+      --accent: #d29b46;
+      --success: #1f7a56;
+      --danger: #a33b45;
+      --shadow: 0 14px 32px rgba(7, 20, 35, 0.16);
       --radius: 16px;
     }
 
@@ -26,9 +26,11 @@
       margin: 0;
       font-family: "Segoe UI", Tahoma, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(28, 87, 132, 0.12), transparent 24%),
-        linear-gradient(180deg, #c8d2dc 0%, #d7e0e8 100%);
+        radial-gradient(circle at top left, rgba(76, 120, 168, 0.24), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(34, 70, 108, 0.18), transparent 28%),
+        linear-gradient(180deg, #374656 0%, #2a3846 100%);
       color: var(--text);
+      line-height: 1.4;
     }
 
     button, input, select, textarea {
@@ -49,6 +51,10 @@
       flex-direction: column;
       gap: 18px;
       box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
     }
 
     .brand h1 {
@@ -83,17 +89,19 @@
       width: 100%;
       border: 0;
       border-radius: 12px;
-      padding: 11px 14px;
+      padding: 10px 13px;
       background: transparent;
       color: white;
       text-align: left;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: 0.18s ease;
+      font-weight: 600;
     }
 
     .sidebar button.active,
     .sidebar button:hover {
-      background: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.14);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
     }
 
     .sidebar .cta {
@@ -142,6 +150,7 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
+      min-width: 0;
     }
 
     .hero,
@@ -151,7 +160,7 @@
     .metric,
     .tab-panel,
     .section-card {
-      background: linear-gradient(180deg, rgba(236, 242, 247, 0.97) 0%, rgba(227, 235, 242, 0.99) 100%);
+      background: linear-gradient(180deg, rgba(231, 238, 245, 0.98) 0%, rgba(221, 231, 240, 0.98) 100%);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -170,7 +179,7 @@
 
     .hero h2 {
       margin: 0 0 8px;
-      font-size: 1.8rem;
+      font-size: 1.65rem;
     }
 
     .hero p {
@@ -217,7 +226,7 @@
 
     .panel,
     .tab-panel {
-      padding: 18px;
+      padding: 16px;
     }
 
     .panel h3,
@@ -235,7 +244,7 @@
 
     .card,
     .record {
-      padding: 14px;
+      padding: 12px;
     }
 
     .table-wrap {
@@ -250,7 +259,7 @@
 
     .compact-table th,
     .compact-table td {
-      padding: 4px 7px;
+      padding: 6px 8px;
       border-bottom: 1px solid var(--line);
       text-align: left;
       vertical-align: middle;
@@ -268,7 +277,7 @@
 
     .compact-table td {
       font-size: 0.84rem;
-      line-height: 1.1;
+      line-height: 1.3;
     }
 
     .compact-table tbody tr:nth-child(odd) td {
@@ -367,7 +376,7 @@
     .btn-ghost {
       border: 0;
       border-radius: 12px;
-      padding: 10px 14px;
+      padding: 9px 13px;
       cursor: pointer;
       transition: 0.2s ease;
     }
@@ -408,6 +417,14 @@
       color: var(--text);
     }
 
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid rgba(16, 110, 142, 0.3);
+      outline-offset: 1px;
+    }
+
     .search {
       width: min(420px, 100%);
     }
@@ -420,8 +437,13 @@
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.9);
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 9px 11px;
       color: var(--text);
+    }
+
+    form input,
+    form select {
+      min-height: 40px;
     }
 
     form textarea {
@@ -497,7 +519,7 @@
       border: 1px solid var(--line);
       border-radius: 14px;
       overflow: hidden;
-      background: rgba(248, 251, 253, 0.92);
+      background: rgba(236, 242, 248, 0.92);
     }
 
     summary {
@@ -578,6 +600,11 @@
       margin: 0 0 14px;
       padding-bottom: 10px;
       border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 8;
+      background: linear-gradient(180deg, rgba(225, 234, 243, 0.98) 0%, rgba(221, 231, 240, 0.98) 100%);
+      padding-top: 8px;
     }
 
     .case-tabs button {
@@ -1030,11 +1057,11 @@
     .project-hero-card {
       padding: 20px 22px;
       border-radius: 20px;
-      border: 1px solid #d8dfc8;
+      border: 1px solid #cdd5c3;
       background:
-        radial-gradient(circle at top right, rgba(242, 177, 78, 0.22), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(70, 138, 114, 0.16), transparent 26%),
-        linear-gradient(135deg, #e4eadf 0%, #d8dfd2 100%);
+        radial-gradient(circle at top right, rgba(210, 155, 70, 0.16), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(67, 120, 104, 0.11), transparent 26%),
+        linear-gradient(135deg, #dde4d7 0%, #d2d9ce 100%);
       box-shadow: var(--shadow);
       display: grid;
       grid-template-columns: 1.4fr 0.8fr;
@@ -1101,11 +1128,11 @@
     }
 
     .project-panel {
-      padding: 18px;
+      padding: 14px;
       border-radius: 18px;
       box-shadow: var(--shadow);
       border: 1px solid var(--line);
-      background: linear-gradient(180deg, #e6ecf2 0%, #dce5ec 100%);
+      background: linear-gradient(180deg, #dde5ed 0%, #d3dde7 100%);
       display: grid;
       gap: 14px;
     }
@@ -1203,48 +1230,36 @@
 
     .commitment-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 10px;
     }
 
     .commitment-card {
-      padding: 12px 14px;
+      --accent-line: #69849d;
+      position: relative;
+      padding: 10px 12px;
       border-radius: 16px;
-      border: 1px solid #d9e3ec;
-      background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+      border: 1px solid #c6d3df;
+      background: linear-gradient(180deg, #f2f6fb 0%, #e9f0f7 100%);
       display: grid;
-      gap: 10px;
+      gap: 8px;
+      overflow: hidden;
     }
 
-    .commitment-card.communication {
-      background: linear-gradient(180deg, #f7f6eb 0%, #efecd9 100%);
-      border-color: #ddd5b6;
+    .commitment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: var(--accent-line);
     }
 
-    .commitment-card.crisis {
-      background: linear-gradient(180deg, #fdf2ef 0%, #f8e2db 100%);
-      border-color: #ebc8bb;
-    }
-
-    .commitment-card.conflict {
-      background: linear-gradient(180deg, #eef6ff 0%, #dfeaf8 100%);
-      border-color: #c8d9ee;
-    }
-
-    .commitment-card.care {
-      background: linear-gradient(180deg, #eef8f2 0%, #dceee2 100%);
-      border-color: #bfd8c7;
-    }
-
-    .commitment-card.ka3 {
-      background: linear-gradient(180deg, #e6ddd0 0%, #dbcfc0 100%);
-      border-color: #e6cfac;
-    }
-
-    .commitment-card.team {
-      background: linear-gradient(180deg, #dddbea 0%, #d1cee1 100%);
-      border-color: #d7cfef;
-    }
+    .commitment-card.communication { --accent-line: #6e8756; }
+    .commitment-card.crisis { --accent-line: #aa695b; }
+    .commitment-card.conflict { --accent-line: #5d7896; }
+    .commitment-card.care { --accent-line: #4f8468; }
+    .commitment-card.ka3 { --accent-line: #8c6c43; }
+    .commitment-card.team { --accent-line: #6b6295; }
 
     .commitment-card h4 {
       margin: 0;
@@ -1261,10 +1276,18 @@
     .commitment-box {
       padding: 8px 10px;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(111, 133, 156, 0.16);
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(111, 133, 156, 0.24);
       display: grid;
       gap: 3px;
+    }
+
+    .commitment-box.target {
+      border-left: 4px solid rgba(94, 112, 130, 0.7);
+    }
+
+    .commitment-box.achieved {
+      border-left: 4px solid rgba(31, 122, 86, 0.75);
     }
 
     .commitment-box span {
@@ -1329,12 +1352,12 @@
     }
 
     .case-context-panel {
-      padding: 18px 20px;
+      padding: 14px 16px;
       border-radius: 22px;
       border: 1px solid #d6d9c8;
       background:
-        radial-gradient(circle at top right, rgba(242, 177, 78, 0.18), transparent 28%),
-        linear-gradient(135deg, #fbfaf2 0%, #eef3e6 100%);
+        radial-gradient(circle at top right, rgba(210, 155, 70, 0.13), transparent 28%),
+        linear-gradient(135deg, #ecebdc 0%, #dfe6d5 100%);
       box-shadow: var(--shadow);
     }
 
@@ -3089,33 +3112,31 @@
       const qualityStats = getProjectQualityStats();
       const ka3Stats = getKa3Stats();
       const teamStats = getTeamDevelopmentStats();
-      const commitmentStatusClass = value => value >= 100 ? "good" : (value >= 60 ? "mid" : "low");
-      const commitmentStatusText = value => value >= 100 ? "splněno" : (value >= 60 ? "rozpracováno" : "nízké plnění");
-      const buildCommitmentCard = ({ title, targetText, achievedText, ratioPercent, theme = "" }) => {
-        const normalizedRatioPercent = Math.max(0, ratioPercent || 0);
-        const displayRatioPercent = Math.min(normalizedRatioPercent, 100);
-        const exceededTarget = normalizedRatioPercent > 100;
+      const commitmentStatusClass = (achievedPercent, targetPercent) => achievedPercent >= targetPercent ? "good" : (achievedPercent >= targetPercent * 0.6 ? "mid" : "low");
+      const commitmentStatusText = (achievedPercent, targetPercent) => achievedPercent >= targetPercent ? "splněno" : (achievedPercent >= targetPercent * 0.6 ? "rozpracováno" : "nízké plnění");
+      const buildCommitmentCard = ({ title, targetText, achievedText, achievedPercent, targetPercent, theme = "" }) => {
+        const normalizedAchievedPercent = Math.max(0, Math.min(100, achievedPercent || 0));
         return `
           <article class="commitment-card ${theme}">
             <h4>${title}</h4>
             <div class="commitment-meta">
-              <div class="commitment-box">
+              <div class="commitment-box target">
                 <span>Závazek</span>
                 <strong>${targetText}</strong>
               </div>
-              <div class="commitment-box">
+              <div class="commitment-box achieved">
                 <span>Dosaženo</span>
                 <strong>${achievedText}</strong>
               </div>
             </div>
             <div class="commitment-track">
-              <div class="commitment-fill" style="width:${displayRatioPercent}%;"></div>
+              <div class="commitment-fill" style="width:${normalizedAchievedPercent}%;"></div>
             </div>
             <div class="commitment-caption">
-              <span>Plnění závazku</span>
-              <strong>${Math.round(displayRatioPercent)} %${exceededTarget ? " (cíl překročen)" : ""}</strong>
+              <span>Skutečný podíl dosažení</span>
+              <strong>${Math.round(normalizedAchievedPercent)} % (cíl ${Math.round(targetPercent)} %)</strong>
             </div>
-            <div class="commitment-status ${commitmentStatusClass(displayRatioPercent)}">${commitmentStatusText(displayRatioPercent)}</div>
+            <div class="commitment-status ${commitmentStatusClass(normalizedAchievedPercent, targetPercent)}">${commitmentStatusText(normalizedAchievedPercent, targetPercent)}</div>
           </article>
         `;
       };
@@ -3141,56 +3162,64 @@
                 title: "Obnovení nebo zlepšení komunikace mezi rodiči",
                 targetText: "50 % relevantních uzavřených IP",
                 achievedText: projectStats.communication.text,
-                ratioPercent: projectStats.communication.percent / 50 * 100,
+                achievedPercent: projectStats.communication.percent,
+                targetPercent: 50,
                 theme: "communication"
               })}
               ${buildCommitmentCard({
                 title: "Snížení počtu krizových a konfliktních situací v rodině",
                 targetText: "25 % relevantních uzavřených IP",
                 achievedText: projectStats.crisis.text,
-                ratioPercent: projectStats.crisis.percent / 25 * 100,
+                achievedPercent: projectStats.crisis.percent,
+                targetPercent: 25,
                 theme: "crisis"
               })}
               ${buildCommitmentCard({
                 title: "Konstruktivní řešení konfliktů v rodině",
                 targetText: "30 % relevantních uzavřených IP",
                 achievedText: projectStats.conflict.text,
-                ratioPercent: projectStats.conflict.percent / 30 * 100,
+                achievedPercent: projectStats.conflict.percent,
+                targetPercent: 30,
                 theme: "conflict"
               })}
               ${buildCommitmentCard({
                 title: "Dohoda o porozvodové péči bez asistence pracovníka",
                 targetText: "50 % relevantních uzavřených IP",
                 achievedText: projectStats.care.text,
-                ratioPercent: projectStats.care.percent / 50 * 100,
+                achievedPercent: projectStats.care.percent,
+                targetPercent: 50,
                 theme: "care"
               })}
               ${buildCommitmentCard({
                 title: "Nárůst spolupráce mezi organizacemi",
                 targetText: "10 %",
                 achievedText: `${state.projectTracking.cooperationIncreasePercent} %`,
-                ratioPercent: (state.projectTracking.cooperationIncreasePercent / 10) * 100,
+                achievedPercent: state.projectTracking.cooperationIncreasePercent,
+                targetPercent: 10,
                 theme: "team"
               })}
               ${buildCommitmentCard({
                 title: "Zvýšení odborných kompetencí týmu",
                 targetText: "3 osoby",
                 achievedText: `${state.projectTracking.teamCompetenceCount} osoby`,
-                ratioPercent: (state.projectTracking.teamCompetenceCount / 3) * 100,
+                achievedPercent: (state.projectTracking.teamCompetenceCount / 3) * 100,
+                targetPercent: 100,
                 theme: "team"
               })}
               ${buildCommitmentCard({
                 title: "Supervizní setkání",
                 targetText: "14 setkání",
                 achievedText: `${teamStats.currentYearSupervisions} setkání`,
-                ratioPercent: (teamStats.currentYearSupervisions / 14) * 100,
+                achievedPercent: (teamStats.currentYearSupervisions / 14) * 100,
+                targetPercent: 100,
                 theme: "team"
               })}
               ${buildCommitmentCard({
                 title: "Osvojení dovedností v KA3",
                 targetText: "70 % účastí",
                 achievedText: ka3Stats.skillText,
-                ratioPercent: (ka3Stats.skillPercent / 70) * 100,
+                achievedPercent: ka3Stats.skillPercent,
+                targetPercent: 70,
                 theme: "ka3"
               })}
             </div>
