@@ -1179,6 +1179,132 @@
       background: linear-gradient(180deg, #fffaf1 0%, #f3ecdd 100%);
     }
 
+    .commitment-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .commitment-card {
+      padding: 18px 20px;
+      border-radius: 20px;
+      border: 1px solid #d9e3ec;
+      background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+      display: grid;
+      gap: 12px;
+    }
+
+    .commitment-card.communication {
+      background: linear-gradient(180deg, #f7f6eb 0%, #efecd9 100%);
+      border-color: #ddd5b6;
+    }
+
+    .commitment-card.crisis {
+      background: linear-gradient(180deg, #fdf2ef 0%, #f8e2db 100%);
+      border-color: #ebc8bb;
+    }
+
+    .commitment-card.conflict {
+      background: linear-gradient(180deg, #eef6ff 0%, #dfeaf8 100%);
+      border-color: #c8d9ee;
+    }
+
+    .commitment-card.care {
+      background: linear-gradient(180deg, #eef8f2 0%, #dceee2 100%);
+      border-color: #bfd8c7;
+    }
+
+    .commitment-card.ka3 {
+      background: linear-gradient(180deg, #fff8ee 0%, #f3e6d4 100%);
+      border-color: #e6cfac;
+    }
+
+    .commitment-card.team {
+      background: linear-gradient(180deg, #f4f2ff 0%, #e8e3fb 100%);
+      border-color: #d7cfef;
+    }
+
+    .commitment-card h4 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .commitment-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .commitment-box {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(111, 133, 156, 0.16);
+      display: grid;
+      gap: 4px;
+    }
+
+    .commitment-box span {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .commitment-box strong {
+      font-size: 1.15rem;
+      line-height: 1.15;
+    }
+
+    .commitment-track {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(25, 50, 74, 0.1);
+      overflow: hidden;
+    }
+
+    .commitment-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #0f6c8d 0%, #2a9274 100%);
+    }
+
+    .commitment-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .commitment-status {
+      justify-self: start;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      background: #edf3f8;
+      color: var(--text);
+    }
+
+    .commitment-status.good {
+      background: #dff1e7;
+      color: #1e6a4e;
+    }
+
+    .commitment-status.mid {
+      background: #fff0cf;
+      color: #8c5a00;
+    }
+
+    .commitment-status.low {
+      background: #f8dedd;
+      color: #8c313a;
+    }
+
     .case-context-panel {
       padding: 18px 20px;
       border-radius: 22px;
@@ -1214,6 +1340,7 @@
       .project-hero-card { grid-template-columns: 1fr; }
       .project-hero-badges { justify-content: flex-start; }
       .project-monitor-grid { grid-template-columns: 1fr; }
+      .commitment-meta { grid-template-columns: 1fr; }
       .case-context-panel { padding: 14px; }
       .case-context-panel .form-grid-2 { grid-template-columns: 1fr; }
       .case-context-panel select { min-height: 52px; font-size: 1rem; }
@@ -2351,6 +2478,31 @@
       const qualityStats = getProjectQualityStats();
       const ka3Stats = getKa3Stats();
       const teamStats = getTeamDevelopmentStats();
+      const commitmentStatusClass = value => value >= 100 ? "good" : (value >= 60 ? "mid" : "low");
+      const commitmentStatusText = value => value >= 100 ? "splněno" : (value >= 60 ? "rozpracováno" : "nízké plnění");
+      const buildCommitmentCard = ({ title, targetText, achievedText, ratioPercent, theme = "" }) => `
+        <article class="commitment-card ${theme}">
+          <h4>${title}</h4>
+          <div class="commitment-meta">
+            <div class="commitment-box">
+              <span>Závazek</span>
+              <strong>${targetText}</strong>
+            </div>
+            <div class="commitment-box">
+              <span>Dosaženo</span>
+              <strong>${achievedText}</strong>
+            </div>
+          </div>
+          <div class="commitment-track">
+            <div class="commitment-fill" style="width:${Math.max(0, Math.min(ratioPercent, 100))}%;"></div>
+          </div>
+          <div class="commitment-caption">
+            <span>Plnění závazku</span>
+            <strong>${Math.round(Math.max(0, ratioPercent))} %</strong>
+          </div>
+          <div class="commitment-status ${commitmentStatusClass(ratioPercent)}">${commitmentStatusText(ratioPercent)}</div>
+        </article>
+      `;
 
       viewEl.innerHTML = `
         <section class="project-dashboard">
@@ -2366,80 +2518,92 @@
             </div>
           </div>
 
-          <section class="project-summary-grid">
-            <div class="project-metric"><span>Aktivní případy</span><strong>${active}</strong><div class="hint">Rodiny v běžící podpoře</div></div>
-            <div class="project-metric"><span>Kritické ohrožení</span><strong>${highRisk}</strong><div class="hint">Případy s vysokým rizikem</div></div>
-            <div class="project-metric"><span>Uzavřené případy</span><strong>${closed}</strong><div class="hint">S výstupem a ukončením</div></div>
-            <div class="project-metric"><span>Vstupní hodnocení</span><strong>${withInput}/${state.cases.length}</strong><div class="hint">Vyplněné baseline záznamy</div></div>
-            <div class="project-metric"><span>IP cíle</span><strong>${goals}</strong><div class="hint">Aktivně sledované cíle práce</div></div>
-            <div class="project-metric"><span>Revize IP</span><strong>${evaluations}</strong><div class="hint">Formální vyhodnocení a revize</div></div>
-            <div class="project-metric"><span>Intervence</span><strong>${interventions}</strong><div class="hint">Přímá práce s rodinami</div></div>
-            <div class="project-metric"><span>Setkání MDT</span><strong>${meetings}</strong><div class="hint">Koordinační a síťovací setkání</div></div>
-            <div class="project-metric"><span>KA3 skupiny</span><strong>${groupActivitiesCount}</strong><div class="hint">Svépomocné skupiny a volitelné tréninky</div></div>
-          </section>
-
           <section class="project-panel">
-            <h3>Projektové cíle u klientů s uzavřeným IP</h3>
-            <div class="goal-progress-grid">
-              <article class="goal-progress-card communication">
-                <h4>Obnovení nebo zlepšení komunikace mezi rodiči</h4>
-                <div class="goal-progress-value">${projectStats.communication.text}</div>
-                <div class="goal-progress-target">Cílová hodnota: 50 %</div>
-              </article>
-              <article class="goal-progress-card crisis">
-                <h4>Snížení počtu krizových a konfliktních situací v rodině</h4>
-                <div class="goal-progress-value">${projectStats.crisis.text}</div>
-                <div class="goal-progress-target">Cílová hodnota: 25 %</div>
-              </article>
-              <article class="goal-progress-card conflict">
-                <h4>Dosažení konstruktivního řešení konfliktů v rodině</h4>
-                <div class="goal-progress-value">${projectStats.conflict.text}</div>
-                <div class="goal-progress-target">Cílová hodnota: 30 %</div>
-              </article>
-              <article class="goal-progress-card care">
-                <h4>Dohoda o porozvodové péči bez asistence sociálního pracovníka</h4>
-                <div class="goal-progress-value">${projectStats.care.text}</div>
-                <div class="goal-progress-target">Cílová hodnota: 50 %</div>
-              </article>
+            <h3>Projektové závazky a skutečně dosažené výsledky</h3>
+            <div class="commitment-grid">
+              ${buildCommitmentCard({
+                title: "Obnovení nebo zlepšení komunikace mezi rodiči",
+                targetText: "50 % relevantních uzavřených IP",
+                achievedText: projectStats.communication.text,
+                ratioPercent: projectStats.communication.percent / 50 * 100,
+                theme: "communication"
+              })}
+              ${buildCommitmentCard({
+                title: "Snížení počtu krizových a konfliktních situací v rodině",
+                targetText: "25 % relevantních uzavřených IP",
+                achievedText: projectStats.crisis.text,
+                ratioPercent: projectStats.crisis.percent / 25 * 100,
+                theme: "crisis"
+              })}
+              ${buildCommitmentCard({
+                title: "Konstruktivní řešení konfliktů v rodině",
+                targetText: "30 % relevantních uzavřených IP",
+                achievedText: projectStats.conflict.text,
+                ratioPercent: projectStats.conflict.percent / 30 * 100,
+                theme: "conflict"
+              })}
+              ${buildCommitmentCard({
+                title: "Dohoda o porozvodové péči bez asistence pracovníka",
+                targetText: "50 % relevantních uzavřených IP",
+                achievedText: projectStats.care.text,
+                ratioPercent: projectStats.care.percent / 50 * 100,
+                theme: "care"
+              })}
+              ${buildCommitmentCard({
+                title: "Nárůst spolupráce mezi organizacemi",
+                targetText: "10 %",
+                achievedText: `${state.projectTracking.cooperationIncreasePercent} %`,
+                ratioPercent: (state.projectTracking.cooperationIncreasePercent / 10) * 100,
+                theme: "team"
+              })}
+              ${buildCommitmentCard({
+                title: "Zvýšení odborných kompetencí týmu",
+                targetText: "3 osoby",
+                achievedText: `${state.projectTracking.teamCompetenceCount} osoby`,
+                ratioPercent: (state.projectTracking.teamCompetenceCount / 3) * 100,
+                theme: "team"
+              })}
+              ${buildCommitmentCard({
+                title: "Supervizní setkání",
+                targetText: "14 setkání",
+                achievedText: `${teamStats.currentYearSupervisions} setkání`,
+                ratioPercent: (teamStats.currentYearSupervisions / 14) * 100,
+                theme: "team"
+              })}
+              ${buildCommitmentCard({
+                title: "Osvojení dovedností v KA3",
+                targetText: "70 % účastí",
+                achievedText: ka3Stats.skillText,
+                ratioPercent: (ka3Stats.skillPercent / 70) * 100,
+                theme: "ka3"
+              })}
             </div>
           </section>
 
           <section class="project-panel">
-            <h3>KA3: skupinové aktivity a komunitní podpora</h3>
-            <div class="goal-progress-grid">
-              <article class="goal-progress-card communication">
-                <h4>Realizované svépomocné skupiny</h4>
-                <div class="goal-progress-value">${ka3Stats.selfHelpCount}</div>
-                <div class="goal-progress-target">Počet aktivit typu svépomocná skupina</div>
-              </article>
-              <article class="goal-progress-card crisis">
-                <h4>Realizované volitelné tréninky</h4>
-                <div class="goal-progress-value">${ka3Stats.trainingCount}</div>
-                <div class="goal-progress-target">Počet aktivit typu volitelný trénink</div>
-              </article>
-              <article class="goal-progress-card conflict">
-                <h4>Účasti a podpořené osoby v KA3</h4>
-                <div class="goal-progress-value">${ka3Stats.attendanceCount}</div>
-                <div class="goal-progress-target">${ka3Stats.uniquePersons} unikátních osob</div>
-              </article>
-              <article class="goal-progress-card care">
-                <h4>Osvojení dovedností v KA3</h4>
-                <div class="goal-progress-value">${ka3Stats.skillText}</div>
-                <div class="goal-progress-target">Podíl účastí s potvrzeným osvojením dovednosti</div>
-              </article>
+            <h3>Průběžný monitoring bez pevné cílové hodnoty</h3>
+            <div class="project-summary-grid">
+              <div class="project-metric"><span>Aktivní případy</span><strong>${active}</strong><div class="hint">Rodiny v běžící podpoře</div></div>
+              <div class="project-metric"><span>Kritické ohrožení</span><strong>${highRisk}</strong><div class="hint">Případy s vysokým rizikem</div></div>
+              <div class="project-metric"><span>Uzavřené případy</span><strong>${closed}</strong><div class="hint">S výstupem a ukončením</div></div>
+              <div class="project-metric"><span>Vstupní hodnocení</span><strong>${withInput}/${state.cases.length}</strong><div class="hint">Vyplněné baseline záznamy</div></div>
+              <div class="project-metric"><span>IP cíle</span><strong>${goals}</strong><div class="hint">Aktivně sledované cíle práce</div></div>
+              <div class="project-metric"><span>Revize IP</span><strong>${evaluations}</strong><div class="hint">Formální vyhodnocení a revize</div></div>
+              <div class="project-metric"><span>Intervence</span><strong>${interventions}</strong><div class="hint">Přímá práce s rodinami</div></div>
+              <div class="project-metric"><span>Setkání MDT</span><strong>${meetings}</strong><div class="hint">Koordinační a síťovací setkání</div></div>
+              <div class="project-metric"><span>KA3 skupiny</span><strong>${groupActivitiesCount}</strong><div class="hint">Svépomocné skupiny a volitelné tréninky</div></div>
             </div>
           </section>
 
-          <section class="project-monitor-grid">
-            <div class="project-panel">
-              <h3>KA02 a realizační tým</h3>
+          <section class="project-panel">
+            <h3>Kapacita podpory, tým a kvalita realizace</h3>
+            <div class="project-monitor-grid">
               <div class="project-monitor-card">
-                <h4>Meziorganizační spolupráce</h4>
-                <p><strong>${state.projectTracking.cooperationIncreasePercent} %</strong> nárůst spolupráce na zakázkách CS. Cílová hodnota projektu je 10 %.</p>
-              </div>
-              <div class="project-monitor-card">
-                <h4>Odborné kompetence týmu</h4>
-                <p><strong>${state.projectTracking.teamCompetenceCount} / 3 osob</strong> se zvýšenou odbornou kompetencí doloženou osvědčením nebo certifikátem.</p>
+                <h4>Podpořené osoby podle času podpory</h4>
+                <p><strong>Do 40 hodin:</strong> ${supportHoursStats.under40}</p>
+                <p><strong>Nad 40 hodin:</strong> ${supportHoursStats.overOrEqual40}</p>
+                <p><strong>Celkem se záznamem podpory:</strong> ${supportHoursStats.totalSupported}</p>
+                <p class="hint">Počítáno po konkrétních osobách, ke kterým jsou intervence vykázané.</p>
               </div>
               <div class="project-monitor-card">
                 <h4>Vzdělávací karty pracovníků</h4>
@@ -2447,16 +2611,20 @@
                 <p><strong>Celkem hodin vzdělávání:</strong> ${teamStats.totalEducationHours}</p>
               </div>
               <div class="project-monitor-card">
+                <h4>KA3 skupiny a účasti</h4>
+                <p><strong>Svépomocné skupiny:</strong> ${ka3Stats.selfHelpCount}</p>
+                <p><strong>Volitelné tréninky:</strong> ${ka3Stats.trainingCount}</p>
+                <p><strong>Účasti:</strong> ${ka3Stats.attendanceCount} | <strong>unikátní osoby:</strong> ${ka3Stats.uniquePersons}</p>
+              </div>
+              <div class="project-monitor-card">
                 <h4>Supervizní setkání</h4>
                 <p><strong>${teamStats.currentYearSupervisions} / 14 setkání</strong> evidovaných v aktuálním roce.</p>
                 <p><strong>Poslední supervize:</strong> ${teamStats.lastSupervisionDate ? formatDate(teamStats.lastSupervisionDate) : "-"}</p>
               </div>
               <div class="project-monitor-card">
-                <h4>Podpořené osoby podle času podpory</h4>
-                <p><strong>Do 40 hodin:</strong> ${supportHoursStats.under40}</p>
-                <p><strong>Nad 40 hodin:</strong> ${supportHoursStats.overOrEqual40}</p>
-                <p><strong>Celkem se záznamem podpory:</strong> ${supportHoursStats.totalSupported}</p>
-                <p class="hint">Počítáno po konkrétních osobách, ke kterým jsou intervence vykázané.</p>
+                <h4>Meziorganizační spolupráce a kompetence</h4>
+                <p><strong>Spolupráce:</strong> ${state.projectTracking.cooperationIncreasePercent} %</p>
+                <p><strong>Zvýšené kompetence:</strong> ${state.projectTracking.teamCompetenceCount} / 3 osoby</p>
               </div>
               <div class="project-monitor-card">
                 <h4>Kvalita realizace</h4>
@@ -2466,25 +2634,17 @@
                 <p><strong>Aktivní IP včas nebo před termínem:</strong> ${qualityStats.onTrackPlans}</p>
               </div>
             </div>
+          </section>
 
-            <div class="project-form-card">
-              <h3>Ruční aktualizace projektového monitoru</h3>
-              <form id="projectTrackingForm" class="form-grid" style="margin-top:14px;">
-                <label>Nárůst spolupráce mezi organizacemi v %<input type="number" name="cooperationIncreasePercent" min="0" step="1" value="${escapeAttribute(String(state.projectTracking.cooperationIncreasePercent || 0))}"></label>
-                <label>Počet osob se zvýšenou odbornou kompetencí<input type="number" name="teamCompetenceCount" min="0" step="1" value="${escapeAttribute(String(state.projectTracking.teamCompetenceCount || 0))}"></label>
-                <div class="inline-actions full">
-                  <button class="btn" type="submit">Uložit projektový monitoring</button>
-                </div>
-              </form>
-              <h3 style="margin-top:20px;">AI API nastavení</h3>
-              <form id="aiSettingsForm" class="form-grid" style="margin-top:14px;">
-                <label>Model Gemini<input name="model" value="${escapeAttribute(state.aiSettings?.model || "gemini-2.5-flash")}"></label>
-                <div class="hint full">API klíč už není ve frontendu. Pro AI návrhy musí být na serveru Render nastavená proměnná prostředí <code>GEMINI_API_KEY</code>.</div>
-                <div class="inline-actions full">
-                  <button class="btn-secondary" type="submit">Uložit AI nastavení</button>
-                </div>
-              </form>
-            </div>
+          <section class="project-form-card">
+            <h3>Ruční aktualizace projektového monitoru</h3>
+            <form id="projectTrackingForm" class="form-grid" style="margin-top:14px;">
+              <label>Nárůst spolupráce mezi organizacemi v %<input type="number" name="cooperationIncreasePercent" min="0" step="1" value="${escapeAttribute(String(state.projectTracking.cooperationIncreasePercent || 0))}"></label>
+              <label>Počet osob se zvýšenou odbornou kompetencí<input type="number" name="teamCompetenceCount" min="0" step="1" value="${escapeAttribute(String(state.projectTracking.teamCompetenceCount || 0))}"></label>
+              <div class="inline-actions full">
+                <button class="btn" type="submit">Uložit projektový monitoring</button>
+              </div>
+            </form>
           </section>
         </section>
       `;
@@ -2496,17 +2656,6 @@
           const formData = new FormData(projectTrackingForm);
           state.projectTracking.cooperationIncreasePercent = Number(formData.get("cooperationIncreasePercent") || 0);
           state.projectTracking.teamCompetenceCount = Number(formData.get("teamCompetenceCount") || 0);
-          saveState();
-        });
-      }
-      const aiSettingsForm = document.getElementById("aiSettingsForm");
-      if (aiSettingsForm) {
-        aiSettingsForm.addEventListener("submit", event => {
-          event.preventDefault();
-          const formData = new FormData(aiSettingsForm);
-          state.aiSettings = {
-            model: String(formData.get("model") || "gemini-2.5-flash").trim() || "gemini-2.5-flash"
-          };
           saveState();
         });
       }
