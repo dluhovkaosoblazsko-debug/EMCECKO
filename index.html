@@ -6,26 +6,28 @@
   <title>Mosty v rodině | Evidence služby a evaluace</title>
   <style>
     :root {
-      --bg: #f3f5f8;
-      --panel: #ffffff;
-      --panel-soft: #f8fafc;
-      --line: #d8e0ea;
+      --bg: #cad4de;
+      --panel: #eaf0f5;
+      --panel-soft: #dbe4ec;
+      --line: #bac7d3;
       --text: #19324a;
-      --muted: #667a8f;
+      --muted: #64778b;
       --primary: #0f6c8d;
       --primary-dark: #0a4f67;
       --accent: #d58b2a;
       --success: #227c57;
       --danger: #a63a42;
-      --shadow: 0 12px 32px rgba(20, 44, 68, 0.08);
-      --radius: 18px;
+      --shadow: 0 10px 24px rgba(20, 44, 68, 0.06);
+      --radius: 16px;
     }
 
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, sans-serif;
-      background: linear-gradient(180deg, #edf2f7 0%, #f7f9fc 100%);
+      background:
+        radial-gradient(circle at top left, rgba(28, 87, 132, 0.12), transparent 24%),
+        linear-gradient(180deg, #c8d2dc 0%, #d7e0e8 100%);
       color: var(--text);
     }
 
@@ -42,10 +44,10 @@
     .sidebar {
       background: linear-gradient(180deg, #16324f 0%, #20496e 100%);
       color: white;
-      padding: 28px 22px;
+      padding: 22px 18px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 18px;
       box-shadow: var(--shadow);
     }
 
@@ -61,11 +63,27 @@
       font-size: 0.94rem;
     }
 
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 4px 2px 8px;
+    }
+
+    .brand img {
+      display: block;
+      width: 100%;
+      max-width: 190px;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
+    }
+
     .sidebar button {
       width: 100%;
       border: 0;
-      border-radius: 14px;
-      padding: 14px 16px;
+      border-radius: 12px;
+      padding: 11px 14px;
       background: transparent;
       color: white;
       text-align: left;
@@ -120,10 +138,10 @@
     }
 
     .main {
-      padding: 26px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
     }
 
     .hero,
@@ -133,21 +151,21 @@
     .metric,
     .tab-panel,
     .section-card {
-      background: var(--panel);
+      background: linear-gradient(180deg, rgba(236, 242, 247, 0.97) 0%, rgba(227, 235, 242, 0.99) 100%);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
     }
 
     .hero {
-      padding: 24px;
+      padding: 20px 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 18px;
       background:
-        radial-gradient(circle at top right, rgba(213,139,42,0.18), transparent 30%),
-        linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+        radial-gradient(circle at top right, rgba(213,139,42,0.12), transparent 30%),
+        linear-gradient(135deg, #eaf0f5 0%, #dde6ee 100%);
     }
 
     .hero h2 {
@@ -169,7 +187,7 @@
     .inline-actions,
     .summary {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -180,7 +198,7 @@
     }
 
     .metric {
-      padding: 18px;
+      padding: 14px 16px;
     }
 
     .metric h3 {
@@ -193,13 +211,13 @@
     }
 
     .metric strong {
-      font-size: 1.9rem;
+      font-size: 1.55rem;
       display: block;
     }
 
     .panel,
     .tab-panel {
-      padding: 22px;
+      padding: 18px;
     }
 
     .panel h3,
@@ -217,7 +235,7 @@
 
     .card,
     .record {
-      padding: 18px;
+      padding: 14px;
     }
 
     .table-wrap {
@@ -232,29 +250,33 @@
 
     .compact-table th,
     .compact-table td {
-      padding: 6px 8px;
+      padding: 4px 7px;
       border-bottom: 1px solid var(--line);
       text-align: left;
       vertical-align: middle;
     }
 
     .compact-table th {
-      font-size: 0.72rem;
+      font-size: 0.69rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--muted);
-      background: #f8fafc;
+      background: #d9e3eb;
       position: sticky;
       top: 0;
     }
 
     .compact-table td {
-      font-size: 0.88rem;
-      line-height: 1.15;
+      font-size: 0.84rem;
+      line-height: 1.1;
+    }
+
+    .compact-table tbody tr:nth-child(odd) td {
+      background: rgba(255, 255, 255, 0.28);
     }
 
     .compact-table tr:hover td {
-      background: #fbfdff;
+      background: #f2f7fb;
     }
 
     .compact-table .actions {
@@ -273,15 +295,15 @@
     .meta {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
+      gap: 10px;
+      margin-top: 10px;
     }
 
     .meta div {
       background: var(--panel-soft);
       border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 12px;
+      border-radius: 12px;
+      padding: 9px 10px;
     }
 
     .compact-meta {
@@ -295,11 +317,11 @@
       display: inline-flex;
       align-items: baseline;
       gap: 4px;
-      padding: 6px 10px;
+      padding: 5px 9px;
       border: 1px solid var(--line);
       border-radius: 999px;
       background: var(--panel-soft);
-      font-size: 0.84rem;
+      font-size: 0.8rem;
       line-height: 1.1;
     }
 
@@ -344,8 +366,8 @@
     .btn-danger,
     .btn-ghost {
       border: 0;
-      border-radius: 14px;
-      padding: 12px 16px;
+      border-radius: 12px;
+      padding: 10px 14px;
       cursor: pointer;
       transition: 0.2s ease;
     }
@@ -396,26 +418,26 @@
     form textarea {
       width: 100%;
       border: 1px solid var(--line);
-      background: white;
+      background: rgba(255,255,255,0.9);
       border-radius: 12px;
-      padding: 12px 14px;
+      padding: 10px 12px;
       color: var(--text);
     }
 
     form textarea {
-      min-height: 100px;
+      min-height: 84px;
       resize: vertical;
     }
 
     form {
       display: grid;
-      gap: 14px;
+      gap: 12px;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
+      gap: 12px;
     }
 
     .form-grid-2 {
@@ -425,7 +447,7 @@
     .form-grid-3 {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      gap: 12px;
     }
 
     .form-block-accent {
@@ -473,26 +495,26 @@
 
     details {
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
-      background: white;
+      background: rgba(248, 251, 253, 0.92);
     }
 
     summary {
       list-style: none;
       cursor: pointer;
-      padding: 16px 18px;
+      padding: 12px 15px;
       font-weight: 700;
-      background: #f8fafc;
+      background: #eef3f8;
     }
 
     summary::-webkit-details-marker { display: none; }
 
     .details-body {
-      padding: 18px;
+      padding: 14px;
       border-top: 1px solid var(--line);
       display: grid;
-      gap: 16px;
+      gap: 14px;
     }
 
     .timeline {
@@ -512,11 +534,11 @@
     .case-header {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       align-items: flex-start;
-      padding-bottom: 18px;
+      padding-bottom: 14px;
       border-bottom: 1px solid var(--line);
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
 
     .case-header h3 {
@@ -552,9 +574,9 @@
     .case-tabs {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin: 0 0 18px;
-      padding-bottom: 14px;
+      gap: 8px;
+      margin: 0 0 14px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--line);
     }
 
@@ -610,7 +632,7 @@
     }
 
     .section-card + .section-card {
-      margin-top: 16px;
+      margin-top: 12px;
     }
 
     .section-header {
@@ -631,7 +653,7 @@
     }
 
     .section-card summary {
-      padding: 14px 18px;
+      padding: 12px 15px;
       font-weight: 700;
       border-bottom: 1px solid transparent;
       display: flex;
@@ -645,34 +667,34 @@
     }
 
     .section-card.personal summary {
-      background: linear-gradient(180deg, #eef7ff 0%, #e5f1fb 100%);
+      background: linear-gradient(180deg, #d7e4ef 0%, #ccdae7 100%);
       color: #18486b;
     }
 
     .section-card.intake summary {
-      background: linear-gradient(180deg, #f4fbef 0%, #eaf7e2 100%);
+      background: linear-gradient(180deg, #d8e3d4 0%, #cedcc9 100%);
       color: #295d35;
     }
 
     .section-card.plan summary {
-      background: linear-gradient(180deg, #fff8ea 0%, #ffefcc 100%);
+      background: linear-gradient(180deg, #e5d8c2 0%, #dacbae 100%);
       color: #7a5312;
     }
 
     .section-card.progress summary {
-      background: linear-gradient(180deg, #f3f2ff 0%, #e7e5ff 100%);
+      background: linear-gradient(180deg, #dad8eb 0%, #cfcae2 100%);
       color: #443f8c;
     }
 
     .section-card.outcome summary {
-      background: linear-gradient(180deg, #fff0f1 0%, #ffe1e5 100%);
+      background: linear-gradient(180deg, #e8d8dc 0%, #ddc9cf 100%);
       color: #8a2f3d;
     }
 
     .section-body {
-      padding: 18px;
+      padding: 14px;
       display: grid;
-      gap: 16px;
+      gap: 12px;
     }
 
     .summary-note {
@@ -684,20 +706,20 @@
     .two-col {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
-      gap: 18px;
+      gap: 14px;
     }
 
     .ip-layout {
       display: grid;
       grid-template-columns: 1.5fr 0.9fr;
-      gap: 16px;
+      gap: 12px;
       align-items: start;
     }
 
     .intervention-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      gap: 14px;
       align-items: start;
     }
 
@@ -714,8 +736,8 @@
     .template-strip {
       display: grid;
       gap: 10px;
-      padding: 12px;
-      border-radius: 14px;
+      padding: 10px 12px;
+      border-radius: 12px;
       background: rgba(255,255,255,0.55);
       border: 1px dashed #c9bba6;
       margin-bottom: 12px;
@@ -724,8 +746,8 @@
     .ai-assist-box {
       display: grid;
       gap: 10px;
-      padding: 14px;
-      border-radius: 14px;
+      padding: 12px;
+      border-radius: 12px;
       background: linear-gradient(180deg, #eef7fb 0%, #e5f0f7 100%);
       border: 1px solid #c7dae7;
       margin-bottom: 14px;
@@ -758,10 +780,10 @@
     .timeline-card {
       border: 1px solid var(--line);
       border-radius: 12px;
-      background: #fbfdff;
-      padding: 12px 14px;
+      background: linear-gradient(180deg, #f9fbfd 0%, #f1f6fa 100%);
+      padding: 10px 12px;
       display: grid;
-      gap: 8px;
+      gap: 6px;
     }
 
     .timeline-card.active {
@@ -804,7 +826,7 @@
     }
 
     .modal {
-      padding: 22px;
+      padding: 18px;
       background: linear-gradient(180deg, #ffffff 0%, #f8fbfd 100%);
     }
 
@@ -832,14 +854,14 @@
     .score-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
+      gap: 10px;
     }
 
     .score-box {
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 12px;
-      background: #fbfdff;
+      padding: 10px 12px;
+      background: linear-gradient(180deg, #f8fbfd 0%, #f1f6fa 100%);
     }
 
     .score-list {
@@ -852,10 +874,10 @@
       grid-template-columns: minmax(180px, 220px) 70px 1fr;
       gap: 12px;
       align-items: start;
-      padding: 10px 12px;
+      padding: 8px 10px;
       border: 1px solid var(--line);
       border-radius: 12px;
-      background: #fbfdff;
+      background: linear-gradient(180deg, #f9fbfd 0%, #f2f6fa 100%);
     }
 
     .score-row strong {
@@ -882,20 +904,20 @@
 
     .compact-block {
       display: grid;
-      gap: 12px;
+      gap: 10px;
     }
 
     .compact-grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
     }
 
     .mini-card {
       border: 1px solid var(--line);
       border-radius: 12px;
-      padding: 12px 14px;
-      background: #fbfdff;
+      padding: 10px 12px;
+      background: linear-gradient(180deg, #f9fbfd 0%, #f1f6fa 100%);
     }
 
     .mini-card h5 {
@@ -948,10 +970,10 @@
     .event-row {
       border: 1px solid var(--line);
       border-radius: 12px;
-      background: #fbfdff;
-      padding: 12px 14px;
+      background: linear-gradient(180deg, #f9fbfd 0%, #f2f6fa 100%);
+      padding: 10px 12px;
       display: grid;
-      gap: 8px;
+      gap: 6px;
     }
 
     .event-head {
@@ -974,10 +996,10 @@
     }
 
     .empty {
-      padding: 18px;
+      padding: 14px;
       border: 1px dashed var(--line);
       border-radius: 14px;
-      background: #fbfdff;
+      background: linear-gradient(180deg, #f8fbfd 0%, #f1f6fa 100%);
     }
 
     .footer-note {
@@ -1002,17 +1024,17 @@
 
     .project-dashboard {
       display: grid;
-      gap: 18px;
+      gap: 14px;
     }
 
     .project-hero-card {
-      padding: 26px 28px;
-      border-radius: 24px;
+      padding: 20px 22px;
+      border-radius: 20px;
       border: 1px solid #d8dfc8;
       background:
         radial-gradient(circle at top right, rgba(242, 177, 78, 0.22), transparent 28%),
         radial-gradient(circle at bottom left, rgba(70, 138, 114, 0.16), transparent 26%),
-        linear-gradient(135deg, #fffaf0 0%, #f4f6ea 100%);
+        linear-gradient(135deg, #e4eadf 0%, #d8dfd2 100%);
       box-shadow: var(--shadow);
       display: grid;
       grid-template-columns: 1.4fr 0.8fr;
@@ -1052,21 +1074,21 @@
     .project-summary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 14px;
+      gap: 10px;
     }
 
     .project-metric {
-      padding: 18px;
-      border-radius: 20px;
+      padding: 14px;
+      border-radius: 16px;
       border: 1px solid #d8e0ea;
-      background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+      background: linear-gradient(180deg, #e7edf2 0%, #dde6ed 100%);
       box-shadow: var(--shadow);
       display: grid;
-      gap: 6px;
+      gap: 4px;
     }
 
     .project-metric strong {
-      font-size: 2rem;
+      font-size: 1.55rem;
       line-height: 1;
     }
 
@@ -1079,13 +1101,13 @@
     }
 
     .project-panel {
-      padding: 24px;
-      border-radius: 24px;
+      padding: 18px;
+      border-radius: 18px;
       box-shadow: var(--shadow);
       border: 1px solid var(--line);
-      background: #fff;
+      background: linear-gradient(180deg, #e6ecf2 0%, #dce5ec 100%);
       display: grid;
-      gap: 18px;
+      gap: 14px;
     }
 
     .project-panel h3 {
@@ -1096,35 +1118,35 @@
     .goal-progress-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
+      gap: 10px;
     }
 
     .goal-progress-card {
-      padding: 18px;
-      border-radius: 20px;
+      padding: 14px;
+      border-radius: 16px;
       border: 1px solid #d9e3ec;
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbfd 100%);
+      background: linear-gradient(180deg, #e9eff4 0%, #dfe7ee 100%);
       display: grid;
       gap: 10px;
     }
 
     .goal-progress-card.communication {
-      background: linear-gradient(180deg, #f7f6eb 0%, #efecd9 100%);
+      background: linear-gradient(180deg, #e3e0d1 0%, #d9d4bf 100%);
       border-color: #ddd5b6;
     }
 
     .goal-progress-card.crisis {
-      background: linear-gradient(180deg, #fdf2ef 0%, #f8e2db 100%);
+      background: linear-gradient(180deg, #e8dad6 0%, #ddcbc6 100%);
       border-color: #ebc8bb;
     }
 
     .goal-progress-card.conflict {
-      background: linear-gradient(180deg, #eef6ff 0%, #dfeaf8 100%);
+      background: linear-gradient(180deg, #d8e2ec 0%, #ccd8e4 100%);
       border-color: #c8d9ee;
     }
 
     .goal-progress-card.care {
-      background: linear-gradient(180deg, #eef8f2 0%, #dceee2 100%);
+      background: linear-gradient(180deg, #dae5dc 0%, #cedacf 100%);
       border-color: #bfd8c7;
     }
 
@@ -1135,7 +1157,7 @@
     }
 
     .goal-progress-value {
-      font-size: 1.75rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: var(--text);
       line-height: 1;
@@ -1149,12 +1171,12 @@
     .project-monitor-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 12px;
     }
 
     .project-monitor-card {
-      padding: 18px;
-      border-radius: 20px;
+      padding: 14px;
+      border-radius: 16px;
       border: 1px solid #dce4ee;
       background: linear-gradient(180deg, #fcfdff 0%, #f3f7fb 100%);
       display: grid;
@@ -1173,24 +1195,25 @@
     }
 
     .project-form-card {
-      padding: 20px;
-      border-radius: 22px;
+      padding: 16px;
+      border-radius: 18px;
       border: 1px solid #d8d5c8;
       background: linear-gradient(180deg, #fffaf1 0%, #f3ecdd 100%);
     }
 
     .commitment-grid {
       display: grid;
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 10px;
     }
 
     .commitment-card {
-      padding: 18px 20px;
-      border-radius: 20px;
+      padding: 12px 14px;
+      border-radius: 16px;
       border: 1px solid #d9e3ec;
       background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
       display: grid;
-      gap: 12px;
+      gap: 10px;
     }
 
     .commitment-card.communication {
@@ -1214,38 +1237,38 @@
     }
 
     .commitment-card.ka3 {
-      background: linear-gradient(180deg, #fff8ee 0%, #f3e6d4 100%);
+      background: linear-gradient(180deg, #e6ddd0 0%, #dbcfc0 100%);
       border-color: #e6cfac;
     }
 
     .commitment-card.team {
-      background: linear-gradient(180deg, #f4f2ff 0%, #e8e3fb 100%);
+      background: linear-gradient(180deg, #dddbea 0%, #d1cee1 100%);
       border-color: #d7cfef;
     }
 
     .commitment-card h4 {
       margin: 0;
-      font-size: 1rem;
-      line-height: 1.35;
+      font-size: 0.98rem;
+      line-height: 1.3;
     }
 
     .commitment-meta {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 8px;
     }
 
     .commitment-box {
-      padding: 12px 14px;
-      border-radius: 16px;
+      padding: 8px 10px;
+      border-radius: 12px;
       background: rgba(255, 255, 255, 0.78);
       border: 1px solid rgba(111, 133, 156, 0.16);
       display: grid;
-      gap: 4px;
+      gap: 3px;
     }
 
     .commitment-box span {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--muted);
@@ -1253,12 +1276,12 @@
     }
 
     .commitment-box strong {
-      font-size: 1.15rem;
-      line-height: 1.15;
+      font-size: 1.02rem;
+      line-height: 1.2;
     }
 
     .commitment-track {
-      height: 12px;
+      height: 10px;
       border-radius: 999px;
       background: rgba(25, 50, 74, 0.1);
       overflow: hidden;
@@ -1274,15 +1297,15 @@
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      font-size: 0.9rem;
+      font-size: 0.84rem;
       color: var(--muted);
     }
 
     .commitment-status {
       justify-self: start;
-      padding: 6px 10px;
+      padding: 5px 9px;
       border-radius: 999px;
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       font-weight: 800;
       letter-spacing: 0.03em;
       text-transform: uppercase;
@@ -1370,17 +1393,16 @@
   <div class="app">
     <aside class="sidebar">
       <div class="brand">
-        <h1>Mosty v rodině</h1>
-        <p>Evidence služby, případové práce a evaluace projektu v jednom přehledu.</p>
+        <img src="/data/logo.png" alt="Mosty v rodině">
       </div>
       <button class="nav-btn active" data-view="dashboard">Přehled projektu</button>
-      <button class="nav-btn" data-view="clients">Klienti</button>
-      <button class="nav-btn" data-view="applicants">Zájemci</button>
-      <button class="nav-btn" data-view="contracts">Smlouvy</button>
       <button class="nav-btn" data-view="team">Realizační tým</button>
-      <button class="nav-btn" data-view="groups">KA3 skupiny</button>
-      <button class="nav-btn" data-view="cases">Případy</button>
-      <button id="exportNav">Evaluační export</button>
+      <button class="nav-btn" data-view="applicants">Zájemci</button>
+      <button class="nav-btn" data-view="clients">Klienti</button>
+      <button class="nav-btn" data-view="contracts">Smlouvy</button>
+<button class="nav-btn" data-view="groups">Skupinové aktivity</button>
+<button class="nav-btn" data-view="cases">Případy</button>
+<button class="nav-btn" data-view="evaluations">Evaluační aktivity</button>
       <div id="sidebarAlerts" class="sidebar-alerts"></div>
       <button class="cta" id="newCaseBtn">Založit nový případ</button>
     </aside>
@@ -1626,6 +1648,28 @@
           pracovnikKontakt: "Petr Svoboda",
           vazbaKartaPripadu: "",
           poznamka: "Čekání na uvolnění kapacity terénní práce."
+        },
+        {
+          id: "Z-2026-003",
+          osobniUdajeId: "OU-2026-003",
+          datumPrvnihoKontaktu: "2026-03-09",
+          formaKontaktu: "osobně",
+          vysledekPosouzeni: "přijat",
+          duvodOdmítnutí: "",
+          pracovnikKontakt: "Barbora Hrušková",
+          vazbaKartaPripadu: "R-2026-004",
+          poznamka: "Dobrovolný vstup do služby, matka aktivně hledá podporu pro nastavení domácích pravidel."
+        },
+        {
+          id: "Z-2026-004",
+          osobniUdajeId: "OU-2026-004",
+          datumPrvnihoKontaktu: "2026-03-13",
+          formaKontaktu: "zprostředkovaně",
+          vysledekPosouzeni: "přijat",
+          duvodOdmítnutí: "",
+          pracovnikKontakt: "Martina Veselá",
+          vazbaKartaPripadu: "R-2026-005",
+          poznamka: "Rodina doporučena návaznou službou kvůli porozchodovému konfliktu a potřebě dohody o péči."
         }
       ],
       contracts: [
@@ -1647,6 +1691,28 @@
           memberName: "Lucie Křížová",
           datumPodpisu: "2026-02-15",
           platnostDo: "2026-05-10",
+          pocetDodatku: 1,
+          uhrazenoKlientem: false,
+          informovanySouhlas: true
+        },
+        {
+          id: "S-2026-003",
+          rodinaId: "R-2026-004",
+          memberId: "CL-41",
+          memberName: "Petra Horáková",
+          datumPodpisu: "2026-03-12",
+          platnostDo: "2026-09-12",
+          pocetDodatku: 0,
+          uhrazenoKlientem: false,
+          informovanySouhlas: true
+        },
+        {
+          id: "S-2026-004",
+          rodinaId: "R-2026-005",
+          memberId: "CL-52",
+          memberName: "Monika Jelínková",
+          datumPodpisu: "2026-03-15",
+          platnostDo: "2026-08-31",
           pocetDodatku: 1,
           uhrazenoKlientem: false,
           informovanySouhlas: true
@@ -1689,8 +1755,8 @@
           id: "UG-2026-002",
           skupinovaAktivitaId: "GA-2026-002",
           rodinaId: "R-2026-003",
-          memberId: "CL-07",
-          memberName: "Petra Malá",
+          memberId: "CL-32",
+          memberName: "Kateřina Malá",
           aktivitaKlienta: "zapojen do diskuse",
           osvojeniDovednosti: true,
           vazbaNaIpCil: ""
@@ -1798,6 +1864,12 @@
           zapis: "Reflexe bezpečnostních hranic, časování intervencí a sdílení odpovědnosti v týmu."
         }
       ],
+      evaluationActivities: {
+        familyInterviews: [],
+        workerInterviews: [],
+        partnerInterviews: [],
+        caseStudies: []
+      },
       cases: [
         {
           id: "R-2026-001",
@@ -2000,11 +2072,176 @@
             vazbaNaIpod: "ne",
             poznamka: "Potřeba podpory při komunikaci se školou a režimu v domácnosti."
           },
-          vstup: null,
-          plany: [],
-          hodnoceni: [],
-          intervence: [],
-          setkani: [],
+          vstup: {
+            datum: "2026-03-07",
+            popisSituacePracovnik: "Matka řeší dlouhodobě náročnou komunikaci se školou, nepravidelný domácí režim a přetížení při péči o dítě.",
+            popisSituaceRodina: "Potřebujeme se vyznat, co řešit se školou a jak doma nastavit pravidla, aby nebyl pořád stres.",
+            delkaTrvaniProblemu: "přibližně 8 měsíců",
+            silneStranky: "Matka komunikuje otevřeně, dítě má k matce bezpečný vztah a rodina přijímá doporučení.",
+            rizika: "zhoršení školní adaptace dítěte, narůstající únava matky, osamocení rodiny",
+            rizikoProDite: "Dítě reaguje zvýšenou úzkostí na změny režimu a konfliktní situace ve škole.",
+            rizikoProRodinu: "Rodina má omezenou podporu širší sítě a matka je dlouhodobě přetížená.",
+            nutnostOkamzitehoReseni: "ne",
+            poznamka: "Vhodná je návaznost na školní poradenské pracoviště a zklidnění domácího režimu.",
+            pohledRodinyHlavniProblem: "Nejvíc nás vyčerpává škola a to, že doma nic nedrží řád.",
+            pohledRodinyCoZmenitJakoPrvni: "Domluvit se se školou a nastavit pravidelný režim po škole.",
+            pohledRodinyOcekavaniOdSluzby: "Potřebujeme podporu při jednání se školou a praktické kroky domů.",
+            pohledRodinyMiraNadejeNaZmenu: "ano",
+            priorita1: "každodenní fungování rodiny",
+            priorita2: "orientace v systému podpory",
+            priorita3: "samostatnost při jednání s institucemi",
+            navrhPrvnichCiluIp: "Nastavit domácí režim, zlepšit komunikaci se školou, posílit jistotu matky při jednání s institucemi.",
+            zapojitPsychologa: "ne",
+            zapojitMediatora: "ne",
+            resitFinancePrednostne: "ne",
+            resitBydleniPrednostne: "ne",
+            resitNavaznostOspodIpod: "zatím nejasné",
+            komentare: {
+              rodicovske_kompetence: "Matka hledá funkční hranice a potřebuje podporu v důslednosti.",
+              kazdodenni_fungovani_rodiny: "Režim dne je nepravidelný a přenáší se to do školní přípravy.",
+              konflikt_mezi_rodici: "Otec není v pravidelné péči, konflikt není hlavní téma zakázky.",
+              psychicka_zatez_ditete: "Dítě je citlivé na změny a nejistotu ve školním prostředí.",
+              finance_a_hospodareni: "Finance nejsou hlavním problémem, ale rozpočet je napjatý.",
+              bydleni: "Bydlení je stabilní.",
+              orientace_v_systemu_podpory: "Rodina se hůř orientuje ve školních a poradenských návaznostech.",
+              samostatnost_pri_jednani_s_institucemi: "Matka potřebuje podporu při přípravě a vedení jednání."
+            },
+            skore: {
+              rodicovske_kompetence: 2,
+              kazdodenni_fungovani_rodiny: 1,
+              konflikt_mezi_rodici: 3,
+              psychicka_zatez_ditete: 2,
+              finance_a_hospodareni: 2,
+              bydleni: 3,
+              orientace_v_systemu_podpory: 1,
+              samostatnost_pri_jednani_s_institucemi: 1
+            }
+          },
+          plany: [
+            {
+              id: "IP-002",
+              verze: "IP1",
+              datumZalozeni: "2026-03-15",
+              stav: "aktivní",
+              datumUkonceni: "",
+              duvodUkonceni: "",
+              vazbaNaIpod: "ne",
+              poznamka: "Stabilizační plán zaměřený na školní komunikaci a domácí režim.",
+              revize: [
+                {
+                  id: "REV-002",
+                  datum: "2026-04-18",
+                  coSeMeni: "Doplněna práce s ranní přípravou a posílen kontakt se školním poradenským pracovištěm.",
+                  duvod: "Ukázalo se, že největší zátěž vzniká v přechodech mezi domovem a školou.",
+                  dohodnutoS: "matka, case manager, třídní učitelka"
+                }
+              ],
+              cile: [
+                {
+                  id: "CIL-201",
+                  oblast: "každodenní fungování rodiny",
+                  text: "Nastavit předvídatelný domácí režim ve školních dnech.",
+                  priorita: "1",
+                  problem: "Ranní a odpolední režim je chaotický, dítě chodí do školy nepřipravené.",
+                  vychoziStavPopis: "Matka improvizuje podle aktuální únavy a školní povinnosti se odkládají.",
+                  cilovyStavPopis: "Rodina má základní rutinu pro ráno, odpoledne i domácí přípravu.",
+                  vychoziSkore: 1,
+                  ciloveSkore: 3,
+                  terminSplneni: "2026-06-20",
+                  stavCile: "probíhá",
+                  datumUkonceniCile: "",
+                  naplneniCile: "",
+                  duvodUkonceniCile: "",
+                  meritelnyUkazatel: "počet dnů s dodrženým režimem a zpětná vazba školy",
+                  dukazNaplneni: "pracovní list režimu a záznamy z návštěv",
+                  krok1: "sepsat jednoduchý týdenní režim",
+                  krok2: "ověřovat fungování při terénních návštěvách",
+                  podporaSluzby: "nácvik režimu a podpora při plánování",
+                  odpovednaOsoba: "Lucie Křížová",
+                  odbornosti: ["sociální pracovník"],
+                  vazbaNaIpod: "ne",
+                  poznamka: "Matka potřebuje co nejjednodušší a realistický plán."
+                }
+              ]
+            }
+          ],
+          hodnoceni: [
+            {
+              id: "HOD-201",
+              datum: "2026-04-19",
+              typ: "trimesiční",
+              cilId: "CIL-201",
+              planId: "IP-002",
+              hodnotitel: "Petr Svoboda",
+              skoreMinule: 1,
+              skoreAktualni: 2,
+              dukaz: "Většina školních dnů už má stabilnější ráno a matka používá připravený plán.",
+              coPomohlo: "Krátký režim na lednici, společné plánování a srozumitelná dohoda se školou.",
+              coBrdilo: "Únava matky a nepravidelné večerní ukládání dítěte.",
+              pohledKlientaPrinosSluzby: "Matka říká, že má díky službě pocit většího klidu a jistoty při organizaci dne.",
+              pohledKlientaPretrvavajiciBariery: "Nejtěžší jsou pořád dny po nemoci a návraty do školy.",
+              miraSplneni: "částečně splněno",
+              potrebaUpravy: "ne",
+              dalsiKrok: "Posílit večerní rutinu a připravit podklady na schůzku se školou.",
+              odpovednaOsoba: "Lucie Křížová",
+              terminDalsihoKroku: "2026-04-30",
+              datumDalsihoHodnoceni: "2026-06-15"
+            }
+          ],
+          intervence: [
+            {
+              id: "INT-201",
+              datum: "2026-03-19",
+              cilId: "CIL-201",
+              memberId: "CL-21",
+              memberName: "Lucie Křížová",
+              planId: "IP-002",
+              pracovnik: "Martina Veselá",
+              role: "sociální pracovník",
+              typ: "nácvik rodičovských kompetencí",
+              forma: "terén",
+              delka: 75,
+              odbornostiMdt: ["sociální pracovník"],
+              popis: "Domácí návštěva zaměřená na mapování rizikových částí dne a nastavení jednoduchého režimu.",
+              vysledek: "Vznikl první návrh ranní a odpolední rutiny pro školní dny.",
+              dalsiKrok: "Přepsat režim do vizuální podoby a vyvěsit doma."
+            },
+            {
+              id: "INT-202",
+              datum: "2026-04-08",
+              cilId: "CIL-201",
+              memberId: "CL-21",
+              memberName: "Lucie Křížová",
+              planId: "IP-002",
+              pracovnik: "Martina Veselá",
+              role: "sociální pracovník",
+              typ: "doprovod / asistence",
+              forma: "doprovod",
+              delka: 60,
+              odbornostiMdt: ["sociální pracovník"],
+              popis: "Doprovod matky na schůzku do školy a společné ujasnění očekávání.",
+              vysledek: "Škola potvrdila vstřícnou komunikaci a dohodla se průběžná výměna informací.",
+              dalsiKrok: "Po dvou týdnech ověřit dopad dohody v domácím režimu."
+            }
+          ],
+          setkani: [
+            {
+              id: "SET-201",
+              datum: "2026-04-08",
+              cilId: "CIL-201",
+              memberId: "CL-21",
+              memberName: "Lucie Křížová",
+              planId: "IP-002",
+              typ: "síťování",
+              ucastnici: "matka, třídní učitelka, sociální pracovník",
+              rizika: "přetížení matky a nejistota dítěte při návratu do školy",
+              dohody: "Škola posílá stručnou týdenní zpětnou vazbu, matka sleduje režim doma.",
+              ukoly: "matka povede jednoduchý přehled režimu, služba ověří fungování při další návštěvě",
+              terminKontroly: "2026-04-24",
+              vazbaNaIp: "ano",
+              vazbaNaIpod: "ne"
+            }
+          ],
           vystup: null,
           ukonceni: null
         },
@@ -2036,10 +2273,111 @@
             vazbaNaIpod: "ano",
             poznamka: "Čeká se na rozhodnutí o dávkách a navazující službě."
           },
-          vstup: null,
-          plany: [],
+          vstup: {
+            datum: "2026-03-14",
+            popisSituacePracovnik: "Rodina vyhledala službu kvůli opakovaným konfliktům kolem pravidel, školy a trávení volného času dospívajícího syna.",
+            popisSituaceRodina: "Potřebujeme doma méně hádek a jasněji nastavit, co platí.",
+            delkaTrvaniProblemu: "asi 1 rok",
+            silneStranky: "Matka je motivovaná ke změně, syn dochází do školy a na schůzkách spolupracuje.",
+            rizika: "další zhoršení vztahu mezi matkou a synem, odmítání pravidel, školní kázeňské potíže",
+            rizikoProDite: "Roste napětí doma a dítě reaguje vzdorem a únikem z komunikace.",
+            rizikoProRodinu: "Rodina ztrácí jistotu, jak konflikty zvládat bez křiku a sankcí.",
+            nutnostOkamzitehoReseni: "ne",
+            poznamka: "Zakázka je spíše výchovná a stabilizační, bez akutního ohrožení.",
+            pohledRodinyHlavniProblem: "Nevíme, jak doma nastavit hranice, aby se hned nehádalo.",
+            pohledRodinyCoZmenitJakoPrvni: "Mít jasná pravidla a klidnější reakce.",
+            pohledRodinyOcekavaniOdSluzby: "Praktickou podporu, jak doma mluvit a co dělat při porušení pravidel.",
+            pohledRodinyMiraNadejeNaZmenu: "ano",
+            priorita1: "rodičovské kompetence",
+            priorita2: "každodenní fungování rodiny",
+            priorita3: "psychická zátěž dítěte",
+            navrhPrvnichCiluIp: "Stanovit domácí pravidla, snížit eskalaci konfliktu, posílit zapojení syna do dohody.",
+            zapojitPsychologa: "ano",
+            zapojitMediatora: "ne",
+            resitFinancePrednostne: "ne",
+            resitBydleniPrednostne: "ne",
+            resitNavaznostOspodIpod: "ne",
+            komentare: {
+              rodicovske_kompetence: "Matka potřebuje větší jistotu v nastavování hranic a důslednosti.",
+              kazdodenni_fungovani_rodiny: "Pravidla doma nejsou jednotná a mění se podle situace.",
+              konflikt_mezi_rodici: "Téma konfliktu rodičů není hlavní zakázkou.",
+              psychicka_zatez_ditete: "Dítě reaguje na napětí vzdorem a uzavíráním.",
+              finance_a_hospodareni: "Finance nejsou hlavní zakázkou.",
+              bydleni: "Bydlení je stabilní.",
+              orientace_v_systemu_podpory: "Rodina ví o možnostech školy, ale neorientuje se v psychologické podpoře.",
+              samostatnost_pri_jednani_s_institucemi: "Rodina zvládá běžná jednání samostatně."
+            },
+            skore: {
+              rodicovske_kompetence: 1,
+              kazdodenni_fungovani_rodiny: 1,
+              konflikt_mezi_rodici: 3,
+              psychicka_zatez_ditete: 2,
+              finance_a_hospodareni: 3,
+              bydleni: 4,
+              orientace_v_systemu_podpory: 2,
+              samostatnost_pri_jednani_s_institucemi: 3
+            }
+          },
+          plany: [
+            {
+              id: "IP-004",
+              verze: "IP1",
+              datumZalozeni: "2026-03-21",
+              stav: "aktivní",
+              datumUkonceni: "",
+              duvodUkonceni: "",
+              vazbaNaIpod: "ne",
+              poznamka: "Plán zaměřený na rodičovské vedení a srozumitelná pravidla v domácnosti.",
+              revize: [],
+              cile: [
+                {
+                  id: "CIL-401",
+                  oblast: "rodičovské kompetence",
+                  text: "Nastavit 3 jasná domácí pravidla a společný způsob reakce na jejich porušení.",
+                  priorita: "1",
+                  problem: "Pravidla doma nejsou jednotná a konflikty se rychle vyhrotí.",
+                  vychoziStavPopis: "Matka reaguje různě podle situace a dítě hranice zpochybňuje.",
+                  cilovyStavPopis: "Rodina používá srozumitelná pravidla a méně eskaluje.",
+                  vychoziSkore: 1,
+                  ciloveSkore: 3,
+                  terminSplneni: "2026-06-10",
+                  stavCile: "probíhá",
+                  datumUkonceniCile: "",
+                  naplneniCile: "",
+                  duvodUkonceniCile: "",
+                  meritelnyUkazatel: "sepsaná pravidla a jejich používání při domácích situacích",
+                  dukazNaplneni: "záznamy z návštěv a společná dohoda rodiny",
+                  krok1: "dohodnout 3 pravidla",
+                  krok2: "nacvičit reakce při porušení pravidel",
+                  podporaSluzby: "nácvik komunikace a rodičovské vedení",
+                  odpovednaOsoba: "Barbora Hrušková",
+                  odbornosti: ["sociální pracovník", "psycholog"],
+                  vazbaNaIpod: "ne",
+                  poznamka: "Rodina preferuje jednoduché a krátké formulace."
+                }
+              ]
+            }
+          ],
           hodnoceni: [],
-          intervence: [],
+          intervence: [
+            {
+              id: "INT-401",
+              datum: "2026-03-28",
+              cilId: "CIL-401",
+              memberId: "CL-41",
+              memberName: "Petra Horáková",
+              planId: "IP-004",
+              pracovnik: "Barbora Hrušková",
+              role: "sociální pracovník",
+              typ: "nácvik rodičovských kompetencí",
+              forma: "ambulance",
+              delka: 60,
+              odbornostiMdt: ["sociální pracovník"],
+              popis: "Schůzka s matkou zaměřená na formulaci pravidel a předvídatelné reakce.",
+              vysledek: "Vznikl návrh tří domácích pravidel a způsobu jejich připomínání.",
+              dalsiKrok: "Na další schůzce zapojit dítě do finální dohody."
+            }
+          ],
           setkani: [],
           vystup: null,
           ukonceni: null
@@ -2095,7 +2433,7 @@
           },
           karta: {
             datumZalozeni: "2026-03-15",
-            stav: "aktivní",
+            stav: "ukončený",
             kp: "Martina Veselá",
             caseManager: "Petr Svoboda",
             zdrojDoporuceni: "jiná služba",
@@ -2107,13 +2445,232 @@
             vazbaNaIpod: "ano",
             poznamka: "Vysoce konfliktní komunikace rodičů po rozchodu."
           },
-          vstup: null,
-          plany: [],
-          hodnoceni: [],
-          intervence: [],
-          setkani: [],
-          vystup: null,
-          ukonceni: null
+          vstup: {
+            datum: "2026-03-18",
+            popisSituacePracovnik: "Rodiče po rozchodu vedou vysoce konfliktní komunikaci, nedaří se domlouvat péči o dítě a dochází k přenášení napětí na dceru.",
+            popisSituaceRodina: "Neumíme se spolu domluvit bez hádky a dítě to odnáší.",
+            delkaTrvaniProblemu: "asi 1,5 roku",
+            silneStranky: "Oba rodiče chtějí zůstat v kontaktu s dítětem a účastnili se společných jednání.",
+            rizika: "další eskalace konfliktu, tlak na dítě, selhání dohody o péči",
+            rizikoProDite: "Dítě je zatěžováno konfliktem loajalit a nejistotou v předávání.",
+            rizikoProRodinu: "Rodiče bez podpory nedokážou dlouhodobě udržet dohodu.",
+            nutnostOkamzitehoReseni: "ano",
+            poznamka: "Nutná těsná koordinace s OSPOD a důraz na přenos dohody do každodenní praxe.",
+            pohledRodinyHlavniProblem: "Každé předání dítěte končí konfliktem.",
+            pohledRodinyCoZmenitJakoPrvni: "Domluvit jasná pravidla péče a komunikace.",
+            pohledRodinyOcekavaniOdSluzby: "Pomoc s dohodou, mediací a zklidněním komunikace.",
+            pohledRodinyMiraNadejeNaZmenu: "částečně ano",
+            priorita1: "konflikt mezi rodiči",
+            priorita2: "psychická zátěž dítěte",
+            priorita3: "rodičovské kompetence",
+            navrhPrvnichCiluIp: "Uzavřít dohodu o předávání dítěte, snížit konflikty a chránit dítě před napětím.",
+            zapojitPsychologa: "ano",
+            zapojitMediatora: "ano",
+            resitFinancePrednostne: "ne",
+            resitBydleniPrednostne: "ne",
+            resitNavaznostOspodIpod: "ano",
+            komentare: {
+              rodicovske_kompetence: "Rodiče potřebují podporu v oddělení partnerského konfliktu od rodičovské role.",
+              kazdodenni_fungovani_rodiny: "Běžný režim dítěte se narušuje při konfliktních předáních.",
+              konflikt_mezi_rodici: "Konflikt je hlavní zakázkou a ovlivňuje všechny oblasti.",
+              psychicka_zatez_ditete: "Dítě je emočně zatěžováno při předávání a nejistotě v péči.",
+              finance_a_hospodareni: "Finance nejsou hlavním tématem zakázky.",
+              bydleni: "Bydlení je stabilní.",
+              orientace_v_systemu_podpory: "Rodina potřebuje jasnou návaznost na OSPOD a mediační podporu.",
+              samostatnost_pri_jednani_s_institucemi: "Rodiče potřebují asistované jednání, samostatně komunikují obtížně."
+            },
+            skore: {
+              rodicovske_kompetence: 1,
+              kazdodenni_fungovani_rodiny: 2,
+              konflikt_mezi_rodici: 0,
+              psychicka_zatez_ditete: 1,
+              finance_a_hospodareni: 3,
+              bydleni: 4,
+              orientace_v_systemu_podpory: 2,
+              samostatnost_pri_jednani_s_institucemi: 1
+            }
+          },
+          plany: [
+            {
+              id: "IP-005",
+              verze: "IP1",
+              datumZalozeni: "2026-03-20",
+              stav: "ukončený",
+              datumUkonceni: "2026-08-20",
+              duvodUkonceni: "splnění cílů IP",
+              vazbaNaIpod: "ano",
+              poznamka: "Plán vedl k dohodě o péči a zklidnění komunikace rodičů.",
+              revize: [
+                {
+                  id: "REV-005",
+                  datum: "2026-05-25",
+                  coSeMeni: "Důraz přesunut na udržení dohody při předávání dítěte.",
+                  duvod: "Základní dohoda už byla uzavřena, bylo potřeba ji stabilizovat v praxi.",
+                  dohodnutoS: "oba rodiče, case manager, OSPOD"
+                }
+              ],
+              cile: [
+                {
+                  id: "CIL-501",
+                  oblast: "konflikt mezi rodiči",
+                  text: "Uzavřít a dodržovat dohodu o předávání dítěte bez asistence pracovníka.",
+                  priorita: "1",
+                  problem: "Předávání dítěte probíhá v napětí a bez jasně stanovených pravidel.",
+                  vychoziStavPopis: "Rodiče se při předávání hádají a dohoda se rozpadá.",
+                  cilovyStavPopis: "Rodiče používají dohodnutý režim předávání bez asistence služby.",
+                  vychoziSkore: 0,
+                  ciloveSkore: 3,
+                  terminSplneni: "2026-08-15",
+                  stavCile: "splněno",
+                  datumUkonceniCile: "2026-08-20",
+                  naplneniCile: "splněno",
+                  duvodUkonceniCile: "cíl dosažen",
+                  meritelnyUkazatel: "počet předání bez konfliktu a dodržování dohody po dobu 6 týdnů",
+                  dukazNaplneni: "zápisy z poradenství a potvrzená funkční dohoda rodičů",
+                  krok1: "rodinná mediace",
+                  krok2: "ověření dohody při následném kontaktu",
+                  podporaSluzby: "mediace, koordinace s OSPOD, následné ověření",
+                  odpovednaOsoba: "Petr Svoboda",
+                  odbornosti: ["sociální pracovník", "mediátor", "psycholog"],
+                  vazbaNaIpod: "ano",
+                  poznamka: "Dohoda byla následně fungující i bez přímé asistence pracovníka."
+                }
+              ]
+            }
+          ],
+          hodnoceni: [
+            {
+              id: "HOD-501",
+              datum: "2026-06-20",
+              typ: "trimesiční",
+              cilId: "CIL-501",
+              planId: "IP-005",
+              hodnotitel: "Petr Svoboda",
+              skoreMinule: 0,
+              skoreAktualni: 2,
+              dukaz: "Rodiče používají předem domluvený způsob komunikace a konflikty při předávání se výrazně snížily.",
+              coPomohlo: "Pravidelná mediace, přítomnost case managera a jasně sepsaná dohoda.",
+              coBrdilo: "Nedůvěra mezi rodiči a návraty ke starým komunikačním vzorcům.",
+              pohledKlientaPrinosSluzby: "Rodiče ocenili, že měli bezpečný prostor pro domluvu a srozumitelné kroky.",
+              pohledKlientaPretrvavajiciBariery: "Největší překážkou zůstává vzájemná nedůvěra při nečekaných změnách.",
+              miraSplneni: "částečně splněno",
+              potrebaUpravy: "ne",
+              dalsiKrok: "Pokračovat v ověřování dohody a posílit samostatnost rodičů bez asistence.",
+              odpovednaOsoba: "Petr Svoboda",
+              terminDalsihoKroku: "2026-07-10",
+              datumDalsihoHodnoceni: "2026-08-15"
+            },
+            {
+              id: "HOD-502",
+              datum: "2026-08-15",
+              typ: "trimesiční",
+              cilId: "CIL-501",
+              planId: "IP-005",
+              hodnotitel: "Petr Svoboda",
+              skoreMinule: 2,
+              skoreAktualni: 3,
+              dukaz: "Šest týdnů probíhala předání bez přítomnosti pracovníka a bez významné eskalace.",
+              coPomohlo: "Dodržování dohody, jasný harmonogram a průběžná reflexe při kontrolních kontaktech.",
+              coBrdilo: "Jednotlivé spory při změně času předání, které se ale podařilo zvládnout bez rozpadu dohody.",
+              pohledKlientaPrinosSluzby: "Rodina uvádí, že služba pomohla domluvit pravidla a vrátit dítěti větší klid.",
+              pohledKlientaPretrvavajiciBariery: "Rodiče stále potřebují vědomě hlídat tón komunikace při změnách.",
+              miraSplneni: "splněno",
+              potrebaUpravy: "ne",
+              dalsiKrok: "Ukončit plán a doporučit jen lehký následný check po uzavření případu.",
+              odpovednaOsoba: "Petr Svoboda",
+              terminDalsihoKroku: "2026-09-15",
+              datumDalsihoHodnoceni: ""
+            }
+          ],
+          intervence: [
+            {
+              id: "INT-501",
+              datum: "2026-03-27",
+              cilId: "CIL-501",
+              memberId: "CL-52",
+              memberName: "Monika Jelínková",
+              planId: "IP-005",
+              pracovnik: "Martina Veselá",
+              role: "sociální pracovník",
+              typ: "rodinná mediace",
+              forma: "ambulance",
+              delka: 90,
+              odbornostiMdt: ["sociální pracovník", "mediátor"],
+              popis: "První společné jednání rodičů zaměřené na strukturu předávání dítěte.",
+              vysledek: "Rodiče souhlasili s návrhem jednoduchého režimu a další mediací.",
+              dalsiKrok: "Sepsat pracovní verzi dohody o předávání."
+            },
+            {
+              id: "INT-502",
+              datum: "2026-05-12",
+              cilId: "CIL-501",
+              memberId: "CL-51",
+              memberName: "Roman Jelínek",
+              planId: "IP-005",
+              pracovnik: "Petr Svoboda",
+              role: "Casemanager",
+              typ: "facilitace jednání",
+              forma: "ambulance",
+              delka: 60,
+              odbornostiMdt: ["Casemanager", "mediátor"],
+              popis: "Kontrolní jednání nad návrhem dohody a nastavení postupu při mimořádných situacích.",
+              vysledek: "Dohoda byla upravena do funkční podoby a odsouhlasena oběma rodiči.",
+              dalsiKrok: "Ověřit fungování dohody při předávání bez asistence."
+            }
+          ],
+          setkani: [
+            {
+              id: "SET-501",
+              datum: "2026-04-02",
+              cilId: "CIL-501",
+              memberId: "CL-52",
+              memberName: "Monika Jelínková",
+              planId: "IP-005",
+              typ: "MDT",
+              ucastnici: "oba rodiče, OSPOD, case manager, mediátor",
+              rizika: "eskalace konfliktu při předávání dítěte",
+              dohody: "OSPOD podpoří dohodu rodičů, služba povede mediaci a průběžné ověřování funkčnosti.",
+              ukoly: "rodiče připraví konkrétní návrh péče, služba sepisuje pracovní verzi dohody",
+              terminKontroly: "2026-05-12",
+              vazbaNaIp: "ano",
+              vazbaNaIpod: "ano"
+            }
+          ],
+          vystup: {
+            datum: "2026-08-20",
+            popisVysledkuPracovnik: "Rodiče uzavřeli funkční dohodu o předávání dítěte, komunikace se zklidnila a služba mohla být bezpečně ukončena.",
+            popisVysledkuRodina: "Už se umíme domluvit bez pracovníka a předávání probíhá klidněji.",
+            shrnutiHlavnichZmen: "Byla dosažena dohoda o porozvodové péči, snížila se eskalace konfliktů a dítě je méně zatěžováno napětím.",
+            coPomohlo: "Mediace, case management, návaznost na OSPOD a průběžné ověřování dohody v praxi.",
+            coBrdilo: "Nedůvěra rodičů a dlouhodobé emoční zatížení po rozchodu.",
+            hlavniPrinosSluzby: "Služba vytvořila bezpečný rámec pro dohodu a přenos dohody do běžného života.",
+            pretrvavajiciBariery: "Při mimořádných změnách termínů je stále potřeba vědomě hlídat styl komunikace.",
+            udrzitelnostZmeny: "Změna je pravděpodobně udržitelná při zachování jasného režimu a respektování dohody.",
+            skore: {
+              rodicovske_kompetence: 3,
+              kazdodenni_fungovani_rodiny: 3,
+              konflikt_mezi_rodici: 3,
+              psychicka_zatez_ditete: 3,
+              finance_a_hospodareni: 3,
+              bydleni: 4,
+              orientace_v_systemu_podpory: 3,
+              samostatnost_pri_jednani_s_institucemi: 3
+            }
+          },
+          ukonceni: {
+            datum: "2026-08-20",
+            duvod: "splnění zakázky / cílů služby",
+            shrnutiZm: "Rodiče zvládají předávání dítěte bez asistence a používají dohodnutý režim péče.",
+            nedokonceneOblasti: "Doporučeno průběžně sledovat styl komunikace při mimořádných změnách.",
+            doporuceni: "V případě opětovné eskalace využít včas mediační nebo poradenskou podporu.",
+            poznamka: "Ukončení proběhlo po společné dohodě s rodiči."
+          },
+          projektoveCile: {
+            zlepseniKomunikaceRodicu: "ano",
+            snizeniKrizovychSituaci: "ano",
+            konstruktivniReseniKonfliktu: "ano",
+            dohodaOPorozvodovePeci: "ano"
+          }
         },
         {
           id: "R-2026-006",
@@ -2161,6 +2718,11 @@
     let selectedContractId = state.contracts?.[0]?.id || null;
     let selectedWorkerId = state.workers?.[0]?.id || null;
     let selectedGroupActivityId = state.groupActivities?.[0]?.id || null;
+    let selectedEvaluationTab = "family";
+    let selectedFamilyInterviewId = state.evaluationActivities?.familyInterviews?.[0]?.id || null;
+    let selectedWorkerInterviewId = state.evaluationActivities?.workerInterviews?.[0]?.id || null;
+    let selectedPartnerInterviewId = state.evaluationActivities?.partnerInterviews?.[0]?.id || null;
+    let selectedCaseStudyId = state.evaluationActivities?.caseStudies?.[0]?.id || null;
     let selectedCaseSectionByCase = {};
     let selectedPlanByCase = {};
     let selectedEvaluationByCase = {};
@@ -2188,6 +2750,10 @@
       selectedContractId = state.contracts?.find(item => item.id === selectedContractId)?.id || state.contracts?.[0]?.id || null;
       selectedWorkerId = state.workers?.find(item => item.id === selectedWorkerId)?.id || state.workers?.[0]?.id || null;
       selectedGroupActivityId = state.groupActivities?.find(item => item.id === selectedGroupActivityId)?.id || state.groupActivities?.[0]?.id || null;
+      selectedFamilyInterviewId = state.evaluationActivities?.familyInterviews?.find(item => item.id === selectedFamilyInterviewId)?.id || state.evaluationActivities?.familyInterviews?.[0]?.id || null;
+      selectedWorkerInterviewId = state.evaluationActivities?.workerInterviews?.find(item => item.id === selectedWorkerInterviewId)?.id || state.evaluationActivities?.workerInterviews?.[0]?.id || null;
+      selectedPartnerInterviewId = state.evaluationActivities?.partnerInterviews?.find(item => item.id === selectedPartnerInterviewId)?.id || state.evaluationActivities?.partnerInterviews?.[0]?.id || null;
+      selectedCaseStudyId = state.evaluationActivities?.caseStudies?.find(item => item.id === selectedCaseStudyId)?.id || state.evaluationActivities?.caseStudies?.[0]?.id || null;
     }
 
     function bindGlobalEvents() {
@@ -2217,9 +2783,24 @@
           openGroupActivityForm();
           return;
         }
+        if (currentView === "evaluations") {
+          if (selectedEvaluationTab === "family") {
+            openFamilyInterviewForm();
+            return;
+          }
+          if (selectedEvaluationTab === "worker") {
+            openWorkerInterviewForm();
+            return;
+          }
+          if (selectedEvaluationTab === "partner") {
+            openPartnerInterviewForm();
+            return;
+          }
+          openCaseStudyForm();
+          return;
+        }
         openCaseForm();
       });
-      document.getElementById("exportNav").addEventListener("click", exportEvaluationData);
     }
 
     function loadState() {
@@ -2274,6 +2855,16 @@
           participantNames: Array.isArray(item.participantNames) ? item.participantNames : [],
           zapis: item.zapis || ""
         }));
+        parsed.evaluationActivities = {
+          familyInterviews: (parsed.evaluationActivities?.familyInterviews || []).map(item => ({
+            ...item,
+            participantIds: Array.isArray(item.participantIds) ? item.participantIds : [],
+            participantNames: Array.isArray(item.participantNames) ? item.participantNames : []
+          })),
+          workerInterviews: parsed.evaluationActivities?.workerInterviews || [],
+          partnerInterviews: parsed.evaluationActivities?.partnerInterviews || [],
+          caseStudies: parsed.evaluationActivities?.caseStudies || []
+        };
         parsed.cases = (parsed.cases || []).map(item => ({
           ...item,
           intervence: (item.intervence || []).map(row => ({
@@ -2350,9 +2941,14 @@
       state.supervisions = structuredClone(demoData.supervisions);
       state.groupActivities = structuredClone(demoData.groupActivities);
       state.groupAttendances = structuredClone(demoData.groupAttendances);
+      state.evaluationActivities = structuredClone(demoData.evaluationActivities);
       state.cases = structuredClone(demoData.cases);
       selectedCaseId = state.cases[0]?.id || null;
       selectedWorkerId = state.workers[0]?.id || null;
+      selectedFamilyInterviewId = null;
+      selectedWorkerInterviewId = null;
+      selectedPartnerInterviewId = null;
+      selectedCaseStudyId = null;
       saveState();
     }
 
@@ -2391,6 +2987,11 @@
         return;
       }
 
+      if (currentView === "evaluations") {
+        renderEvaluationActivities();
+        return;
+      }
+
       if (currentView === "cases") {
         renderCases(selectedCase);
         return;
@@ -2417,6 +3018,16 @@
       }
       if (currentView === "groups") {
         cta.textContent = "Nová skupinová aktivita";
+        return;
+      }
+      if (currentView === "evaluations") {
+        cta.textContent = selectedEvaluationTab === "family"
+          ? "Nový rozhovor s rodinou"
+          : selectedEvaluationTab === "worker"
+            ? "Nový rozhovor s pracovníkem"
+            : selectedEvaluationTab === "partner"
+              ? "Nový rozhovor s partnerem"
+              : "Nová případová studie";
         return;
       }
       cta.textContent = "Založit nový případ";
@@ -2480,29 +3091,34 @@
       const teamStats = getTeamDevelopmentStats();
       const commitmentStatusClass = value => value >= 100 ? "good" : (value >= 60 ? "mid" : "low");
       const commitmentStatusText = value => value >= 100 ? "splněno" : (value >= 60 ? "rozpracováno" : "nízké plnění");
-      const buildCommitmentCard = ({ title, targetText, achievedText, ratioPercent, theme = "" }) => `
-        <article class="commitment-card ${theme}">
-          <h4>${title}</h4>
-          <div class="commitment-meta">
-            <div class="commitment-box">
-              <span>Závazek</span>
-              <strong>${targetText}</strong>
+      const buildCommitmentCard = ({ title, targetText, achievedText, ratioPercent, theme = "" }) => {
+        const normalizedRatioPercent = Math.max(0, ratioPercent || 0);
+        const displayRatioPercent = Math.min(normalizedRatioPercent, 100);
+        const exceededTarget = normalizedRatioPercent > 100;
+        return `
+          <article class="commitment-card ${theme}">
+            <h4>${title}</h4>
+            <div class="commitment-meta">
+              <div class="commitment-box">
+                <span>Závazek</span>
+                <strong>${targetText}</strong>
+              </div>
+              <div class="commitment-box">
+                <span>Dosaženo</span>
+                <strong>${achievedText}</strong>
+              </div>
             </div>
-            <div class="commitment-box">
-              <span>Dosaženo</span>
-              <strong>${achievedText}</strong>
+            <div class="commitment-track">
+              <div class="commitment-fill" style="width:${displayRatioPercent}%;"></div>
             </div>
-          </div>
-          <div class="commitment-track">
-            <div class="commitment-fill" style="width:${Math.max(0, Math.min(ratioPercent, 100))}%;"></div>
-          </div>
-          <div class="commitment-caption">
-            <span>Plnění závazku</span>
-            <strong>${Math.round(Math.max(0, ratioPercent))} %</strong>
-          </div>
-          <div class="commitment-status ${commitmentStatusClass(ratioPercent)}">${commitmentStatusText(ratioPercent)}</div>
-        </article>
-      `;
+            <div class="commitment-caption">
+              <span>Plnění závazku</span>
+              <strong>${Math.round(displayRatioPercent)} %${exceededTarget ? " (cíl překročen)" : ""}</strong>
+            </div>
+            <div class="commitment-status ${commitmentStatusClass(displayRatioPercent)}">${commitmentStatusText(displayRatioPercent)}</div>
+          </article>
+        `;
+      };
 
       viewEl.innerHTML = `
         <section class="project-dashboard">
@@ -2591,7 +3207,7 @@
               <div class="project-metric"><span>Revize IP</span><strong>${evaluations}</strong><div class="hint">Formální vyhodnocení a revize</div></div>
               <div class="project-metric"><span>Intervence</span><strong>${interventions}</strong><div class="hint">Přímá práce s rodinami</div></div>
               <div class="project-metric"><span>Setkání MDT</span><strong>${meetings}</strong><div class="hint">Koordinační a síťovací setkání</div></div>
-              <div class="project-metric"><span>KA3 skupiny</span><strong>${groupActivitiesCount}</strong><div class="hint">Svépomocné skupiny a volitelné tréninky</div></div>
+            <div class="project-metric"><span>Skupinové aktivity</span><strong>${groupActivitiesCount}</strong><div class="hint">Svépomocné skupiny a volitelné tréninky</div></div>
             </div>
           </section>
 
@@ -2611,7 +3227,7 @@
                 <p><strong>Celkem hodin vzdělávání:</strong> ${teamStats.totalEducationHours}</p>
               </div>
               <div class="project-monitor-card">
-                <h4>KA3 skupiny a účasti</h4>
+                <h4>Skupinové aktivity a účasti</h4>
                 <p><strong>Svépomocné skupiny:</strong> ${ka3Stats.selfHelpCount}</p>
                 <p><strong>Volitelné tréninky:</strong> ${ka3Stats.trainingCount}</p>
                 <p><strong>Účasti:</strong> ${ka3Stats.attendanceCount} | <strong>unikátní osoby:</strong> ${ka3Stats.uniquePersons}</p>
@@ -3048,7 +3664,6 @@
             </div>
             <div class="toolbar-right">
               <button class="btn-secondary" type="button" id="newWorkerBtn">Nový pracovník</button>
-              <button class="btn" type="button" id="newSupervisionBtn">Nová supervize</button>
             </div>
           </div>
           <div class="project-summary-grid" style="margin-top:18px;">
@@ -3099,7 +3714,6 @@
                 </div>
                 <div class="toolbar-right">
                   <button class="btn-ghost" type="button" data-edit-worker="${selectedWorker.id}">Upravit pracovníka</button>
-                  <button class="btn" type="button" data-add-education="${selectedWorker.id}">Nový vzdělávací záznam</button>
                 </div>
               </div>
               <div class="meta" style="margin-top:16px;">
@@ -3207,7 +3821,7 @@
       document.querySelectorAll("[data-edit-education]").forEach(btn => {
         btn.addEventListener("click", () => openEducationForm(null, getEducationRecord(btn.dataset.editEducation)));
       });
-      [document.getElementById("newSupervisionBtn"), document.getElementById("newSupervisionBtnBottom")].filter(Boolean).forEach(btn => {
+      [document.getElementById("newSupervisionBtnBottom")].filter(Boolean).forEach(btn => {
         btn.addEventListener("click", () => openSupervisionForm());
       });
       document.querySelectorAll("[data-edit-supervision]").forEach(btn => {
@@ -3230,7 +3844,7 @@
         <section class="panel">
           <div class="inline-actions" style="justify-content:space-between;">
             <div>
-              <h3>KA3 skupinové aktivity</h3>
+              <h3>Skupinové aktivity</h3>
               <p class="hint">Evidence svépomocných skupin a volitelných tréninků bez duplicitního zapisování po rodinách.</p>
             </div>
             <button class="btn-secondary" type="button" id="newGroupActivityBtn">Nová skupinová aktivita</button>
@@ -3338,6 +3952,325 @@
       document.querySelectorAll("[data-add-group-attendance]").forEach(btn => {
         btn.addEventListener("click", () => openGroupAttendanceForm(btn.dataset.addGroupAttendance));
       });
+    }
+
+    function renderEvaluationActivities() {
+      const familyInterviews = [...(state.evaluationActivities?.familyInterviews || [])].sort((a, b) => new Date(b.datum) - new Date(a.datum));
+      const workerInterviews = [...(state.evaluationActivities?.workerInterviews || [])].sort((a, b) => new Date(b.datum) - new Date(a.datum));
+      const partnerInterviews = [...(state.evaluationActivities?.partnerInterviews || [])].sort((a, b) => new Date(b.datum) - new Date(a.datum));
+      const caseStudies = [...(state.evaluationActivities?.caseStudies || [])].sort((a, b) => new Date(b.datum) - new Date(a.datum));
+
+      const selectedFamilyInterview = familyInterviews.find(item => item.id === selectedFamilyInterviewId) || familyInterviews[0] || null;
+      const selectedWorkerInterview = workerInterviews.find(item => item.id === selectedWorkerInterviewId) || workerInterviews[0] || null;
+      const selectedPartnerInterview = partnerInterviews.find(item => item.id === selectedPartnerInterviewId) || partnerInterviews[0] || null;
+      const selectedCaseStudy = caseStudies.find(item => item.id === selectedCaseStudyId) || caseStudies[0] || null;
+
+      if (selectedFamilyInterview) selectedFamilyInterviewId = selectedFamilyInterview.id;
+      if (selectedWorkerInterview) selectedWorkerInterviewId = selectedWorkerInterview.id;
+      if (selectedPartnerInterview) selectedPartnerInterviewId = selectedPartnerInterview.id;
+      if (selectedCaseStudy) selectedCaseStudyId = selectedCaseStudy.id;
+
+      const renderFamilyTab = () => `
+        <section class="panel">
+          <div class="inline-actions" style="justify-content:space-between;">
+            <div>
+              <h3>Rozhovory s rodinou / klientem</h3>
+              <p class="hint">Kvalitativní vstup pro EO1 a EO2. Evaluátor vybírá konkrétní případ a konkrétní osobu ze seznamu klientů.</p>
+            </div>
+            <button class="btn" type="button" id="newFamilyInterviewBtn">Přidat rozhovor s rodinou</button>
+          </div>
+          <div class="table-wrap" style="margin-top:14px;">
+            ${familyInterviews.length ? `
+              <table class="compact-table">
+                <thead>
+                  <tr>
+                    <th>Datum</th>
+                    <th>Klient</th>
+                    <th>Případ</th>
+                    <th>Evaluátor</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${familyInterviews.map(item => `
+                    <tr>
+                      <td>${formatDate(item.datum)}</td>
+                      <td>${escapeHtml((item.participantNames || []).join(", ") || "-")}</td>
+                      <td>${escapeHtml(getCase(item.caseId)?.osobni?.nazevRodiny || item.caseId || "-")}</td>
+                      <td>${escapeHtml(item.evaluator || "-")}</td>
+                      <td class="actions"><button class="btn-ghost" type="button" data-open-family-interview="${item.id}">Detail</button></td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+            ` : `<div class="empty">Zatím není zapsaný žádný evaluační rozhovor s rodinou.</div>`}
+          </div>
+        </section>
+        ${selectedFamilyInterview ? `
+          <section class="panel" style="margin-top:18px;">
+            <div class="inline-actions" style="justify-content:space-between;">
+              <div>
+                <h3>Rozhovor ${escapeHtml(selectedFamilyInterview.id)}</h3>
+                <p class="hint">${formatDate(selectedFamilyInterview.datum)} | ${escapeHtml(getCase(selectedFamilyInterview.caseId)?.osobni?.nazevRodiny || "-")}</p>
+              </div>
+              <button class="btn-ghost" type="button" data-edit-family-interview="${selectedFamilyInterview.id}">Upravit</button>
+            </div>
+            <div class="timeline">
+              <div class="record">
+                <div class="meta">
+                  <div><span>Klient / účastníci</span><strong>${escapeHtml((selectedFamilyInterview.participantNames || []).join(", ") || "-")}</strong></div>
+                  <div><span>Evaluátor</span><strong>${escapeHtml(selectedFamilyInterview.evaluator || "-")}</strong></div>
+                  <div><span>Typ rozhovoru</span><strong>${escapeHtml(selectedFamilyInterview.typ || "výstupní")}</strong></div>
+                </div>
+                <p><strong>Co se podle rodiny změnilo:</strong> ${escapeHtml(selectedFamilyInterview.coSeZmenilo || "-")}</p>
+                <p><strong>Co pomohlo nejvíc:</strong> ${escapeHtml(selectedFamilyInterview.coPomohlo || "-")}</p>
+                <p><strong>Co změnu brzdilo:</strong> ${escapeHtml(selectedFamilyInterview.coBrzdilo || "-")}</p>
+                <p><strong>Jak rodina vnímala spolupráci se službou:</strong> ${escapeHtml(selectedFamilyInterview.vnimaniSpoluprace || "-")}</p>
+                <p><strong>Co zůstává otevřené:</strong> ${escapeHtml(selectedFamilyInterview.coZustavaOtevrene || "-")}</p>
+                <p><strong>Další vývoj očima rodiny:</strong> ${escapeHtml(selectedFamilyInterview.dalsiVyvoj || "-")}</p>
+              </div>
+            </div>
+          </section>
+        ` : ``}
+      `;
+
+      const renderWorkerTab = () => `
+        <section class="panel">
+          <div class="inline-actions" style="justify-content:space-between;">
+            <div>
+              <h3>Rozhovory s pracovníky</h3>
+              <p class="hint">Podklad hlavně pro EO2 a EO3. Evaluátor vybírá konkrétního člena realizačního týmu.</p>
+            </div>
+            <button class="btn" type="button" id="newWorkerInterviewBtn">Přidat rozhovor s pracovníkem</button>
+          </div>
+          <div class="table-wrap" style="margin-top:14px;">
+            ${workerInterviews.length ? `
+              <table class="compact-table">
+                <thead>
+                  <tr>
+                    <th>Datum</th>
+                    <th>Pracovník</th>
+                    <th>Role</th>
+                    <th>Evaluátor</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${workerInterviews.map(item => {
+                    const worker = getWorker(item.workerId);
+                    return `
+                      <tr>
+                        <td>${formatDate(item.datum)}</td>
+                        <td>${escapeHtml(worker?.jmeno || item.workerName || "-")}</td>
+                        <td>${escapeHtml(worker?.role || item.workerRole || "-")}</td>
+                        <td>${escapeHtml(item.evaluator || "-")}</td>
+                        <td class="actions"><button class="btn-ghost" type="button" data-open-worker-interview="${item.id}">Detail</button></td>
+                      </tr>
+                    `;
+                  }).join("")}
+                </tbody>
+              </table>
+            ` : `<div class="empty">Zatím není zapsaný žádný rozhovor s pracovníkem.</div>`}
+          </div>
+        </section>
+        ${selectedWorkerInterview ? `
+          <section class="panel" style="margin-top:18px;">
+            <div class="inline-actions" style="justify-content:space-between;">
+              <div>
+                <h3>Rozhovor ${escapeHtml(selectedWorkerInterview.id)}</h3>
+                <p class="hint">${formatDate(selectedWorkerInterview.datum)} | ${escapeHtml(getWorker(selectedWorkerInterview.workerId)?.jmeno || selectedWorkerInterview.workerName || "-")}</p>
+              </div>
+              <button class="btn-ghost" type="button" data-edit-worker-interview="${selectedWorkerInterview.id}">Upravit</button>
+            </div>
+            <div class="timeline">
+              <div class="record">
+                <p><strong>Co bylo klíčové pro změnu:</strong> ${escapeHtml(selectedWorkerInterview.coByloKlicove || "-")}</p>
+                <p><strong>Co fungovalo v MDT:</strong> ${escapeHtml(selectedWorkerInterview.coFungovaloMdt || "-")}</p>
+                <p><strong>Co nefungovalo:</strong> ${escapeHtml(selectedWorkerInterview.coNefungovalo || "-")}</p>
+                <p><strong>Role case managementu:</strong> ${escapeHtml(selectedWorkerInterview.roleCaseManagementu || "-")}</p>
+                <p><strong>Bariéry systému:</strong> ${escapeHtml(selectedWorkerInterview.systemoveBariery || "-")}</p>
+                <p><strong>Doporučení:</strong> ${escapeHtml(selectedWorkerInterview.doporuceni || "-")}</p>
+              </div>
+            </div>
+          </section>
+        ` : ``}
+      `;
+
+      const renderPartnerTab = () => `
+        <section class="panel">
+          <div class="inline-actions" style="justify-content:space-between;">
+            <div>
+              <h3>Rozhovory s partnery</h3>
+              <p class="hint">Podklad pro EO3 a pro závěrečná doporučení. Lze navázat na konkrétní případ nebo vést obecně za instituci.</p>
+            </div>
+            <button class="btn" type="button" id="newPartnerInterviewBtn">Přidat rozhovor s partnerem</button>
+          </div>
+          <div class="table-wrap" style="margin-top:14px;">
+            ${partnerInterviews.length ? `
+              <table class="compact-table">
+                <thead>
+                  <tr>
+                    <th>Datum</th>
+                    <th>Partner</th>
+                    <th>Instituce</th>
+                    <th>Případ</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${partnerInterviews.map(item => `
+                    <tr>
+                      <td>${formatDate(item.datum)}</td>
+                      <td>${escapeHtml(item.partnerName || "-")}</td>
+                      <td>${escapeHtml(item.instituce || "-")}</td>
+                      <td>${escapeHtml(getCase(item.caseId)?.osobni?.nazevRodiny || item.caseId || "obecné")}</td>
+                      <td class="actions"><button class="btn-ghost" type="button" data-open-partner-interview="${item.id}">Detail</button></td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+            ` : `<div class="empty">Zatím není zapsaný žádný rozhovor s partnerem.</div>`}
+          </div>
+        </section>
+        ${selectedPartnerInterview ? `
+          <section class="panel" style="margin-top:18px;">
+            <div class="inline-actions" style="justify-content:space-between;">
+              <div>
+                <h3>Rozhovor ${escapeHtml(selectedPartnerInterview.id)}</h3>
+                <p class="hint">${formatDate(selectedPartnerInterview.datum)} | ${escapeHtml(selectedPartnerInterview.partnerName || "-")} | ${escapeHtml(selectedPartnerInterview.instituce || "-")}</p>
+              </div>
+              <button class="btn-ghost" type="button" data-edit-partner-interview="${selectedPartnerInterview.id}">Upravit</button>
+            </div>
+            <div class="timeline">
+              <div class="record">
+                <p><strong>Jak partner vnímal spolupráci:</strong> ${escapeHtml(selectedPartnerInterview.vnimaniSpoluprace || "-")}</p>
+                <p><strong>Srozumitelnost rolí:</strong> ${escapeHtml(selectedPartnerInterview.srozumitelnostRoli || "-")}</p>
+                <p><strong>Návaznost na OSPOD / IPOD:</strong> ${escapeHtml(selectedPartnerInterview.navaznostOspodIpod || "-")}</p>
+                <p><strong>Co fungovalo:</strong> ${escapeHtml(selectedPartnerInterview.coFungovalo || "-")}</p>
+                <p><strong>Co bylo slabé:</strong> ${escapeHtml(selectedPartnerInterview.coByloSlabe || "-")}</p>
+                <p><strong>Doporučení:</strong> ${escapeHtml(selectedPartnerInterview.doporuceni || "-")}</p>
+              </div>
+            </div>
+          </section>
+        ` : ``}
+      `;
+
+      const renderCaseStudyTab = () => `
+        <section class="panel">
+          <div class="inline-actions" style="justify-content:space-between;">
+            <div>
+              <h3>Případové studie</h3>
+              <p class="hint">Syntetický výstup pro EO2 a EO4. Vychází z provozních dat a doplňuje je interpretačním shrnutím evaluátora.</p>
+            </div>
+            <button class="btn" type="button" id="newCaseStudyBtn">Přidat případovou studii</button>
+          </div>
+          <div class="table-wrap" style="margin-top:14px;">
+            ${caseStudies.length ? `
+              <table class="compact-table">
+                <thead>
+                  <tr>
+                    <th>Datum</th>
+                    <th>Případ</th>
+                    <th>Název</th>
+                    <th>Autor</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${caseStudies.map(item => `
+                    <tr>
+                      <td>${formatDate(item.datum)}</td>
+                      <td>${escapeHtml(getCase(item.caseId)?.osobni?.nazevRodiny || item.caseId || "-")}</td>
+                      <td>${escapeHtml(item.title || "-")}</td>
+                      <td>${escapeHtml(item.author || "-")}</td>
+                      <td class="actions"><button class="btn-ghost" type="button" data-open-case-study="${item.id}">Detail</button></td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+            ` : `<div class="empty">Zatím není zapsaná žádná případová studie.</div>`}
+          </div>
+        </section>
+        ${selectedCaseStudy ? `
+          <section class="panel" style="margin-top:18px;">
+            <div class="inline-actions" style="justify-content:space-between;">
+              <div>
+                <h3>${escapeHtml(selectedCaseStudy.title || selectedCaseStudy.id)}</h3>
+                <p class="hint">${formatDate(selectedCaseStudy.datum)} | ${escapeHtml(getCase(selectedCaseStudy.caseId)?.osobni?.nazevRodiny || "-")}</p>
+              </div>
+              <button class="btn-ghost" type="button" data-edit-case-study="${selectedCaseStudy.id}">Upravit</button>
+            </div>
+            <div class="timeline">
+              <div class="record">
+                <p><strong>Základní kontext případu:</strong> ${escapeHtml(selectedCaseStudy.kontext || "-")}</p>
+                <p><strong>Vstupní situace:</strong> ${escapeHtml(selectedCaseStudy.vstupniSituace || "-")}</p>
+                <p><strong>Hlavní cíle IP:</strong> ${escapeHtml(selectedCaseStudy.hlavniCileIp || "-")}</p>
+                <p><strong>Průběh podpory:</strong> ${escapeHtml(selectedCaseStudy.prubehPodpory || "-")}</p>
+                <p><strong>Zapojené odbornosti:</strong> ${escapeHtml(selectedCaseStudy.zapojeneOdbornosti || "-")}</p>
+                <p><strong>Zlomové momenty:</strong> ${escapeHtml(selectedCaseStudy.zlomoveMomenty || "-")}</p>
+                <p><strong>Výsledek:</strong> ${escapeHtml(selectedCaseStudy.vysledek || "-")}</p>
+                <p><strong>Přetrvávající rizika:</strong> ${escapeHtml(selectedCaseStudy.pretrvavajiciRizika || "-")}</p>
+                <p><strong>Poučení pro praxi:</strong> ${escapeHtml(selectedCaseStudy.pouceniProPraxi || "-")}</p>
+              </div>
+            </div>
+          </section>
+        ` : ``}
+      `;
+
+      viewEl.innerHTML = `
+        <section class="panel">
+          <div class="inline-actions" style="justify-content:space-between;">
+            <div>
+              <h3>Evaluační aktivity</h3>
+              <p class="hint">Místo pro kvalitativní sběr dat nad konkrétním klientem, pracovníkem nebo partnerem. Navazuje na vstupní evaluační zprávu a evaluační rámec.</p>
+            </div>
+            <button class="btn-secondary" type="button" id="exportEvaluationBtn">Stáhnout pseudonymizovaný export</button>
+          </div>
+          <div class="case-tabs" style="margin-top:16px;">
+            <button type="button" class="${selectedEvaluationTab === "family" ? "active" : ""}" data-eval-tab="family">Rozhovor s rodinou</button>
+            <button type="button" class="${selectedEvaluationTab === "worker" ? "active" : ""}" data-eval-tab="worker">Rozhovor s pracovníkem</button>
+            <button type="button" class="${selectedEvaluationTab === "partner" ? "active" : ""}" data-eval-tab="partner">Rozhovor s partnerem</button>
+            <button type="button" class="${selectedEvaluationTab === "caseStudy" ? "active" : ""}" data-eval-tab="caseStudy">Případová studie</button>
+          </div>
+        </section>
+        ${selectedEvaluationTab === "family" ? renderFamilyTab() : ""}
+        ${selectedEvaluationTab === "worker" ? renderWorkerTab() : ""}
+        ${selectedEvaluationTab === "partner" ? renderPartnerTab() : ""}
+        ${selectedEvaluationTab === "caseStudy" ? renderCaseStudyTab() : ""}
+      `;
+
+      document.querySelectorAll("[data-eval-tab]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          selectedEvaluationTab = btn.dataset.evalTab;
+          renderEvaluationActivities();
+        });
+      });
+      const exportEvaluationBtn = document.getElementById("exportEvaluationBtn");
+      if (exportEvaluationBtn) exportEvaluationBtn.addEventListener("click", exportEvaluationData);
+      document.getElementById("newFamilyInterviewBtn")?.addEventListener("click", () => openFamilyInterviewForm());
+      document.getElementById("newWorkerInterviewBtn")?.addEventListener("click", () => openWorkerInterviewForm());
+      document.getElementById("newPartnerInterviewBtn")?.addEventListener("click", () => openPartnerInterviewForm());
+      document.getElementById("newCaseStudyBtn")?.addEventListener("click", () => openCaseStudyForm());
+      document.querySelectorAll("[data-open-family-interview]").forEach(btn => btn.addEventListener("click", () => {
+        selectedFamilyInterviewId = btn.dataset.openFamilyInterview;
+        renderEvaluationActivities();
+      }));
+      document.querySelectorAll("[data-edit-family-interview]").forEach(btn => btn.addEventListener("click", () => openFamilyInterviewForm(state.evaluationActivities.familyInterviews.find(item => item.id === btn.dataset.editFamilyInterview))));
+      document.querySelectorAll("[data-open-worker-interview]").forEach(btn => btn.addEventListener("click", () => {
+        selectedWorkerInterviewId = btn.dataset.openWorkerInterview;
+        renderEvaluationActivities();
+      }));
+      document.querySelectorAll("[data-edit-worker-interview]").forEach(btn => btn.addEventListener("click", () => openWorkerInterviewForm(state.evaluationActivities.workerInterviews.find(item => item.id === btn.dataset.editWorkerInterview))));
+      document.querySelectorAll("[data-open-partner-interview]").forEach(btn => btn.addEventListener("click", () => {
+        selectedPartnerInterviewId = btn.dataset.openPartnerInterview;
+        renderEvaluationActivities();
+      }));
+      document.querySelectorAll("[data-edit-partner-interview]").forEach(btn => btn.addEventListener("click", () => openPartnerInterviewForm(state.evaluationActivities.partnerInterviews.find(item => item.id === btn.dataset.editPartnerInterview))));
+      document.querySelectorAll("[data-open-case-study]").forEach(btn => btn.addEventListener("click", () => {
+        selectedCaseStudyId = btn.dataset.openCaseStudy;
+        renderEvaluationActivities();
+      }));
+      document.querySelectorAll("[data-edit-case-study]").forEach(btn => btn.addEventListener("click", () => openCaseStudyForm(state.evaluationActivities.caseStudies.find(item => item.id === btn.dataset.editCaseStudy))));
     }
 
     function renderClientDetail(item) {
@@ -3495,6 +4428,9 @@
                                     </div>
                                   </summary>
                                   <div class="goal-body">
+                                    <div class="inline-actions" style="justify-content:flex-end;margin-bottom:10px;">
+                                      <button class="btn-ghost" type="button" data-action="delete-goal" data-id="${item.id}" data-plan="${selectedPlan.id}" data-goal="${goal.id}">Smazat cíl</button>
+                                    </div>
                                     <div class="compact-grid-2">
                                       <div class="mini-lines">
                                         <div><strong>Problém:</strong> ${escapeHtml(goal.problem || "-")}</div>
@@ -3685,7 +4621,10 @@
             <div class="details-body">
                 ${item.vystup ? `
                   <div class="record">
-                    <h4>Výstupní hodnocení z ${formatDate(item.vystup.datum)}</h4>
+                    <div class="inline-actions" style="justify-content:space-between;align-items:flex-start;">
+                      <h4>Výstupní hodnocení z ${formatDate(item.vystup.datum)}</h4>
+                      <button class="btn-ghost" data-action="close-case" data-id="${item.id}">Upravit výstupní hodnocení</button>
+                    </div>
                     <p><strong>Odborné shrnutí pracovníka:</strong> ${escapeHtml(item.vystup.popisVysledkuPracovnik)}</p>
                     <p><strong>Klientská reflexe / pohled rodiny:</strong> ${escapeHtml(item.vystup.popisVysledkuRodina)}</p>
                     <p><strong>Hlavní dosažené změny:</strong> ${escapeHtml(item.vystup.shrnutiHlavnichZmen)}</p>
@@ -3704,8 +4643,13 @@
                     <p><strong>Komunikace mezi rodiči:</strong> ${escapeHtml(item.projektoveCile?.zlepseniKomunikaceRodicu || "-")}<br><strong>Snížení krizových situací:</strong> ${escapeHtml(item.projektoveCile?.snizeniKrizovychSituaci || "-")}<br><strong>Konstruktivní řešení konfliktů:</strong> ${escapeHtml(item.projektoveCile?.konstruktivniReseniKonfliktu || "-")}<br><strong>Dohoda o porozvodové péči bez asistence:</strong> ${escapeHtml(item.projektoveCile?.dohodaOPorozvodovePeci || "-")}</p>
                   </div>
                 ` : `
-                  <div class="empty">Případ ještě není uzavřen.</div>
-                  <button class="btn-danger" data-action="close-case" data-id="${item.id}">Uzavřít případ</button>
+                  <div class="record">
+                    <h4>Výstupní hodnocení</h4>
+                    <p class="hint">Výstupní hodnocení zatím není vyplněné. V tomto kroku doplníte závěrečné zhodnocení práce s rodinou, výstupní skóre i formální ukončení případu.</p>
+                    <div class="inline-actions" style="margin-top:12px;">
+                      <button class="btn-danger" data-action="close-case" data-id="${item.id}">Vyplnit výstupní hodnocení</button>
+                    </div>
+                  </div>
                 `}
             </div>
           </details>
@@ -3805,6 +4749,9 @@
             case "close-plan":
               openClosePlanForm(id, planId);
               break;
+            case "delete-goal":
+              deleteGoal(id, planId, btn.dataset.goal);
+              break;
             case "add-intervention":
               openInterventionForm(id);
               break;
@@ -3818,6 +4765,10 @@
 
     function getCase(id) {
       return state.cases.find(item => item.id === id);
+    }
+
+    function getCaseMember(caseId, memberId) {
+      return getCase(caseId)?.osobni?.clenove?.find(item => item.id === memberId) || null;
     }
 
     function getApplicant(id) {
@@ -4226,6 +5177,153 @@
       return state.supervisions.find(item => item.id === supervisionId) || null;
     }
 
+    function deleteApplicant(applicantId) {
+      const applicant = getApplicant(applicantId);
+      if (!applicant) return;
+      if (!confirm(`Opravdu chcete smazat zájemce ${applicant.id}?`)) return;
+      state.applicants = state.applicants.filter(item => item.id !== applicantId);
+      selectedApplicantId = state.applicants[0]?.id || null;
+      modalEl.close();
+      saveState();
+    }
+
+    function deleteWorker(workerId) {
+      const worker = getWorker(workerId);
+      if (!worker) return;
+      if (!confirm(`Opravdu chcete smazat pracovníka ${worker.jmeno}? Tato akce odstraní i jeho vzdělávací kartu a upraví navazující supervize.`)) return;
+      state.workers = state.workers.filter(item => item.id !== workerId);
+      state.educationRecords = state.educationRecords.filter(item => item.workerId !== workerId);
+      state.supervisions = state.supervisions
+        .map(supervision => {
+          const participantIds = (supervision.participantIds || []).filter(id => id !== workerId);
+          return {
+            ...supervision,
+            participantIds,
+            participantNames: participantIds.map(id => getWorker(id)?.jmeno).filter(Boolean)
+          };
+        })
+        .filter(supervision => (supervision.participantIds || []).length);
+      selectedWorkerId = state.workers[0]?.id || null;
+      modalEl.close();
+      saveState();
+    }
+
+    function deletePlan(caseId, planId) {
+      const item = getCase(caseId);
+      const plan = item?.plany?.find(row => row.id === planId);
+      if (!item || !plan) return;
+      if (!confirm(`Opravdu chcete smazat ${plan.verze}? Tím zmizí i jeho cíle, revize, hodnocení a navázané intervence.`)) return;
+      item.plany = item.plany.filter(row => row.id !== planId);
+      item.hodnoceni = (item.hodnoceni || []).filter(row => row.planId !== planId);
+      item.intervence = (item.intervence || []).filter(row => row.planId !== planId);
+      item.setkani = (item.setkani || []).filter(row => row.planId !== planId);
+      const nextPlan = item.plany.find(row => row.stav === "aktivní") || item.plany[0] || null;
+      if (nextPlan) {
+        selectedPlanByCase[caseId] = nextPlan.id;
+      } else {
+        delete selectedPlanByCase[caseId];
+      }
+      delete selectedEvaluationByCase[caseId];
+      delete selectedInterventionByCase[caseId];
+      modalEl.close();
+      saveState();
+    }
+
+    function deleteGoal(caseId, planId, goalId) {
+      const item = getCase(caseId);
+      const plan = item?.plany?.find(row => row.id === planId);
+      const goal = plan?.cile?.find(row => row.id === goalId);
+      if (!item || !plan || !goal) return;
+      if (!confirm(`Opravdu chcete smazat cíl „${goal.text}“? Tím zmizí i navázaná hodnocení a intervence.`)) return;
+      plan.cile = plan.cile.filter(row => row.id !== goalId);
+      item.hodnoceni = (item.hodnoceni || []).filter(row => row.cilId !== goalId);
+      item.intervence = (item.intervence || []).filter(row => row.cilId !== goalId);
+      item.setkani = (item.setkani || []).filter(row => row.cilId !== goalId);
+      delete selectedEvaluationByCase[caseId];
+      delete selectedInterventionByCase[caseId];
+      saveState();
+    }
+
+    function deleteEducationRecord(recordId) {
+      const record = getEducationRecord(recordId);
+      if (!record) return;
+      if (!confirm(`Opravdu chcete smazat vzdělávací záznam „${record.nazevAkce || record.id}“?`)) return;
+      state.educationRecords = state.educationRecords.filter(item => item.id !== recordId);
+      selectedWorkerId = record.workerId || selectedWorkerId;
+      modalEl.close();
+      saveState();
+    }
+
+    function deleteSupervision(supervisionId) {
+      const supervision = getSupervision(supervisionId);
+      if (!supervision) return;
+      if (!confirm(`Opravdu chcete smazat supervizi z ${formatDate(supervision.datum)}?`)) return;
+      state.supervisions = state.supervisions.filter(item => item.id !== supervisionId);
+      modalEl.close();
+      saveState();
+    }
+
+    function deleteContract(contractId) {
+      const contract = getContract(contractId);
+      if (!contract) return;
+      if (!confirm(`Opravdu chcete smazat smlouvu ${contract.id}?`)) return;
+      state.contracts = state.contracts.filter(item => item.id !== contractId);
+      selectedContractId = state.contracts[0]?.id || null;
+      modalEl.close();
+      saveState();
+    }
+
+    function deleteGroupActivity(activityId) {
+      const activity = getGroupActivity(activityId);
+      if (!activity) return;
+      if (!confirm(`Opravdu chcete smazat skupinovou aktivitu „${activity.temaSetkani || activity.id}“? Tím zmizí i všechny navázané účasti.`)) return;
+      state.groupActivities = state.groupActivities.filter(item => item.id !== activityId);
+      state.groupAttendances = state.groupAttendances.filter(item => item.skupinovaAktivitaId !== activityId);
+      selectedGroupActivityId = state.groupActivities[0]?.id || null;
+      modalEl.close();
+      saveState();
+    }
+
+    function deleteFamilyInterview(interviewId) {
+      const interview = state.evaluationActivities.familyInterviews.find(item => item.id === interviewId);
+      if (!interview) return;
+      if (!confirm(`Opravdu chcete smazat rozhovor ${interview.id}?`)) return;
+      state.evaluationActivities.familyInterviews = state.evaluationActivities.familyInterviews.filter(item => item.id !== interviewId);
+      selectedFamilyInterviewId = state.evaluationActivities.familyInterviews[0]?.id || null;
+      modalEl.close();
+      saveState();
+    }
+
+    function deleteWorkerInterview(interviewId) {
+      const interview = state.evaluationActivities.workerInterviews.find(item => item.id === interviewId);
+      if (!interview) return;
+      if (!confirm(`Opravdu chcete smazat rozhovor ${interview.id}?`)) return;
+      state.evaluationActivities.workerInterviews = state.evaluationActivities.workerInterviews.filter(item => item.id !== interviewId);
+      selectedWorkerInterviewId = state.evaluationActivities.workerInterviews[0]?.id || null;
+      modalEl.close();
+      saveState();
+    }
+
+    function deletePartnerInterview(interviewId) {
+      const interview = state.evaluationActivities.partnerInterviews.find(item => item.id === interviewId);
+      if (!interview) return;
+      if (!confirm(`Opravdu chcete smazat rozhovor ${interview.id}?`)) return;
+      state.evaluationActivities.partnerInterviews = state.evaluationActivities.partnerInterviews.filter(item => item.id !== interviewId);
+      selectedPartnerInterviewId = state.evaluationActivities.partnerInterviews[0]?.id || null;
+      modalEl.close();
+      saveState();
+    }
+
+    function deleteCaseStudy(caseStudyId) {
+      const study = state.evaluationActivities.caseStudies.find(item => item.id === caseStudyId);
+      if (!study) return;
+      if (!confirm(`Opravdu chcete smazat případovou studii ${study.id}?`)) return;
+      state.evaluationActivities.caseStudies = state.evaluationActivities.caseStudies.filter(item => item.id !== caseStudyId);
+      selectedCaseStudyId = state.evaluationActivities.caseStudies[0]?.id || null;
+      modalEl.close();
+      saveState();
+    }
+
     function openWorkerForm(existingWorker = null) {
       const item = existingWorker || {
         id: createId("PR"),
@@ -4244,6 +5342,7 @@
           <label class="full">Poznámka<textarea name="poznamka">${escapeHtml(item.poznamka || "")}</textarea></label>
           <div class="inline-actions full">
             <button class="btn" type="submit">${existingWorker ? "Uložit pracovníka" : "Založit pracovníka"}</button>
+            ${existingWorker ? `<button class="btn-danger" type="button" id="deleteWorkerAction">Smazat pracovníka</button>` : ""}
             <button class="btn-secondary" type="button" id="cancelModalAction">Zrušit</button>
           </div>
         </div>
@@ -4275,6 +5374,9 @@
         modalEl.close();
         saveState();
       });
+      if (existingWorker) {
+        document.getElementById("deleteWorkerAction").addEventListener("click", () => deleteWorker(existingWorker.id));
+      }
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
     }
 
@@ -4310,6 +5412,7 @@
           <label class="full">Obsah vzdělávání<textarea name="obsah">${escapeHtml(item.obsah || "")}</textarea></label>
           <div class="inline-actions full">
             <button class="btn" type="submit">${existingRecord ? "Uložit záznam" : "Přidat záznam"}</button>
+            ${existingRecord ? `<button class="btn-danger" type="button" id="deleteEducationAction">Smazat záznam</button>` : ""}
             <button class="btn-secondary" type="button" id="cancelModalAction">Zrušit</button>
           </div>
         </div>
@@ -4348,6 +5451,9 @@
         attachAiAssist(modalForm, "education");
       }
       if (!educationTemplateSelect && modalForm) attachAiAssist(modalForm, "education");
+      if (existingRecord) {
+        document.getElementById("deleteEducationAction").addEventListener("click", () => deleteEducationRecord(existingRecord.id));
+      }
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
     }
 
@@ -4397,6 +5503,7 @@
           <label class="full">Zápis o supervizi<textarea name="zapis">${escapeHtml(item.zapis || "")}</textarea></label>
           <div class="inline-actions full">
             <button class="btn" type="submit">${existingSupervision ? "Uložit supervizi" : "Přidat supervizi"}</button>
+            ${existingSupervision ? `<button class="btn-danger" type="button" id="deleteSupervisionAction">Smazat supervizi</button>` : ""}
             <button class="btn-secondary" type="button" id="cancelModalAction">Zrušit</button>
           </div>
         </div>
@@ -4439,6 +5546,9 @@
         attachAiAssist(modalForm, "supervision");
       }
       if (!supervisionTemplateSelect && modalForm) attachAiAssist(modalForm, "supervision");
+      if (existingSupervision) {
+        document.getElementById("deleteSupervisionAction").addEventListener("click", () => deleteSupervision(existingSupervision.id));
+      }
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
     }
 
@@ -4468,6 +5578,7 @@
         </div>
         <div class="inline-actions">
           <button class="btn" type="submit">${existingApplicant ? "Uložit změny" : "Uložit zájemce"}</button>
+          ${existingApplicant ? `<button class="btn-danger" type="button" id="deleteApplicantAction">Smazat zájemce</button>` : ""}
           <button class="btn-ghost" type="button" id="cancelModalAction">Zrušit</button>
         </div>
       `, formData => {
@@ -4491,6 +5602,9 @@
         modalEl.close();
         saveState();
       });
+      if (existingApplicant) {
+        document.getElementById("deleteApplicantAction").addEventListener("click", () => deleteApplicant(existingApplicant.id));
+      }
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
     }
 
@@ -4534,6 +5648,7 @@
         </div>
         <div class="inline-actions">
           <button class="btn" type="submit">${existingContract ? "Uložit změny" : "Uložit smlouvu"}</button>
+          ${existingContract ? `<button class="btn-danger" type="button" id="deleteContractAction">Smazat smlouvu</button>` : ""}
           <button class="btn-ghost" type="button" id="cancelModalAction">Zrušit</button>
         </div>
       `, formData => {
@@ -4557,6 +5672,9 @@
         modalEl.close();
         saveState();
       });
+      if (existingContract) {
+        document.getElementById("deleteContractAction").addEventListener("click", () => deleteContract(existingContract.id));
+      }
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
       const familySelect = document.getElementById("contractFamilySelect");
       const memberSelect = document.getElementById("contractMemberSelect");
@@ -4601,6 +5719,7 @@
         </div>
         <div class="inline-actions">
           <button class="btn" type="submit">${existingActivity ? "Uložit změny" : "Uložit aktivitu"}</button>
+          ${existingActivity ? `<button class="btn-danger" type="button" id="deleteGroupActivityAction">Smazat aktivitu</button>` : ""}
           <button class="btn-ghost" type="button" id="cancelModalAction">Zrušit</button>
         </div>
       `, formData => {
@@ -4623,6 +5742,9 @@
         modalEl.close();
         saveState();
       });
+      if (existingActivity) {
+        document.getElementById("deleteGroupActivityAction").addEventListener("click", () => deleteGroupActivity(existingActivity.id));
+      }
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
     }
 
@@ -5302,6 +6424,7 @@
         </div>
         <div class="inline-actions">
           <button class="btn-danger" type="submit">Uložit ukončení IP</button>
+          <button class="btn-danger" type="button" id="deletePlanAction">Smazat IP</button>
           <button class="btn-ghost" type="button" id="cancelModalAction">Zrušit</button>
         </div>
       `, formData => {
@@ -5318,6 +6441,7 @@
         modalEl.close();
         saveState();
       });
+      document.getElementById("deletePlanAction").addEventListener("click", () => deletePlan(caseId, planId));
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
     }
 
@@ -5490,28 +6614,31 @@
         return;
       }
       const baseline = item.vstup?.skore || defaultScores();
-      openModal("Uzavření případu", `
+      const currentOutput = item.vystup || {};
+      const currentClosing = item.ukonceni || {};
+      const currentProjectGoals = item.projektoveCile || {};
+      openModal(item.vystup ? "Upravit výstupní hodnocení" : "Výstupní hodnocení a ukončení případu", `
         <div class="form-grid">
-          <label>Datum výstupního hodnocení<input type="date" name="datum" required value="${today()}"><span class="field-note">Den finálního zhodnocení a uzavření případu.</span></label>
-          <label>Důvod ukončení${selectHtml("duvod", CISELNIKY.duvod_ukonceni_pripadu, CISELNIKY.duvod_ukonceni_pripadu[0])}<span class="field-note">Provozní důvod, proč případ končí.</span></label>
-          <label class="full">Odborné shrnutí výsledku pracovníkem<textarea name="popisVysledkuPracovnik" required></textarea><span class="field-note">Celkové vyhodnocení výsledku podpory z pohledu pracovníka.</span></label>
-          <label class="full">Klientská reflexe: jak výsledek popisuje rodina<textarea name="popisVysledkuRodina" required></textarea><span class="field-note">Jak rodina sama vnímá změnu a závěr spolupráce.</span></label>
-          <label class="full">Shrnutí hlavních dosažených změn v průběhu podpory<textarea name="shrnutiHlavnichZmen" required></textarea><span class="field-note">Souhrn nejdůležitějších posunů napříč případem.</span></label>
-          <label class="full">Co podle pracovníka a rodiny ke změně nejvíc přispělo<textarea name="coPomohlo"></textarea><span class="field-note">Mechanismy změny, které byly pro výsledek důležité.</span></label>
-          <label class="full">Co změnu nebo udržení výsledku brzdilo<textarea name="coBrdilo"></textarea><span class="field-note">Přetrvávající nebo opakované bariéry.</span></label>
-          <label class="full">Hlavní přínos služby pro rodinu<textarea name="hlavniPrinosSluzby"></textarea><span class="field-note">Jedna až dvě hlavní hodnoty, které služba rodině přinesla.</span></label>
-          <label class="full">Přetrvávající bariéry nebo rizika<textarea name="pretrvavajiciBariery"></textarea><span class="field-note">Co zůstává otevřené i po ukončení podpory.</span></label>
-          <label class="full">Posouzení udržitelnosti změny po ukončení podpory<textarea name="udrzitelnostZmeny"></textarea><span class="field-note">Jak reálné je, že se změna udrží bez další intenzivní podpory.</span></label>
-          <label class="full">Nedokončené oblasti<textarea name="nedokonceneOblasti"></textarea><span class="field-note">Části práce, které nebyly uzavřeny nebo se přesouvají dál.</span></label>
-          <label class="full">Doporučení navazující péče<textarea name="doporuceni"></textarea><span class="field-note">Na jakou službu, instituci nebo typ podpory navázat.</span></label>
-          <label class="full">Poznámka k ukončení případu<textarea name="ukonceniPoznamka"></textarea><span class="field-note">Volitelné doplnění k provoznímu uzavření.</span></label>
+          <label>Datum výstupního hodnocení<input type="date" name="datum" required value="${escapeAttribute(currentOutput.datum || currentClosing.datum || today())}"><span class="field-note">Den finálního zhodnocení a uzavření případu.</span></label>
+          <label>Důvod ukončení${selectHtml("duvod", CISELNIKY.duvod_ukonceni_pripadu, currentClosing.duvod || CISELNIKY.duvod_ukonceni_pripadu[0])}<span class="field-note">Provozní důvod, proč případ končí.</span></label>
+          <label class="full">Odborné shrnutí výsledku pracovníkem<textarea name="popisVysledkuPracovnik" required>${escapeHtml(currentOutput.popisVysledkuPracovnik || "")}</textarea><span class="field-note">Celkové vyhodnocení výsledku podpory z pohledu pracovníka.</span></label>
+          <label class="full">Klientská reflexe: jak výsledek popisuje rodina<textarea name="popisVysledkuRodina" required>${escapeHtml(currentOutput.popisVysledkuRodina || "")}</textarea><span class="field-note">Jak rodina sama vnímá změnu a závěr spolupráce.</span></label>
+          <label class="full">Shrnutí hlavních dosažených změn v průběhu podpory<textarea name="shrnutiHlavnichZmen" required>${escapeHtml(currentOutput.shrnutiHlavnichZmen || currentClosing.shrnutiZm || "")}</textarea><span class="field-note">Souhrn nejdůležitějších posunů napříč případem.</span></label>
+          <label class="full">Co podle pracovníka a rodiny ke změně nejvíc přispělo<textarea name="coPomohlo">${escapeHtml(currentOutput.coPomohlo || "")}</textarea><span class="field-note">Mechanismy změny, které byly pro výsledek důležité.</span></label>
+          <label class="full">Co změnu nebo udržení výsledku brzdilo<textarea name="coBrdilo">${escapeHtml(currentOutput.coBrdilo || "")}</textarea><span class="field-note">Přetrvávající nebo opakované bariéry.</span></label>
+          <label class="full">Hlavní přínos služby pro rodinu<textarea name="hlavniPrinosSluzby">${escapeHtml(currentOutput.hlavniPrinosSluzby || "")}</textarea><span class="field-note">Jedna až dvě hlavní hodnoty, které služba rodině přinesla.</span></label>
+          <label class="full">Přetrvávající bariéry nebo rizika<textarea name="pretrvavajiciBariery">${escapeHtml(currentOutput.pretrvavajiciBariery || "")}</textarea><span class="field-note">Co zůstává otevřené i po ukončení podpory.</span></label>
+          <label class="full">Posouzení udržitelnosti změny po ukončení podpory<textarea name="udrzitelnostZmeny">${escapeHtml(currentOutput.udrzitelnostZmeny || "")}</textarea><span class="field-note">Jak reálné je, že se změna udrží bez další intenzivní podpory.</span></label>
+          <label class="full">Nedokončené oblasti<textarea name="nedokonceneOblasti">${escapeHtml(currentClosing.nedokonceneOblasti || "")}</textarea><span class="field-note">Části práce, které nebyly uzavřeny nebo se přesouvají dál.</span></label>
+          <label class="full">Doporučení navazující péče<textarea name="doporuceni">${escapeHtml(currentClosing.doporuceni || "")}</textarea><span class="field-note">Na jakou službu, instituci nebo typ podpory navázat.</span></label>
+          <label class="full">Poznámka k ukončení případu<textarea name="ukonceniPoznamka">${escapeHtml(currentClosing.poznamka || "")}</textarea><span class="field-note">Volitelné doplnění k provoznímu uzavření.</span></label>
         </div>
         <h4 class="section-title">Vyhodnocení projektových cílů u případu</h4>
         <div class="form-grid">
-          <label>Obnovení nebo zlepšení komunikace mezi rodiči${selectHtml("zlepseniKomunikaceRodicu", ["ano", "ne", "nerelevantní"], item.projektoveCile?.zlepseniKomunikaceRodicu || "nerelevantní")}</label>
-          <label>Snížení počtu krizových a konfliktních situací${selectHtml("snizeniKrizovychSituaci", ["ano", "ne", "nerelevantní"], item.projektoveCile?.snizeniKrizovychSituaci || "nerelevantní")}</label>
-          <label>Konstruktivní řešení konfliktů v rodině${selectHtml("konstruktivniReseniKonfliktu", ["ano", "ne", "nerelevantní"], item.projektoveCile?.konstruktivniReseniKonfliktu || "nerelevantní")}</label>
-          <label>Dohoda o porozvodové péči bez asistence pracovníka${selectHtml("dohodaOPorozvodovePeci", ["ano", "ne", "nerelevantní"], item.projektoveCile?.dohodaOPorozvodovePeci || "nerelevantní")}</label>
+          <label>Obnovení nebo zlepšení komunikace mezi rodiči${selectHtml("zlepseniKomunikaceRodicu", ["ano", "ne", "nerelevantní"], currentProjectGoals.zlepseniKomunikaceRodicu || "nerelevantní")}</label>
+          <label>Snížení počtu krizových a konfliktních situací${selectHtml("snizeniKrizovychSituaci", ["ano", "ne", "nerelevantní"], currentProjectGoals.snizeniKrizovychSituaci || "nerelevantní")}</label>
+          <label>Konstruktivní řešení konfliktů v rodině${selectHtml("konstruktivniReseniKonfliktu", ["ano", "ne", "nerelevantní"], currentProjectGoals.konstruktivniReseniKonfliktu || "nerelevantní")}</label>
+          <label>Dohoda o porozvodové péči bez asistence pracovníka${selectHtml("dohodaOPorozvodovePeci", ["ano", "ne", "nerelevantní"], currentProjectGoals.dohodaOPorozvodovePeci || "nerelevantní")}</label>
         </div>
         <h4 class="section-title">Výstupní skóre 0-4 podle stejných oblastí jako při vstupu</h4>
         <p class="section-note">Skóre vyplňujte stejnou logikou jako na vstupu. Důležité je srovnání, ne jen samotné číslo.</p>
@@ -5520,14 +6647,14 @@
             <div class="score-box">
               <label>${formatScaleLabel(field)} (baseline ${baseline[field]})
                 <select name="score_${field}">
-                  ${[0,1,2,3,4].map(num => `<option value="${num}"${baseline[field] === num ? " selected" : ""}>${num}</option>`).join("")}
+                  ${[0,1,2,3,4].map(num => `<option value="${num}"${(currentOutput.skore?.[field] ?? baseline[field]) === num ? " selected" : ""}>${num}</option>`).join("")}
                 </select>
               </label>
             </div>
           `).join("")}
         </div>
         <div class="inline-actions">
-          <button class="btn-danger" type="submit">Uzavřít případ</button>
+          <button class="btn-danger" type="submit">${item.vystup ? "Uložit výstupní hodnocení" : "Uložit výstupní hodnocení a ukončit případ"}</button>
           <button class="btn-ghost" type="button" id="cancelModalAction">Zrušit</button>
         </div>
       `, formData => {
@@ -5583,6 +6710,286 @@
         saveState();
       });
       document.getElementById("cancelModalAction").addEventListener("click", () => modalEl.close());
+    }
+
+    function buildCaseMemberEvaluationOptions(selectedValue = "") {
+      return state.cases.flatMap(item =>
+        (item.osobni?.clenove || []).map(member => {
+          const value = `${item.id}||${member.id}`;
+          return `<option value="${value}"${value === selectedValue ? " selected" : ""}>${escapeHtml(item.osobni.nazevRodiny)} | ${escapeHtml(member.jmeno)} | ${escapeHtml(member.role || "bez role")}</option>`;
+        })
+      ).join("");
+    }
+
+    function openFamilyInterviewForm(existing = null) {
+      const firstCase = state.cases[0];
+      const firstMember = firstCase?.osobni?.clenove?.[0];
+      const defaultValue = existing?.caseId && existing?.memberId
+        ? `${existing.caseId}||${existing.memberId}`
+        : (firstCase && firstMember ? `${firstCase.id}||${firstMember.id}` : "");
+      const item = existing || {
+        id: createId("ER"),
+        datum: today(),
+        typ: "výstupní",
+        evaluator: "",
+        caseId: firstCase?.id || "",
+        memberId: firstMember?.id || "",
+        coSeZmenilo: "",
+        coPomohlo: "",
+        coBrzdilo: "",
+        vnimaniSpoluprace: "",
+        coZustavaOtevrene: "",
+        dalsiVyvoj: ""
+      };
+      openModal(existing ? `Upravit rozhovor ${existing.id}` : "Nový rozhovor s rodinou", `
+        <form id="familyInterviewForm" class="form-grid">
+          <label>Datum<input type="date" name="datum" required value="${escapeAttribute(item.datum || today())}"></label>
+          <label>Typ rozhovoru<select name="typ"><option value="průběžný"${item.typ === "průběžný" ? " selected" : ""}>průběžný</option><option value="výstupní"${item.typ !== "průběžný" ? " selected" : ""}>výstupní</option></select></label>
+          <label class="full">Klient / člen rodiny<select name="caseMember" required>${buildCaseMemberEvaluationOptions(defaultValue)}</select></label>
+          <label class="full">Evaluátor<input name="evaluator" value="${escapeAttribute(item.evaluator || "")}" placeholder="Jméno evaluátora"></label>
+          <label class="full">Co se podle rodiny změnilo<textarea name="coSeZmenilo">${escapeHtml(item.coSeZmenilo || "")}</textarea></label>
+          <label class="full">Co pomohlo nejvíc<textarea name="coPomohlo">${escapeHtml(item.coPomohlo || "")}</textarea></label>
+          <label class="full">Co změnu brzdilo<textarea name="coBrzdilo">${escapeHtml(item.coBrzdilo || "")}</textarea></label>
+          <label class="full">Jak rodina vnímala spolupráci se službou<textarea name="vnimaniSpoluprace">${escapeHtml(item.vnimaniSpoluprace || "")}</textarea></label>
+          <label class="full">Co zůstává otevřené<textarea name="coZustavaOtevrene">${escapeHtml(item.coZustavaOtevrene || "")}</textarea></label>
+          <label class="full">Další vývoj očima rodiny<textarea name="dalsiVyvoj">${escapeHtml(item.dalsiVyvoj || "")}</textarea></label>
+          <div class="inline-actions full">
+            ${existing ? `<button class="btn-ghost" type="button" id="deleteFamilyInterviewBtn">Smazat rozhovor</button>` : ``}
+            <button class="btn-danger" type="submit">${existing ? "Uložit změny" : "Uložit rozhovor"}</button>
+          </div>
+        </form>
+      `);
+      const form = document.getElementById("familyInterviewForm");
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const [caseId, memberId] = String(formData.get("caseMember") || "").split("||");
+        const member = getCaseMember(caseId, memberId);
+        const payload = {
+          id: item.id,
+          datum: formData.get("datum"),
+          typ: formData.get("typ"),
+          evaluator: formData.get("evaluator"),
+          caseId,
+          memberId,
+          participantIds: memberId ? [memberId] : [],
+          participantNames: member?.jmeno ? [member.jmeno] : [],
+          coSeZmenilo: formData.get("coSeZmenilo"),
+          coPomohlo: formData.get("coPomohlo"),
+          coBrzdilo: formData.get("coBrzdilo"),
+          vnimaniSpoluprace: formData.get("vnimaniSpoluprace"),
+          coZustavaOtevrene: formData.get("coZustavaOtevrene"),
+          dalsiVyvoj: formData.get("dalsiVyvoj")
+        };
+        const list = state.evaluationActivities.familyInterviews;
+        const index = list.findIndex(row => row.id === payload.id);
+        if (index >= 0) list[index] = payload; else list.unshift(payload);
+        selectedFamilyInterviewId = payload.id;
+        selectedEvaluationTab = "family";
+        currentView = "evaluations";
+        modalEl.close();
+        saveState();
+        render();
+      });
+      document.getElementById("deleteFamilyInterviewBtn")?.addEventListener("click", () => deleteFamilyInterview(item.id));
+    }
+
+    function openWorkerInterviewForm(existing = null) {
+      const item = existing || {
+        id: createId("EP"),
+        datum: today(),
+        workerId: state.workers[0]?.id || "",
+        evaluator: "",
+        coByloKlicove: "",
+        coFungovaloMdt: "",
+        coNefungovalo: "",
+        roleCaseManagementu: "",
+        systemoveBariery: "",
+        doporuceni: ""
+      };
+      openModal(existing ? `Upravit rozhovor ${existing.id}` : "Nový rozhovor s pracovníkem", `
+        <form id="workerInterviewForm" class="form-grid">
+          <label>Datum<input type="date" name="datum" required value="${escapeAttribute(item.datum || today())}"></label>
+          <label>Pracovník<select name="workerId" required>${state.workers.map(worker => `<option value="${worker.id}"${worker.id === item.workerId ? " selected" : ""}>${escapeHtml(worker.jmeno)} | ${escapeHtml(worker.role || "-")}</option>`).join("")}</select></label>
+          <label class="full">Evaluátor<input name="evaluator" value="${escapeAttribute(item.evaluator || "")}"></label>
+          <label class="full">Co bylo klíčové pro změnu<textarea name="coByloKlicove">${escapeHtml(item.coByloKlicove || "")}</textarea></label>
+          <label class="full">Co fungovalo v MDT<textarea name="coFungovaloMdt">${escapeHtml(item.coFungovaloMdt || "")}</textarea></label>
+          <label class="full">Co nefungovalo<textarea name="coNefungovalo">${escapeHtml(item.coNefungovalo || "")}</textarea></label>
+          <label class="full">Role case managementu<textarea name="roleCaseManagementu">${escapeHtml(item.roleCaseManagementu || "")}</textarea></label>
+          <label class="full">Bariéry systému<textarea name="systemoveBariery">${escapeHtml(item.systemoveBariery || "")}</textarea></label>
+          <label class="full">Doporučení<textarea name="doporuceni">${escapeHtml(item.doporuceni || "")}</textarea></label>
+          <div class="inline-actions full">
+            ${existing ? `<button class="btn-ghost" type="button" id="deleteWorkerInterviewBtn">Smazat rozhovor</button>` : ``}
+            <button class="btn-danger" type="submit">${existing ? "Uložit změny" : "Uložit rozhovor"}</button>
+          </div>
+        </form>
+      `);
+      const form = document.getElementById("workerInterviewForm");
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const worker = getWorker(formData.get("workerId"));
+        const payload = {
+          id: item.id,
+          datum: formData.get("datum"),
+          workerId: formData.get("workerId"),
+          workerName: worker?.jmeno || "",
+          workerRole: worker?.role || "",
+          evaluator: formData.get("evaluator"),
+          coByloKlicove: formData.get("coByloKlicove"),
+          coFungovaloMdt: formData.get("coFungovaloMdt"),
+          coNefungovalo: formData.get("coNefungovalo"),
+          roleCaseManagementu: formData.get("roleCaseManagementu"),
+          systemoveBariery: formData.get("systemoveBariery"),
+          doporuceni: formData.get("doporuceni")
+        };
+        const list = state.evaluationActivities.workerInterviews;
+        const index = list.findIndex(row => row.id === payload.id);
+        if (index >= 0) list[index] = payload; else list.unshift(payload);
+        selectedWorkerInterviewId = payload.id;
+        selectedEvaluationTab = "worker";
+        currentView = "evaluations";
+        modalEl.close();
+        saveState();
+        render();
+      });
+      document.getElementById("deleteWorkerInterviewBtn")?.addEventListener("click", () => deleteWorkerInterview(item.id));
+    }
+
+    function openPartnerInterviewForm(existing = null) {
+      const item = existing || {
+        id: createId("EPR"),
+        datum: today(),
+        partnerName: "",
+        instituce: "",
+        caseId: "",
+        evaluator: "",
+        vnimaniSpoluprace: "",
+        srozumitelnostRoli: "",
+        navaznostOspodIpod: "",
+        coFungovalo: "",
+        coByloSlabe: "",
+        doporuceni: ""
+      };
+      openModal(existing ? `Upravit rozhovor ${existing.id}` : "Nový rozhovor s partnerem", `
+        <form id="partnerInterviewForm" class="form-grid">
+          <label>Datum<input type="date" name="datum" required value="${escapeAttribute(item.datum || today())}"></label>
+          <label>Případ<select name="caseId"><option value="">obecné / bez vazby na případ</option>${state.cases.map(caseItem => `<option value="${caseItem.id}"${caseItem.id === item.caseId ? " selected" : ""}>${escapeHtml(caseItem.osobni.nazevRodiny)} | ${caseItem.id}</option>`).join("")}</select></label>
+          <label>Partner<input name="partnerName" required value="${escapeAttribute(item.partnerName || "")}"></label>
+          <label>Instituce<input name="instituce" required value="${escapeAttribute(item.instituce || "")}"></label>
+          <label class="full">Evaluátor<input name="evaluator" value="${escapeAttribute(item.evaluator || "")}"></label>
+          <label class="full">Jak partner vnímal spolupráci<textarea name="vnimaniSpoluprace">${escapeHtml(item.vnimaniSpoluprace || "")}</textarea></label>
+          <label class="full">Srozumitelnost rolí<textarea name="srozumitelnostRoli">${escapeHtml(item.srozumitelnostRoli || "")}</textarea></label>
+          <label class="full">Návaznost na OSPOD / IPOD<textarea name="navaznostOspodIpod">${escapeHtml(item.navaznostOspodIpod || "")}</textarea></label>
+          <label class="full">Co fungovalo<textarea name="coFungovalo">${escapeHtml(item.coFungovalo || "")}</textarea></label>
+          <label class="full">Co bylo slabé<textarea name="coByloSlabe">${escapeHtml(item.coByloSlabe || "")}</textarea></label>
+          <label class="full">Doporučení<textarea name="doporuceni">${escapeHtml(item.doporuceni || "")}</textarea></label>
+          <div class="inline-actions full">
+            ${existing ? `<button class="btn-ghost" type="button" id="deletePartnerInterviewBtn">Smazat rozhovor</button>` : ``}
+            <button class="btn-danger" type="submit">${existing ? "Uložit změny" : "Uložit rozhovor"}</button>
+          </div>
+        </form>
+      `);
+      const form = document.getElementById("partnerInterviewForm");
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const payload = {
+          id: item.id,
+          datum: formData.get("datum"),
+          caseId: formData.get("caseId"),
+          partnerName: formData.get("partnerName"),
+          instituce: formData.get("instituce"),
+          evaluator: formData.get("evaluator"),
+          vnimaniSpoluprace: formData.get("vnimaniSpoluprace"),
+          srozumitelnostRoli: formData.get("srozumitelnostRoli"),
+          navaznostOspodIpod: formData.get("navaznostOspodIpod"),
+          coFungovalo: formData.get("coFungovalo"),
+          coByloSlabe: formData.get("coByloSlabe"),
+          doporuceni: formData.get("doporuceni")
+        };
+        const list = state.evaluationActivities.partnerInterviews;
+        const index = list.findIndex(row => row.id === payload.id);
+        if (index >= 0) list[index] = payload; else list.unshift(payload);
+        selectedPartnerInterviewId = payload.id;
+        selectedEvaluationTab = "partner";
+        currentView = "evaluations";
+        modalEl.close();
+        saveState();
+        render();
+      });
+      document.getElementById("deletePartnerInterviewBtn")?.addEventListener("click", () => deletePartnerInterview(item.id));
+    }
+
+    function openCaseStudyForm(existing = null) {
+      const item = existing || {
+        id: createId("PCS"),
+        datum: today(),
+        caseId: state.cases[0]?.id || "",
+        title: "",
+        author: "",
+        kontext: "",
+        vstupniSituace: "",
+        hlavniCileIp: "",
+        prubehPodpory: "",
+        zapojeneOdbornosti: "",
+        zlomoveMomenty: "",
+        vysledek: "",
+        pretrvavajiciRizika: "",
+        pouceniProPraxi: ""
+      };
+      openModal(existing ? `Upravit případovou studii ${existing.id}` : "Nová případová studie", `
+        <form id="caseStudyForm" class="form-grid">
+          <label>Datum<input type="date" name="datum" required value="${escapeAttribute(item.datum || today())}"></label>
+          <label>Případ<select name="caseId" required>${state.cases.map(caseItem => `<option value="${caseItem.id}"${caseItem.id === item.caseId ? " selected" : ""}>${escapeHtml(caseItem.osobni.nazevRodiny)} | ${caseItem.id}</option>`).join("")}</select></label>
+          <label class="full">Název případové studie<input name="title" required value="${escapeAttribute(item.title || "")}"></label>
+          <label class="full">Autor / evaluátor<input name="author" value="${escapeAttribute(item.author || "")}"></label>
+          <label class="full">Základní kontext případu<textarea name="kontext">${escapeHtml(item.kontext || "")}</textarea></label>
+          <label class="full">Vstupní situace<textarea name="vstupniSituace">${escapeHtml(item.vstupniSituace || "")}</textarea></label>
+          <label class="full">Hlavní cíle IP<textarea name="hlavniCileIp">${escapeHtml(item.hlavniCileIp || "")}</textarea></label>
+          <label class="full">Průběh podpory<textarea name="prubehPodpory">${escapeHtml(item.prubehPodpory || "")}</textarea></label>
+          <label class="full">Zapojené odbornosti<textarea name="zapojeneOdbornosti">${escapeHtml(item.zapojeneOdbornosti || "")}</textarea></label>
+          <label class="full">Zlomové momenty<textarea name="zlomoveMomenty">${escapeHtml(item.zlomoveMomenty || "")}</textarea></label>
+          <label class="full">Výsledek<textarea name="vysledek">${escapeHtml(item.vysledek || "")}</textarea></label>
+          <label class="full">Přetrvávající rizika<textarea name="pretrvavajiciRizika">${escapeHtml(item.pretrvavajiciRizika || "")}</textarea></label>
+          <label class="full">Poučení pro praxi<textarea name="pouceniProPraxi">${escapeHtml(item.pouceniProPraxi || "")}</textarea></label>
+          <div class="inline-actions full">
+            ${existing ? `<button class="btn-ghost" type="button" id="deleteCaseStudyBtn">Smazat studii</button>` : ``}
+            <button class="btn-danger" type="submit">${existing ? "Uložit změny" : "Uložit případovou studii"}</button>
+          </div>
+        </form>
+      `);
+      const form = document.getElementById("caseStudyForm");
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const payload = {
+          id: item.id,
+          datum: formData.get("datum"),
+          caseId: formData.get("caseId"),
+          title: formData.get("title"),
+          author: formData.get("author"),
+          kontext: formData.get("kontext"),
+          vstupniSituace: formData.get("vstupniSituace"),
+          hlavniCileIp: formData.get("hlavniCileIp"),
+          prubehPodpory: formData.get("prubehPodpory"),
+          zapojeneOdbornosti: formData.get("zapojeneOdbornosti"),
+          zlomoveMomenty: formData.get("zlomoveMomenty"),
+          vysledek: formData.get("vysledek"),
+          pretrvavajiciRizika: formData.get("pretrvavajiciRizika"),
+          pouceniProPraxi: formData.get("pouceniProPraxi")
+        };
+        const list = state.evaluationActivities.caseStudies;
+        const index = list.findIndex(row => row.id === payload.id);
+        if (index >= 0) list[index] = payload; else list.unshift(payload);
+        selectedCaseStudyId = payload.id;
+        selectedEvaluationTab = "caseStudy";
+        currentView = "evaluations";
+        modalEl.close();
+        saveState();
+        render();
+      });
+      document.getElementById("deleteCaseStudyBtn")?.addEventListener("click", () => deleteCaseStudy(item.id));
     }
 
     function exportEvaluationData() {
@@ -5655,6 +7062,68 @@
           tema: item.tema,
           zapis: item.zapis
         })),
+        evaluationActivities: {
+          familyInterviews: state.evaluationActivities.familyInterviews.map(item => ({
+            id: item.id,
+            datum: item.datum,
+            typ: item.typ,
+            evaluator: item.evaluator,
+            caseId: item.caseId,
+            memberId: item.memberId,
+            participantIds: item.participantIds,
+            participantNames: item.participantNames,
+            coSeZmenilo: item.coSeZmenilo,
+            coPomohlo: item.coPomohlo,
+            coBrzdilo: item.coBrzdilo,
+            vnimaniSpoluprace: item.vnimaniSpoluprace,
+            coZustavaOtevrene: item.coZustavaOtevrene,
+            dalsiVyvoj: item.dalsiVyvoj
+          })),
+          workerInterviews: state.evaluationActivities.workerInterviews.map(item => ({
+            id: item.id,
+            datum: item.datum,
+            workerId: item.workerId,
+            workerName: item.workerName,
+            workerRole: item.workerRole,
+            evaluator: item.evaluator,
+            coByloKlicove: item.coByloKlicove,
+            coFungovaloMdt: item.coFungovaloMdt,
+            coNefungovalo: item.coNefungovalo,
+            roleCaseManagementu: item.roleCaseManagementu,
+            systemoveBariery: item.systemoveBariery,
+            doporuceni: item.doporuceni
+          })),
+          partnerInterviews: state.evaluationActivities.partnerInterviews.map(item => ({
+            id: item.id,
+            datum: item.datum,
+            caseId: item.caseId,
+            partnerName: item.partnerName,
+            instituce: item.instituce,
+            evaluator: item.evaluator,
+            vnimaniSpoluprace: item.vnimaniSpoluprace,
+            srozumitelnostRoli: item.srozumitelnostRoli,
+            navaznostOspodIpod: item.navaznostOspodIpod,
+            coFungovalo: item.coFungovalo,
+            coByloSlabe: item.coByloSlabe,
+            doporuceni: item.doporuceni
+          })),
+          caseStudies: state.evaluationActivities.caseStudies.map(item => ({
+            id: item.id,
+            datum: item.datum,
+            caseId: item.caseId,
+            title: item.title,
+            author: item.author,
+            kontext: item.kontext,
+            vstupniSituace: item.vstupniSituace,
+            hlavniCileIp: item.hlavniCileIp,
+            prubehPodpory: item.prubehPodpory,
+            zapojeneOdbornosti: item.zapojeneOdbornosti,
+            zlomoveMomenty: item.zlomoveMomenty,
+            vysledek: item.vysledek,
+            pretrvavajiciRizika: item.pretrvavajiciRizika,
+            pouceniProPraxi: item.pouceniProPraxi
+          }))
+        },
         cases: state.cases.map(item => ({
         rodinaId: item.id,
         karta: item.karta,
