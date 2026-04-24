@@ -1,0 +1,1033 @@
+import React, { useState } from 'react';
+import { 
+  Users, Home, FileText, ClipboardList, Activity, 
+  Settings, Download, Plus, ChevronRight, User, 
+  Calendar, CheckCircle, AlertTriangle, ArrowRight,
+  MessageSquare, X, Save, Lock, UsersRound, FileCheck,
+  BookOpen, UserPlus, Trash2, Edit3
+} from 'lucide-react';
+
+// --- ČÍSELNÍKY ---
+const CISELNIKY = {
+  stav_pripadu: ['aktivní', 'pozastavený', 'ukončený'],
+  zdroj_doporuceni: ['OSPOD', 'škola', 'samopříchod', 'soud', 'jiná služba', 'zdravotnictví'],
+  typ_zakazky: ['výchovné obtíže', 'konflikt / porozvodová situace', 'finance / dluhy', 'bydlení', 'škola / dítě', 'kombinovaná zakázka'],
+  mira_ohrozeni: ['nízké', 'střední', 'vysoké'],
+  skala_0_4: [
+    { value: 0, label: '0 = kritický stav' },
+    { value: 1, label: '1 = výrazný problém' },
+    { value: 2, label: '2 = částečně funkční s podporou' },
+    { value: 3, label: '3 = převážně funkční' },
+    { value: 4, label: '4 = stabilní / zvládá' }
+  ],
+  mira_nadeje: ['vůbec', 'spíš ne', 'částečně ano', 'spíš ano', 'ano, výrazně'],
+  typ_hodnoceni: ['vstupní', 'trimesicni', 'mimoradne', 'vystupni'],
+  mira_splneni_cile: ['nesplneno', 'castecne_splneno', 'splneno'],
+  role_pracovnika: ['socialni_pracovnik', 'case_manager', 'psycholog', 'mediator', 'terapeut', 'facilitator', 'pravnik', 'vedouci_sluzby', 'odborny_garant', 'peer_konzultant', 'lektor'],
+  typ_intervence: ['vstupni_setreni', 'socialni_poradenstvi', 'psychologicka_podpora', 'mediace', 'case_management', 'nacvik_dovednosti', 'doprovod', 'krizova_intervence', 'poradenstvi', 'svepomocna_skupina', 'vzdelavaci_modul', 'administrativni_podpora', 'jine'],
+  forma_intervence: ['teren', 'ambulance', 'telefon', 'online', 'jine'],
+  typ_setkani: ['MDT', 'pripadova_konference', 'jednani_s_OSPOD', 'sitovani', 'interna_konzultace'],
+  duvod_ukonceni_pripadu: ['naplnění cílů', 'předčasné ukončení', 'předání jiné službě', 'ztráta kontaktu', 'jiný důvod'],
+  postaveni_trh_prace: ['zaměstnaný', 'nezaměstnaný', 'osoba mimo trh práce (student, dítě, důchodce)', 'OSVČ', 'na mateřské/rodičovské dovolené', 'jiné'],
+  vzdelani: ['předškolní / neukončené základní', 'základní', 'střední bez maturity', 'střední s maturitou', 'vyšší odborné', 'vysokoškolské', 'bez vzdělání'],
+  oblast_cile: ['rodicovske_kompetence', 'kazdodenni_fungovani_rodiny', 'konflikt_mezi_rodici', 'psychicka_zatez_ditete', 'finance_a_hospodareni', 'bydleni', 'orientace_v_systemu_podpory', 'samostatnost_pri_jednani_s_institucemi'],
+  priorita: ['1', '2', '3']
+};
+
+// --- MOCK DATA ---
+const initialData = [
+  {
+    id: 'R-2026-001',
+    osobni: { 
+      jmeno: 'Rodina Dvořákova', 
+      telefon: '777 123 456', 
+      adresa: 'Nová 12, Valašské Meziříčí',
+      clenove: [
+        { id: 'CLEN-01', jmeno: 'Jan', prijmeni: 'Dvořák', datumNarozeni: '1982-05-14', trvaleBydliste: 'Nová 12, VM', postaveniTrhPrace: 'zaměstnaný', vzdelani: 'střední bez maturity', znevyhodneni: 'žádné', datumVstupu: '2026-03-01' },
+        { id: 'CLEN-02', jmeno: 'Eva', prijmeni: 'Dvořáková', datumNarozeni: '1985-08-22', trvaleBydliste: 'Nová 12, VM', postaveniTrhPrace: 'nezaměstnaný', vzdelani: 'základní', znevyhodneni: 'dlouhodobá nezaměstnanost', datumVstupu: '2026-03-01' },
+        { id: 'CLEN-03', jmeno: 'Tomáš', prijmeni: 'Dvořák', datumNarozeni: '2015-02-10', trvaleBydliste: 'Nová 12, VM', postaveniTrhPrace: 'osoba mimo trh práce (student, dítě, důchodce)', vzdelani: 'předškolní / neukončené základní', znevyhodneni: 'SVP', datumVstupu: '2026-03-01' }
+      ]
+    },
+    karta: { 
+      datumZalozeni: '2026-03-01', stav: 'aktivní', kp: 'Jan Novák', caseManager: 'Petr Svoboda',
+      typZakazky: 'kombinovaná zakázka', pocetDeti: 2, miraOhrozeni: 'vysoké',
+      zdrojDoporuceni: 'OSPOD', ospodAnoNe: 'ano', vazbaNaIpod: 'ano'
+    },
+    vstup: {
+      datum: '2026-03-05',
+      popisSituacePracovnik: 'Rodina v bytové nouzi, vysoká eskalace konfliktů mezi rodiči před dětmi.',
+      popisSituaceRodina: 'Nemáme peníze a pořád se hádáme.',
+      delkaTrvaniProblemu: 'Více než 2 roky',
+      silneStranky: 'Oba rodiče mají zájem o děti, matka nastoupila do zaměstnání.',
+      rizikaProDite: 'Přímá přítomnost u hádek, hrozba ztráty bydlení.',
+      rizikaProRodinu: 'Vystěhování z bytu, exekuce.',
+      nutnostOkamzitehoReseni: 'ano',
+      poznamkaPracovnika: 'Doporučuji urychleně kontaktovat dluhovou poradnu.',
+      skore: { rodicovske_kompetence: 1, kazdodenni_fungovani_rodiny: 2, konflikt_mezi_rodici: 0, psychicka_zatez_ditete: 1, finance_a_hospodareni: 2, bydleni: 3, orientace_v_systemu_podpory: 1, samostatnost_pri_jednani_s_institucemi: 1 },
+      komentare: { rodicovske_kompetence: 'Nedůslednost.', kazdodenni_fungovani_rodiny: 'Základ funguje.', konflikt_mezi_rodici: 'Kritické.', psychicka_zatez_ditete: 'Děti pláčou.', finance_a_hospodareni: 'Exekuce.', bydleni: 'Ubytovna.', orientace_v_systemu_podpory: 'Nerozumí dávkám.', samostatnost_pri_jednani_s_institucemi: 'Potřebují doprovod.' },
+      pohledRodinyHlavniProblem: 'Nedostatek peněz', pohledRodinyCoZmenitJakoPrvni: 'Bydlení', pohledRodinyOcekavaniOdSluzby: 'Pomoc s úřady', pohledRodinyMiraNadejeNaZmenu: 'částečně ano'
+    },
+    plany: [
+      {
+        id: 'IP-001', verze: 'IP1', stav: 'aktivní', datumZalozeni: '2026-03-10', poznamka: 'Základní stabilizační plán IP.', revize: [],
+        cile: [
+          {
+            id: 'CIL-01', oblast: 'konflikt_mezi_rodici', priorita: '1', stav: 'probiha', text: 'Snížení eskalace konfliktů před dětmi', 
+            problem: 'Hádky před dětmi', vychoziStavPopis: 'Rodiče na sebe křičí denně', cilovyStavPopis: 'Rodiče se dohodnou na time-outu',
+            meritelnyUkazatel: 'Záznamy z mediace', dukazNaplneni: 'Smlouva o komunikaci', krok1: 'Mediace', krok2: 'Trénink s psychologem',
+            podporaSluzby: 'Zprostředkování setkání', odbornosti: ['mediator', 'psycholog'], odpovednaOsoba: 'Jan Novák',
+            vychoziSkore: 0, ciloveSkore: 2, terminSplneni: '2026-06-10'
+          }
+        ]
+      }
+    ],
+    hodnoceni: [
+       { id: 'H-01', cilId: 'CIL-01', datum: '2026-04-10', typ: 'trimesicni', hodnotitel: 'Jan Novák', skoreMinule: 0, skoreAktualni: 1, zmena: 1, dukaz: 'Rodiče zavedli pravidlo timeoutu při hádkách. K hádkám dochází, ale děti nejsou přímo u toho.', coPomohlo: 'Ochota obou rodičů', coBrdilo: 'Stres z financí', miraSplneni: 'castecne_splneno', potrebaUpravy: 'ne', dalsiKrok: 'Pokračovat v mediaci', odpovednaOsoba: 'Jan Novák', terminDalsihoKroku: '2026-05-10', datumDalsihoHodnoceni: '2026-07-10' }
+    ],
+    intervence: [
+      { id: 'INT-01', cilId: 'CIL-01', datum: '2026-03-12', pracovnik: 'Jan Novák', role: 'socialni_pracovnik', typ: 'socialni_poradenstvi', forma: 'teren', delka: 60, popis: 'Návštěva v rodině, zjištění aktuální situace kolem hádek.', vysledek: 'Domluvena pravidla komunikace.', dalsiKrok: 'Další schůzka za týden.' }
+    ],
+    setkani: [
+      { id: 'SET-01', cilId: 'CIL-01', datum: '2026-03-20', typ: 'MDT', ucastnici: 'KP, OSPOD, školní psycholog', rizika: 'Vysoké napětí', dohody: 'Škola zajistí dětem podpůrné sezení. Služba bude pracovat s rodiči na mediaci.', ukoly: 'Psycholog kontaktuje rodinu', terminKontroly: '2026-04-20', vazbaNaIp: 'ano', vazbaNaIpod: 'ano' }
+    ],
+    vystup: null,
+    ukonceni: null
+  }
+];
+
+export default function App() {
+  const [currentView, setCurrentView] = useState('dashboard');
+  const [cases, setCases] = useState(initialData);
+  const [selectedCaseId, setSelectedCaseId] = useState(null);
+  const [isNewFamilyModalOpen, setIsNewFamilyModalOpen] = useState(false);
+
+  const selectedCase = cases.find(c => c.id === selectedCaseId);
+
+  const navigateTo = (view, caseId = null) => {
+    setCurrentView(view);
+    if (caseId) setSelectedCaseId(caseId);
+  };
+
+  const handleExport = () => {
+    const exportData = cases.map(c => {
+      const { osobni, ...evalData } = c; 
+      return evalData;
+    });
+    alert("Byl spuštěn export pseudonymizovaných dat pro evaluaci (ve formátu JSON).\nOsobní údaje vč. členů rodiny byly odstřiženy.");
+    console.log("Exportovaná data pro evaluátory:", JSON.stringify(exportData, null, 2));
+  };
+
+  const handleAddRecord = (caseId, recordType, newRecord) => {
+    setCases(prevCases => prevCases.map(c => {
+      if (c.id === caseId) {
+        const idPrefix = recordType.substring(0, 3).toUpperCase();
+        const generatedId = `${idPrefix}-${Date.now().toString().slice(-4)}`;
+        return { ...c, [recordType]: [...c[recordType], { ...newRecord, id: generatedId }] };
+      }
+      return c;
+    }));
+  };
+
+  const handleSaveVstup = (caseId, vstupData) => {
+    setCases(prevCases => prevCases.map(c => c.id === caseId ? { ...c, vstup: { ...vstupData, id: `VST-${Date.now()}` } } : c));
+  };
+
+  const handleAddPlan = (caseId, planData) => {
+    setCases(prevCases => prevCases.map(c => {
+      if (c.id === caseId) {
+        return { ...c, plany: [...c.plany, { ...planData, id: `IP-${Date.now()}`, cile: [], revize: [] }] };
+      }
+      return c;
+    }));
+  };
+
+  const handleAddRevize = (caseId, planId, revizeData) => {
+    setCases(prevCases => prevCases.map(c => {
+      if (c.id === caseId) {
+        const updatedPlany = c.plany.map(p => p.id === planId ? { ...p, revize: [...p.revize, { ...revizeData, id: `REV-${Date.now()}` }] } : p);
+        return { ...c, plany: updatedPlany };
+      }
+      return c;
+    }));
+  };
+
+  const handleAddCil = (caseId, planId, cilData) => {
+    setCases(prevCases => prevCases.map(c => {
+      if (c.id === caseId) {
+        const updatedPlany = c.plany.map(p => p.id === planId ? { ...p, cile: [...p.cile, { ...cilData, id: `CIL-${Date.now().toString().slice(-4)}`, stav: 'probiha' }] } : p);
+        return { ...c, plany: updatedPlany };
+      }
+      return c;
+    }));
+  };
+
+  const handleCloseCase = (caseId, vystupData, ukonceniData) => {
+    setCases(prevCases => prevCases.map(c => {
+      if (c.id === caseId) {
+        return { ...c, vystup: { ...vystupData, id: `VYS-${Date.now()}` }, ukonceni: { ...ukonceniData, id: `UKO-${Date.now()}` }, karta: { ...c.karta, stav: 'ukončený' } };
+      }
+      return c;
+    }));
+  };
+
+  const handleCreateFamily = (newFamilyData) => {
+    const newId = `R-2026-${String(cases.length + 1).padStart(3, '0')}`;
+    const newCase = {
+      id: newId,
+      osobni: { jmeno: newFamilyData.nazevRodiny, telefon: newFamilyData.telefon, adresa: newFamilyData.adresa, clenove: newFamilyData.clenove },
+      karta: {
+        datumZalozeni: newFamilyData.datumZalozeni, stav: 'aktivní', kp: newFamilyData.kp, caseManager: newFamilyData.caseManager,
+        typZakazky: newFamilyData.typZakazky, pocetDeti: newFamilyData.clenove.filter(c => c.postaveniTrhPrace.includes('dítě')).length,
+        miraOhrozeni: newFamilyData.miraOhrozeni, zdrojDoporuceni: newFamilyData.zdrojDoporuceni, ospodAnoNe: newFamilyData.ospodAnoNe, vazbaNaIpod: newFamilyData.vazbaNaIpod
+      },
+      vstup: null, plany: [], intervence: [], setkani: [], hodnoceni: [], vystup: null, ukonceni: null
+    };
+    setCases([newCase, ...cases]);
+    setIsNewFamilyModalOpen(false);
+    navigateTo('case_detail', newId);
+  };
+
+  return (
+    <div className="flex h-screen bg-gray-100 font-sans text-gray-800">
+      {/* SIDEBAR */}
+      <div className="w-64 bg-slate-800 text-white flex flex-col shadow-lg z-10 shrink-0">
+        <div className="p-5 font-bold text-xl border-b border-slate-700 flex items-center gap-2"><Activity className="text-blue-400" />Mosty v rodině</div>
+        <nav className="flex-1 p-4 space-y-2">
+          <SidebarItem icon={<Home/>} label="Dashboard" active={currentView === 'dashboard'} onClick={() => navigateTo('dashboard')} />
+          <SidebarItem icon={<Users/>} label="Rodiny a Případy" active={currentView === 'cases' || currentView === 'case_detail'} onClick={() => navigateTo('cases')} />
+          <SidebarItem icon={<Download/>} label="Evaluační export" active={currentView === 'export'} onClick={handleExport} />
+        </nav>
+      </div>
+
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex flex-col overflow-hidden relative min-w-0">
+        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-10 shrink-0">
+          <h1 className="text-xl font-semibold text-gray-800 truncate pr-4">
+            {currentView === 'dashboard' && 'Přehled systému'}
+            {currentView === 'cases' && 'Seznam případů (Rodin)'}
+            {currentView === 'case_detail' && selectedCase && `Detail případu: ${selectedCase.osobni.jmeno} (${selectedCase.id})`}
+          </h1>
+          <div className="flex items-center gap-4 shrink-0">
+            <span className="text-sm font-medium text-gray-500">Petr Svoboda (CM)</span>
+            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold shadow">PS</div>
+          </div>
+        </header>
+
+        <main className="flex-1 overflow-auto p-6">
+          {currentView === 'dashboard' && <DashboardView cases={cases} onNavigate={navigateTo} onNewFamily={() => setIsNewFamilyModalOpen(true)} />}
+          {currentView === 'cases' && <CasesView cases={cases} onNavigate={navigateTo} onNewFamily={() => setIsNewFamilyModalOpen(true)} />}
+          {currentView === 'case_detail' && selectedCase && (
+            <CaseDetailView 
+              caseData={selectedCase} 
+              onAddRecord={(type, data) => handleAddRecord(selectedCase.id, type, data)} 
+              onCloseCase={(vystup, ukonceni) => handleCloseCase(selectedCase.id, vystup, ukonceni)}
+              onSaveVstup={(data) => handleSaveVstup(selectedCase.id, data)}
+              onAddPlan={(data) => handleAddPlan(selectedCase.id, data)}
+              onAddRevize={(planId, data) => handleAddRevize(selectedCase.id, planId, data)}
+              onAddCil={(planId, data) => handleAddCil(selectedCase.id, planId, data)}
+            />
+          )}
+        </main>
+      </div>
+
+      {/* MODAL NOVÁ RODINA */}
+      {isNewFamilyModalOpen && (
+        <Modal title="Založení nového případu a evidence členů" onClose={() => setIsNewFamilyModalOpen(false)}>
+          <NewFamilyForm onSave={handleCreateFamily} onCancel={() => setIsNewFamilyModalOpen(false)} />
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+// --- GLOBAL UI COMPONENTS ---
+function SidebarItem({ icon, label, active, onClick }) {
+  return (
+    <button onClick={onClick} className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${active ? 'bg-blue-600 text-white shadow-md' : 'text-slate-300 hover:bg-slate-700 hover:text-white'}`}>
+      {React.cloneElement(icon, { size: 20 })} <span className="font-medium">{label}</span>
+    </button>
+  );
+}
+
+function Modal({ title, onClose, children }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+        <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-xl shrink-0">
+          <h2 className="text-xl font-bold text-gray-800">{title}</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-md transition"><X size={24} /></button>
+        </div>
+        <div className="p-6 overflow-y-auto flex-1 bg-white rounded-b-xl">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+// --- VIEWS ---
+function DashboardView({ cases, onNavigate, onNewFamily }) {
+  const activeCases = cases.filter(c => c.karta.stav === 'aktivní').length;
+  const pocetKa3Aktivit = cases.reduce((acc, c) => acc + c.intervence.filter(i => ['svepomocna_skupina', 'vzdelavaci_modul'].includes(i.typ)).length, 0);
+
+  return (
+    <div className="space-y-6 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <StatCard title="Aktivní případy" value={activeCases} icon={<Users className="text-blue-500" />} />
+        <StatCard title="Kritické ohrožení" value={cases.filter(c => c.karta.miraOhrozeni === 'vysoké').length} icon={<AlertTriangle className="text-red-500" />} />
+        <StatCard title="Všechny intervence" value={cases.reduce((acc, c) => acc + c.intervence.length, 0)} icon={<MessageSquare className="text-green-500" />} />
+        <StatCard title="Setkání (MDT)" value={cases.reduce((acc, c) => acc + (c.setkani ? c.setkani.length : 0), 0)} icon={<UsersRound className="text-purple-500" />} />
+        <StatCard title="Účast v KA3 (Skupiny)" value={pocetKa3Aktivit} icon={<BookOpen className="text-indigo-500" />} />
+      </div>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h2 className="text-lg font-semibold mb-4">Rychlé akce</h2>
+        <div className="flex gap-4">
+          <button onClick={onNewFamily} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition shadow-sm"><Plus size={18} /> Nová rodina do evidence</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ title, value, icon }) {
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex items-center gap-3">
+      <div className="p-2.5 bg-gray-50 rounded-lg border border-gray-100 shadow-inner">{icon}</div>
+      <div><p className="text-xs text-gray-500 font-medium leading-tight mb-1">{title}</p><p className="text-2xl font-bold text-gray-800 leading-none">{value}</p></div>
+    </div>
+  );
+}
+
+function CasesView({ cases, onNavigate, onNewFamily }) {
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 max-w-6xl mx-auto">
+      <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-xl">
+        <input type="text" placeholder="Hledat případ..." className="pl-4 pr-10 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none w-72" />
+        <button onClick={onNewFamily} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 shadow-sm"><Plus size={18} /> Nová rodina</button>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-white border-b border-gray-200 text-xs text-gray-500 uppercase tracking-wider">
+              <th className="p-4 font-semibold">ID Případu</th><th className="p-4 font-semibold">Název rodiny</th><th className="p-4 font-semibold">Stav</th>
+              <th className="p-4 font-semibold">Klíčový pracovník</th><th className="p-4 font-semibold">Počet členů</th><th className="p-4 font-semibold text-right">Akce</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {cases.map(c => (
+              <tr key={c.id} className="hover:bg-blue-50/50 transition cursor-pointer group" onClick={() => onNavigate('case_detail', c.id)}>
+                <td className="p-4 font-mono text-sm font-medium text-blue-600">{c.id}</td>
+                <td className="p-4 font-semibold text-gray-800">{c.osobni.jmeno}</td>
+                <td className="p-4"><span className={`px-2.5 py-1 rounded-md text-xs font-medium border ${c.karta.stav === 'aktivní' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-gray-100 text-gray-700 border-gray-300'}`}>{c.karta.stav}</span></td>
+                <td className="p-4 text-gray-600 text-sm">{c.karta.kp}</td>
+                <td className="p-4 text-gray-600 text-sm font-medium">{c.osobni.clenove?.length || 0} osob</td>
+                <td className="p-4 text-right"><button className="text-gray-400 group-hover:text-blue-600 transition"><ChevronRight size={20} /></button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function NewFamilyForm({ onSave, onCancel }) {
+  const [formData, setFormData] = useState({
+    nazevRodiny: '', telefon: '', adresa: '', datumZalozeni: new Date().toISOString().split('T')[0],
+    kp: '', caseManager: '', typZakazky: CISELNIKY.typ_zakazky[0], miraOhrozeni: 'střední',
+    zdrojDoporuceni: CISELNIKY.zdroj_doporuceni[0], ospodAnoNe: 'ne', vazbaNaIpod: 'ne', clenove: []
+  });
+  const handleBaseChange = (e) => setFormData(prev => ({...prev, [e.target.name]: e.target.value}));
+  const addClen = () => setFormData(prev => ({...prev, clenove: [...prev.clenove, { id: `TEMP-${Date.now()}`, jmeno: '', prijmeni: '', datumNarozeni: '', trvaleBydliste: formData.adresa, postaveniTrhPrace: CISELNIKY.postaveni_trh_prace[0], vzdelani: CISELNIKY.vzdelani[1], znevyhodneni: '', datumVstupu: formData.datumZalozeni }]}));
+  const removeClen = (id) => setFormData(prev => ({...prev, clenove: prev.clenove.filter(c => c.id !== id)}));
+  const handleClenChange = (id, field, value) => setFormData(prev => ({...prev, clenove: prev.clenove.map(c => c.id === id ? { ...c, [field]: value } : c)}));
+  const handleSubmit = (e) => { e.preventDefault(); if (formData.clenove.length === 0) return alert("Zadejte alespoň jednoho člena rodiny."); onSave(formData); };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <div>
+        <h3 className="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2">1. Identifikace případu</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div><label className="block text-sm font-semibold text-gray-700 mb-1">Název rodiny (Případu) *</label><input type="text" name="nazevRodiny" required value={formData.nazevRodiny} onChange={handleBaseChange} className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" /></div>
+          <div><label className="block text-sm font-semibold text-gray-700 mb-1">Datum založení *</label><input type="date" name="datumZalozeni" required value={formData.datumZalozeni} onChange={handleBaseChange} className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" /></div>
+        </div>
+        <div className="grid grid-cols-3 gap-4 mt-4">
+          <div><label className="block text-sm font-semibold text-gray-700 mb-1">Klíčový pracovník (KP) *</label><input type="text" name="kp" required value={formData.kp} onChange={handleBaseChange} className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" /></div>
+          <div><label className="block text-sm font-semibold text-gray-700 mb-1">Case Manager</label><input type="text" name="caseManager" value={formData.caseManager} onChange={handleBaseChange} className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" /></div>
+          <div><label className="block text-sm font-semibold text-gray-700 mb-1">Míra ohrožení dítěte</label><select name="miraOhrozeni" value={formData.miraOhrozeni} onChange={handleBaseChange} className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">{CISELNIKY.mira_ohrozeni.map(o => <option key={o} value={o}>{o.toUpperCase()}</option>)}</select></div>
+        </div>
+      </div>
+      <div>
+        <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-2">
+          <h3 className="text-lg font-bold text-blue-900">2. Evidence členů rodiny</h3>
+          <button type="button" onClick={addClen} className="flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-700 font-bold text-sm rounded-lg hover:bg-blue-200"><UserPlus size={16} /> Přidat člena</button>
+        </div>
+        <div className="space-y-4">
+          {formData.clenove.map((clen, i) => (
+            <div key={clen.id} className="bg-gray-50 border border-gray-200 rounded-xl p-5 relative group">
+              <button type="button" onClick={() => removeClen(clen.id)} className="absolute top-4 right-4 text-gray-400 hover:text-red-600"><Trash2 size={20} /></button>
+              <h4 className="font-bold text-gray-700 mb-4">Člen #{i + 1}</h4>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div><label className="block text-xs font-semibold text-gray-600 mb-1">Jméno *</label><input type="text" required value={clen.jmeno} onChange={(e) => handleClenChange(clen.id, 'jmeno', e.target.value)} className="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500" /></div>
+                <div><label className="block text-xs font-semibold text-gray-600 mb-1">Příjmení *</label><input type="text" required value={clen.prijmeni} onChange={(e) => handleClenChange(clen.id, 'prijmeni', e.target.value)} className="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500" /></div>
+                <div><label className="block text-xs font-semibold text-gray-600 mb-1">Datum narození *</label><input type="date" required value={clen.datumNarozeni} onChange={(e) => handleClenChange(clen.id, 'datumNarozeni', e.target.value)} className="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500" /></div>
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div><label className="block text-xs font-semibold text-gray-600 mb-1">Postavení trh práce *</label><select required value={clen.postaveniTrhPrace} onChange={(e) => handleClenChange(clen.id, 'postaveniTrhPrace', e.target.value)} className="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500">{CISELNIKY.postaveni_trh_prace.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
+                <div><label className="block text-xs font-semibold text-gray-600 mb-1">Vzdělání *</label><select required value={clen.vzdelani} onChange={(e) => handleClenChange(clen.id, 'vzdelani', e.target.value)} className="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500">{CISELNIKY.vzdelani.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
+                <div><label className="block text-xs font-semibold text-gray-600 mb-1">Znevýhodnění</label><input type="text" value={clen.znevyhodneni} onChange={(e) => handleClenChange(clen.id, 'znevyhodneni', e.target.value)} className="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500" /></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="pt-4 flex justify-end gap-3 sticky bottom-0 bg-white py-4 border-t border-gray-200">
+        <button type="button" onClick={onCancel} className="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Zrušit</button>
+        <button type="submit" className="px-6 py-2.5 text-sm font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 flex items-center gap-2"><Save size={18} /> Uložit a založit případ</button>
+      </div>
+    </form>
+  );
+}
+
+function CaseDetailView({ caseData, onAddRecord, onCloseCase, onSaveVstup, onAddPlan, onAddRevize, onAddCil }) {
+  const [activeTab, setActiveTab] = useState('karta');
+  const tabs = [
+    { id: 'karta', label: 'Karta případu a Osobní údaje', icon: <User size={16} /> },
+    { id: 'vstup', label: 'Vstupní hodnocení', icon: <FileText size={16} /> },
+    { id: 'plany', label: 'Individuální plány (IP)', icon: <ClipboardList size={16} /> },
+    { id: 'intervence', label: 'Intervence a Setkání', icon: <MessageSquare size={16} /> },
+    { id: 'hodnoceni', label: 'Pravidelné hodnocení', icon: <Activity size={16} /> },
+    { id: 'vystup', label: 'Výstup a Ukončení', icon: <Lock size={16} /> },
+  ];
+
+  return (
+    <div className="space-y-6 max-w-6xl mx-auto">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex justify-between items-start">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800">{caseData.osobni.jmeno}</h2>
+          <div className="text-gray-500 mt-2 flex gap-4 text-sm">
+            <span className="flex items-center gap-1 font-mono bg-gray-100 px-2 py-0.5 rounded text-gray-700 border border-gray-200">{caseData.id}</span>
+            <span><strong>Tel:</strong> {caseData.osobni.telefon || 'Nezadáno'}</span>
+          </div>
+        </div>
+        <div className="text-right flex flex-col items-end">
+          <div className={`inline-block px-3 py-1 rounded-md text-sm font-bold border mb-2 ${caseData.karta.stav === 'aktivní' ? 'bg-green-100 text-green-800 border-green-200' : 'bg-gray-200 text-gray-800 border-gray-300'}`}>Stav: {caseData.karta.stav.toUpperCase()}</div>
+          <div className="text-sm text-gray-600 bg-gray-50 px-3 py-1.5 rounded border border-gray-200 shadow-sm">Case manager: <strong className="text-blue-700">{caseData.karta.caseManager}</strong></div>
+        </div>
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+        <div className="flex border-b border-gray-200 bg-gray-50 px-2 overflow-x-auto hide-scrollbar">
+          {tabs.map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${activeTab === tab.id ? 'border-blue-600 text-blue-700 bg-white shadow-sm' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-200'}`}>
+              {tab.icon} {tab.label}
+            </button>
+          ))}
+        </div>
+        <div className="p-6">
+          {activeTab === 'karta' && <TabKarta karta={caseData.karta} clenove={caseData.osobni.clenove} />}
+          {activeTab === 'vstup' && <TabVstup vstup={caseData.vstup} onSave={onSaveVstup} />}
+          {activeTab === 'plany' && <TabPlany plany={caseData.plany} onAddPlan={onAddPlan} onAddRevize={onAddRevize} onAddCil={onAddCil} />}
+          {activeTab === 'intervence' && <TabIntervence intervence={caseData.intervence} setkani={caseData.setkani} plany={caseData.plany} onSaveIntervence={(data) => onAddRecord('intervence', data)} onSaveSetkani={(data) => onAddRecord('setkani', data)} />}
+          {activeTab === 'hodnoceni' && <TabHodnoceni hodnoceni={caseData.hodnoceni} plany={caseData.plany} onSave={(data) => onAddRecord('hodnoceni', data)} />}
+          {activeTab === 'vystup' && <TabVystup caseData={caseData} onSave={(vystup, ukonceni) => onCloseCase(vystup, ukonceni)} />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --- ZÁLOŽKY DETAILU ---
+function TabKarta({ karta, clenove }) {
+  return (
+    <div className="space-y-8">
+      <div className="grid grid-cols-2 gap-10">
+        <div>
+          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 border-b pb-2">Systémové údaje</h3>
+          <ul className="space-y-4 text-sm">
+            <li className="flex justify-between"><span className="text-gray-500">Založeno:</span> <strong className="text-gray-800">{karta.datumZalozeni}</strong></li>
+            <li className="flex justify-between"><span className="text-gray-500">KP:</span> <strong className="text-gray-800">{karta.kp}</strong></li>
+            <li className="flex justify-between"><span className="text-gray-500">Typ:</span> <strong className="text-gray-800">{karta.typZakazky}</strong></li>
+            <li className="flex justify-between"><span className="text-gray-500">Zdroj:</span> <strong className="text-blue-700 bg-blue-50 px-2 rounded border border-blue-100">{karta.zdrojDoporuceni}</strong></li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 border-b pb-2">Parametry rodiny</h3>
+          <ul className="space-y-4 text-sm">
+            <li className="flex justify-between"><span className="text-gray-500">Počet evidovaných dětí:</span> <strong className="text-gray-800">{karta.pocetDeti}</strong></li>
+            <li className="flex justify-between items-center"><span className="text-gray-500">Ohrožení dítěte:</span> <span className={`px-2 py-1 rounded font-bold border ${karta.miraOhrozeni === 'vysoké' ? 'bg-red-50 text-red-700 border-red-200' : 'bg-amber-50 text-amber-700 border-amber-200'}`}>{karta.miraOhrozeni.toUpperCase()}</span></li>
+            <li className="flex justify-between"><span className="text-gray-500">Vedení OSPOD:</span> <strong className="text-gray-800">{karta.ospodAnoNe === 'ano' ? 'Ano' : 'Ne'}</strong></li>
+            <li className="flex justify-between"><span className="text-gray-500">Návaznost na IPOD:</span> <strong className="text-gray-800">{karta.vazbaNaIpod === 'ano' ? 'Ano' : 'Ne'}</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div className="mt-8 border-t border-gray-200 pt-6">
+        <h3 className="text-lg font-bold text-gray-800 mb-4">Osobní údaje: Členové rodiny</h3>
+        {(!clenove || clenove.length === 0) ? <div className="text-gray-500 text-sm bg-gray-50 p-4 rounded border">Žádní členové.</div> : (
+          <div className="overflow-x-auto"><table className="w-full text-left text-sm border border-gray-200 rounded-lg overflow-hidden"><thead className="bg-gray-50 border-b border-gray-200 text-gray-600 font-semibold"><tr><th className="p-3">Jméno a Příjmení</th><th className="p-3">Narození</th><th className="p-3">Bydliště</th><th className="p-3">Trh práce</th><th className="p-3">Vzdělání</th><th className="p-3">Vstup</th></tr></thead><tbody className="divide-y divide-gray-100">{clenove.map(c => <tr key={c.id} className="hover:bg-blue-50/50"><td className="p-3 font-bold text-gray-800">{c.jmeno} {c.prijmeni}</td><td className="p-3 text-gray-600">{c.datumNarozeni}</td><td className="p-3 text-gray-600 truncate max-w-[150px]">{c.trvaleBydliste}</td><td className="p-3 text-gray-600 text-xs">{c.postaveniTrhPrace}</td><td className="p-3 text-gray-600 text-xs">{c.vzdelani}</td><td className="p-3 text-gray-600">{c.datumVstupu}</td></tr>)}</tbody></table></div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TabVstup({ vstup, onSave }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  if (!vstup) return (
+    <div className="p-8 text-center bg-gray-50 rounded-xl border border-dashed border-gray-300">
+      <FileText size={48} className="mx-auto text-gray-400 mb-4" />
+      <h3 className="text-xl font-bold text-gray-700 mb-2">Vstupní dotazník dosud nebyl vyplněn.</h3>
+      <button onClick={() => setIsModalOpen(true)} className="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-md hover:bg-blue-700 transition mt-4"><Plus size={20} className="inline mr-2"/>Vyplnit Vstupní dotazník</button>
+      {isModalOpen && <Modal title="Vstupní dotazník (Baseline) pro rodinu" onClose={() => setIsModalOpen(false)}><VstupForm onSave={(data) => { onSave(data); setIsModalOpen(false); }} onCancel={() => setIsModalOpen(false)} /></Modal>}
+    </div>
+  );
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold text-gray-800">Kvalitativní popis (Vstup)</h3><span className="text-sm bg-blue-50 border border-blue-200 text-blue-800 px-3 py-1.5 rounded-lg font-medium">Datum: {vstup.datum}</span></div>
+        
+        {/* NOVÉ ZOBRAZENÍ POZNÁMKY V UI */}
+        {vstup.poznamkaPracovnika && (
+          <div className="bg-blue-50/50 p-4 border border-blue-200 rounded-xl mb-4 shadow-sm text-sm">
+             <strong className="text-blue-900 block mb-1">Poznámka pracovníka:</strong>
+             <span className="text-blue-800 italic">{vstup.poznamkaPracovnika}</span>
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-gray-50 p-4 rounded-xl border border-gray-200"><h4 className="text-sm font-bold text-gray-700 mb-2">Popis (pracovník)</h4><p className="text-sm text-gray-600">{vstup.popisSituacePracovnik}</p></div>
+          <div className="bg-gray-50 p-4 rounded-xl border border-gray-200"><h4 className="text-sm font-bold text-gray-700 mb-2">Popis (rodina)</h4><p className="text-sm text-gray-600">{vstup.popisSituaceRodina}</p></div>
+          <div className="bg-green-50 p-4 rounded-xl border border-green-200"><h4 className="text-sm font-bold text-green-800 mb-2">Silné stránky</h4><p className="text-sm text-green-700">{vstup.silneStranky}</p></div>
+          <div className="bg-red-50 p-4 rounded-xl border border-red-200"><h4 className="text-sm font-bold text-red-800 mb-2">Rizika pro dítě</h4><p className="text-sm text-red-700">{vstup.rizikaProDite}</p></div>
+        </div>
+      </div>
+      <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+        <h4 className="font-bold text-blue-900 mb-4 border-b pb-2">Pohled rodiny a očekávání</h4>
+        <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
+          <p><strong>Hlavní problém:</strong> {vstup.pohledRodinyHlavniProblem}</p><p><strong>Co změnit jako první:</strong> {vstup.pohledRodinyCoZmenitJakoPrvni}</p>
+          <p><strong>Očekávání od služby:</strong> {vstup.pohledRodinyOcekavaniOdSluzby}</p><p><strong>Míra naděje na změnu:</strong> {vstup.pohledRodinyMiraNadejeNaZmenu}</p>
+        </div>
+      </div>
+      <div>
+        <h3 className="text-lg font-bold text-gray-800 mb-4">Baseline Skóre a Komentáře</h3>
+        <div className="space-y-3">
+          {Object.keys(vstup.skore).map((key) => (
+             <div key={key} className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm flex items-center justify-between">
+               <div className="w-1/3 font-medium text-gray-700 capitalize">{key.replace(/_/g, ' ')}</div>
+               <div className="w-1/2 text-sm text-gray-500 italic">{vstup.komentare[key] || '-'}</div>
+               <div className={`text-lg font-bold w-8 h-8 flex items-center justify-center rounded-full border ${vstup.skore[key] === 0 ? 'bg-red-100 text-red-700' : vstup.skore[key] === 4 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>{vstup.skore[key]}</div>
+             </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TabPlany({ plany, onAddPlan, onAddRevize, onAddCil }) {
+  const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
+  const [revizeModalData, setRevizeModalData] = useState(null);
+  const [cilModalData, setCilModalData] = useState(null);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center mb-6">
+        <div><h3 className="text-lg font-bold text-gray-800">Individuální plány rodiny</h3></div>
+        <button onClick={() => setIsPlanModalOpen(true)} className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"><Plus size={18} className="inline mr-1"/> Založit nový IP</button>
+      </div>
+
+      {plany.length === 0 && <div className="text-center py-8 bg-gray-50 rounded-xl border border-dashed text-gray-500">Žádné plány IP.</div>}
+      
+      {plany.map(plan => (
+        <div key={plan.id} className="border border-blue-200 rounded-xl overflow-hidden shadow-sm mb-6">
+          <div className="bg-blue-50/50 p-4 border-b border-blue-200 flex justify-between items-center">
+            <div>
+              <h4 className="font-bold text-blue-900 text-lg flex items-center gap-2"><ClipboardList size={20} className="text-blue-500"/>Plán {plan.verze} <span className="text-sm font-mono font-normal text-blue-600 bg-blue-100 px-2 py-0.5 rounded">{plan.id}</span></h4>
+              {/* NOVÉ: Zobrazení poznámky u IP */}
+              {plan.poznamka && <p className="text-xs text-blue-800 mt-2 bg-blue-100/50 px-2 py-1 rounded inline-block">Poznámka: {plan.poznamka}</p>}
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => setRevizeModalData({ planId: plan.id })} className="text-sm font-medium bg-white text-gray-700 px-3 py-1.5 rounded-lg border border-gray-300 hover:bg-gray-50 transition"><Edit3 size={16} className="inline mr-1"/>Zapsat revizi plánu</button>
+              <button onClick={() => setCilModalData({ planId: plan.id })} className="text-sm font-bold bg-white text-blue-700 px-3 py-1.5 rounded-lg border border-blue-300 hover:bg-blue-50 shadow-sm transition"><Plus size={16} className="inline mr-1"/>Přidat Cíl</button>
+            </div>
+          </div>
+          
+          {plan.revize && plan.revize.length > 0 && (
+            <div className="bg-amber-50 border-b border-blue-100 p-4">
+              <h5 className="text-xs font-bold text-amber-800 uppercase mb-2">Provedené revize plánu</h5>
+              {plan.revize.map(r => <div key={r.id} className="text-sm text-gray-700 mb-1"><span className="font-semibold">{r.datum}:</span> {r.coSeMeni} <i>(Důvod: {r.duvod})</i></div>)}
+            </div>
+          )}
+
+          <div className="p-5 bg-white space-y-4">
+            {plan.cile.length === 0 ? <div className="text-sm text-gray-500 italic">V tomto plánu nejsou definovány cíle.</div> : 
+              plan.cile.map(cil => (
+                <div key={cil.id} className="border border-gray-200 rounded-lg p-5 hover:border-blue-300 transition shadow-sm">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex gap-2 items-center">
+                      <span className="font-mono text-sm font-bold text-gray-700 bg-gray-100 px-2 py-1 rounded">{cil.id}</span>
+                      <span className="text-sm bg-gray-100 border border-gray-200 px-2 py-1 rounded font-medium text-gray-600">{cil.oblast.replace(/_/g, ' ')}</span>
+                    </div>
+                    <span className="text-xs px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 uppercase font-bold">{cil.stav}</span>
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-800 mb-2">{cil.text}</h4>
+                  
+                  {/* NOVÉ ZOBRAZENÍ V UI: Odbornosti a odpovědnost z Cíle IP */}
+                  <div className="mb-4 text-xs bg-purple-50 text-purple-800 p-2 rounded inline-flex gap-4 border border-purple-100">
+                     <span><strong>Odbornosti (MDT):</strong> {cil.odbornosti?.length > 0 ? cil.odbornosti.map(o => o.replace('_', ' ')).join(', ') : 'Nepřiřazeno'}</span>
+                     <span><strong>Odpovědná osoba:</strong> {cil.odpovednaOsoba || 'Nepřiřazeno'}</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 text-sm bg-gray-50 p-3 rounded border border-gray-100 mb-3">
+                    <div><span className="text-gray-500 block text-xs uppercase">Výchozí stav:</span> {cil.vychoziStavPopis}</div>
+                    <div><span className="text-gray-500 block text-xs uppercase">Cílový stav:</span> {cil.cilovyStavPopis}</div>
+                    <div className="col-span-2"><span className="text-gray-500 block text-xs uppercase">Kroky:</span> 1. {cil.krok1} | 2. {cil.krok2}</div>
+                  </div>
+                  <div className="flex items-center gap-6 text-sm mt-3">
+                    <div className="flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-lg border border-gray-200"><ArrowRight size={14}/> Výchozí skóre: <strong>{cil.vychoziSkore}</strong></div>
+                    <div className="flex items-center gap-1.5 bg-green-50 px-3 py-1 rounded-lg border border-green-200"><CheckCircle size={14} className="text-green-500"/> Cílové skóre: <strong className="text-green-700">{cil.ciloveSkore}</strong></div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      ))}
+
+      {isPlanModalOpen && <Modal title="Založit nový IP" onClose={() => setIsPlanModalOpen(false)}><PlanForm onSave={(data) => { onAddPlan(data); setIsPlanModalOpen(false); }} onCancel={() => setIsPlanModalOpen(false)} /></Modal>}
+      {revizeModalData && <Modal title="Revize Individuálního plánu" onClose={() => setRevizeModalData(null)}><RevizeForm onSave={(data) => { onAddRevize(revizeModalData.planId, data); setRevizeModalData(null); }} onCancel={() => setRevizeModalData(null)} /></Modal>}
+      {cilModalData && <Modal title="Detailní Cíl IP" onClose={() => setCilModalData(null)}><CilForm onSave={(data) => { onAddCil(cilModalData.planId, data); setCilModalData(null); }} onCancel={() => setCilModalData(null)} /></Modal>}
+    </div>
+  );
+}
+
+function TabIntervence({ intervence, setkani, plany, onSaveIntervence, onSaveSetkani }) {
+  const [modalType, setModalType] = useState(null);
+  return (
+    <div className="space-y-10">
+      <div>
+        <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-2">
+           <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2"><MessageSquare size={20} className="text-blue-500"/> Záznamy intervencí a KA3</h3>
+           <button onClick={() => setModalType('intervence')} className="flex items-center gap-2 px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"><Plus size={16} /> Zapsat intervenci</button>
+        </div>
+        {(!intervence || intervence.length === 0) ? <div className="p-6 text-center text-gray-500 bg-gray-50 rounded-xl border border-dashed">Zatím neproběhla žádná intervence.</div> : (
+          <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-sm"><table className="w-full text-left text-sm"><thead className="bg-gray-50 border-b border-gray-200 text-gray-600 uppercase text-xs"><tr><th className="p-3">Datum</th><th className="p-3">Pracovník</th><th className="p-3">Kontakt</th><th className="p-3">Cíl</th><th className="p-3 text-right">Délka</th></tr></thead><tbody className="divide-y divide-gray-100">{intervence.map(i => <tr key={i.id} className="hover:bg-gray-50"><td className="p-3 font-medium">{i.datum}</td><td className="p-3"><div className="font-semibold text-gray-800">{i.pracovnik}</div><div className="text-xs text-gray-500">{i.role.replace('_', ' ')}</div></td><td className="p-3"><div className={`font-medium ${['svepomocna_skupina', 'vzdelavaci_modul'].includes(i.typ) ? 'text-indigo-600' : 'text-gray-800'}`}>{i.typ.replace(/_/g, ' ')}</div><div className="text-xs text-gray-500 bg-gray-100 inline-block px-1.5 py-0.5 rounded mt-1">{i.forma}</div></td><td className="p-3"><span className="font-mono text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded border">{i.cilId}</span></td><td className="p-3 text-right">{i.delka} min</td></tr>)}</tbody></table></div>
+        )}
+      </div>
+      <div>
+        <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-2">
+           <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2"><UsersRound size={20} className="text-purple-500"/> Koordinační setkání (MDT)</h3>
+           <button onClick={() => setModalType('setkani')} className="flex items-center gap-2 px-3 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700"><Plus size={16} /> Zapsat setkání</button>
+        </div>
+        {(!setkani || setkani.length === 0) ? <div className="p-6 text-center text-gray-500 bg-gray-50 rounded-xl border border-dashed">Zatím neproběhla žádná setkání.</div> : (
+          <div className="space-y-3">{setkani.map(s => <div key={s.id} className="border border-purple-200 rounded-xl bg-white p-4"><div className="flex justify-between border-b pb-2 mb-2"><div className="flex items-center gap-3"><span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-bold">{s.typ}</span><span className="text-sm font-medium text-gray-600">{s.datum}</span></div>{/* NOVÉ ZOBRAZENÍ cilId U SETKÁNÍ */}{s.cilId && <span className="font-mono text-xs bg-purple-50 border border-purple-100 text-purple-700 px-2 py-0.5 rounded">Vazba na Cíl: {s.cilId}</span>}</div><div className="text-sm text-gray-800 mb-2"><strong>Účastníci:</strong> {s.ucastnici}</div><div className="bg-purple-50 p-3 rounded-lg border border-purple-100 text-sm"><strong>Dohody:</strong> {s.dohody}</div></div>)}</div>
+        )}
+      </div>
+      {modalType === 'intervence' && <Modal title="Záznam intervence" onClose={() => setModalType(null)}><InterventionForm plany={plany} onSave={(data) => { onSaveIntervence(data); setModalType(null); }} onCancel={() => setModalType(null)} /></Modal>}
+      {modalType === 'setkani' && <Modal title="Záznam MDT" onClose={() => setModalType(null)}><SetkaniForm plany={plany} onSave={(data) => { onSaveSetkani(data); setModalType(null); }} onCancel={() => setModalType(null)} /></Modal>}
+    </div>
+  );
+}
+
+function TabHodnoceni({ hodnoceni, plany, onSave }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  return (
+    <div>
+      <div className="flex justify-between items-start mb-6">
+        <div><h3 className="text-lg font-bold text-gray-800">Pravidelná hodnocení cílů (Revize IP)</h3></div>
+        <button onClick={() => setIsModalOpen(true)} className="px-4 py-2.5 bg-amber-500 text-white text-sm font-bold rounded-lg hover:bg-amber-600 shadow-md"><Plus size={18} className="inline mr-2"/>Zadat hodnocení</button>
+      </div>
+      <div className="space-y-5 mt-6">
+        {hodnoceni.map(h => (
+          <div key={h.id} className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+            <div className="flex justify-between items-center mb-4 border-b pb-2"><div className="flex items-center gap-3"><span className="font-mono text-sm bg-blue-50 text-blue-700 px-2 py-1 rounded border">Vazba: {h.cilId}</span><span className="font-bold text-gray-700 text-xs bg-gray-50 px-2 py-1 rounded">{h.typ}</span></div><span className="text-sm text-gray-500">Datum: <strong>{h.datum}</strong> (Hodnotil: {h.hodnotitel})</span></div>
+            <div className="grid grid-cols-3 gap-6 mb-4">
+              <div className="bg-gray-50 p-4 rounded-xl text-center"><div className="text-xs text-gray-500 uppercase mb-1">Minulé skóre</div><div className="text-2xl font-bold text-gray-400">{h.skoreMinule}</div></div>
+              <div className="bg-blue-50 p-4 rounded-xl text-center shadow-inner border border-blue-100"><div className="text-xs text-blue-600 uppercase font-bold mb-1">Aktuální skóre</div><div className="text-3xl font-black text-blue-700">{h.skoreAktualni}</div></div>
+              <div className="bg-green-50 p-4 rounded-xl text-center border border-green-100"><div className="text-xs text-green-700 uppercase font-bold mb-1">Změna</div><div className="text-2xl font-bold text-green-600">{h.zmena > 0 ? '+' : ''}{h.zmena}</div></div>
+            </div>
+            <div className="text-sm text-gray-700 bg-amber-50/50 p-4 rounded-lg border border-amber-100/50 mb-3"><span className="font-bold block mb-1">Aktuální stav a důkaz:</span><p>{h.dukaz}</p></div>
+            <div className="grid grid-cols-2 gap-4 text-sm bg-gray-50 p-3 rounded"><div><strong className="text-gray-600">Další krok:</strong> {h.dalsiKrok}</div><div><strong className="text-gray-600">Termín:</strong> {h.terminDalsihoKroku}</div></div>
+          </div>
+        ))}
+      </div>
+      {isModalOpen && <Modal title="Pravidelné hodnocení cíle" onClose={() => setIsModalOpen(false)}><EvaluationForm plany={plany} onSave={(data) => { onSave(data); setIsModalOpen(false); }} onCancel={() => setIsModalOpen(false)} /></Modal>}
+    </div>
+  );
+}
+
+function TabVystup({ caseData, onSave }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  if (caseData.vystup && caseData.ukonceni) {
+    const v = caseData.vystup; const u = caseData.ukonceni;
+    return (
+      <div className="space-y-6">
+        <div className="bg-green-50 border border-green-200 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-4"><CheckCircle className="text-green-600" size={28} /><h3 className="text-xl font-bold text-green-900">Případ ukončen a vyhodnocen ({u.datum})</h3></div>
+          <div className="grid grid-cols-2 gap-4 text-sm text-gray-700 bg-white p-4 rounded-lg shadow-sm">
+            <p><strong>Důvod:</strong> {u.duvod}</p><p><strong>Nedokončené oblasti:</strong> {u.nedokonceneOblasti || '-'}</p>
+            <p className="col-span-2 mt-2"><strong>Výsledek (pracovník):</strong> {v.popisVysledkuPracovnik}</p>
+            <p className="col-span-2 mt-2"><strong>Výsledek (rodina):</strong> {v.popisVysledkuRodina}</p>
+            <p className="col-span-2 mt-2"><strong>Shrnutí pro OSPOD/síť:</strong> {v.shrnutiHlavnichZmen}</p>
+          </div>
+        </div>
+        <div>
+          <h4 className="text-lg font-bold text-gray-800 mb-4">Finální evaluační skóre</h4>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {Object.entries(v.skore).map(([key, finalValue]) => {
+              const startValue = caseData.vstup ? caseData.vstup.skore[key] : 0;
+              const zmena = finalValue - startValue;
+              return (
+               <div key={key} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between"><span className="font-medium text-gray-600 text-sm mb-3 capitalize">{key.replace(/_/g, ' ')}</span><div className="flex justify-between items-center mt-2"><div className="text-xs text-gray-400">Vstup: {startValue}</div><div className="flex items-center gap-2">{zmena !== 0 && <span className={`font-bold text-xs ${zmena > 0 ? 'text-green-500' : 'text-red-500'}`}>{zmena > 0 ? '+' : ''}{zmena}</span>}<span className="text-xl font-bold w-10 h-10 flex items-center justify-center rounded-full border bg-gray-50">{finalValue}</span></div></div></div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="text-center py-10 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+      <FileCheck size={48} className="mx-auto text-gray-400 mb-4" />
+      <h3 className="text-xl font-bold text-gray-700 mb-2">Výstupní evaluace</h3>
+      {!caseData.vstup ? <div className="text-red-600 font-bold bg-red-50 p-4 border border-red-200 rounded inline-block">Nelze uzavřít – chybí Vstupní hodnocení.</div> : <button onClick={() => setIsModalOpen(true)} className="px-6 py-3 bg-red-600 text-white font-bold rounded-xl shadow-md hover:bg-red-700 mt-4"><Lock size={20} className="inline mr-2"/>Uzavřít případ</button>}
+      {isModalOpen && <Modal title="Výstupní hodnocení a Ukončení případu" onClose={() => setIsModalOpen(false)}><VystupForm baselineSkore={caseData.vstup.skore} onSave={(v, u) => { onSave(v, u); setIsModalOpen(false); }} onCancel={() => setIsModalOpen(false)} /></Modal>}
+    </div>
+  );
+}
+
+// --- FORMULÁŘE (Vstup, Plán, Revize, Cíl, Eval, Intervence, Setkání, Výstup) ---
+
+function VstupForm({ onSave, onCancel }) {
+  const initScores = CISELNIKY.oblast_cile.reduce((acc, curr) => ({ ...acc, [curr]: 0 }), {});
+  const initComments = CISELNIKY.oblast_cile.reduce((acc, curr) => ({ ...acc, [curr]: '' }), {});
+  
+  const [formData, setFormData] = useState({
+    datum: new Date().toISOString().split('T')[0],
+    popisSituacePracovnik: '', popisSituaceRodina: '', delkaTrvaniProblemu: '',
+    silneStranky: '', rizikaProDite: '', rizikaProRodinu: '', nutnostOkamzitehoReseni: 'ne',
+    poznamkaPracovnika: '', // DOPLNĚNO DO UI
+    skore: initScores, komentare: initComments,
+    pohledRodinyHlavniProblem: '', pohledRodinyCoZmenitJakoPrvni: '', pohledRodinyOcekavaniOdSluzby: '', pohledRodinyMiraNadejeNaZmenu: CISELNIKY.mira_nadeje[2],
+    priorita1: CISELNIKY.oblast_cile[0], priorita2: CISELNIKY.oblast_cile[1], priorita3: CISELNIKY.oblast_cile[2],
+    navrhPrvnichCiluIp: '', zapojitPsychologa: 'ne', zapojitMediatora: 'ne', resitFinancePrednostne: 'ne', resitBydleniPrednostne: 'ne', resitNavaznostOspodIpod: 'ne'
+  });
+
+  const handleChange = (e) => setFormData(p => ({...p, [e.target.name]: e.target.value}));
+  const handleScore = (k, v) => setFormData(p => ({...p, skore: {...p.skore, [k]: Number(v)}}));
+  const handleComment = (k, v) => setFormData(p => ({...p, komentare: {...p.komentare, [k]: v}}));
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); onSave(formData); }} className="space-y-8">
+      <div className="grid grid-cols-3 gap-4">
+        <div><label className="block text-xs font-semibold mb-1">Datum dotazníku *</label><input type="date" name="datum" required value={formData.datum} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-xs font-semibold mb-1">Délka trvání problémů</label><input type="text" name="delkaTrvaniProblemu" value={formData.delkaTrvaniProblemu} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-xs font-semibold mb-1">Nutnost okamžitého řešení</label><select name="nutnostOkamzitehoReseni" value={formData.nutnostOkamzitehoReseni} onChange={handleChange} className="w-full p-2 border rounded"><option value="ne">Ne</option><option value="ano">Ano</option></select></div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-xs font-semibold mb-1">Popis situace (pracovník) *</label><textarea name="popisSituacePracovnik" required rows="3" value={formData.popisSituacePracovnik} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+        <div><label className="block text-xs font-semibold mb-1">Popis situace (rodina) *</label><textarea name="popisSituaceRodina" required rows="3" value={formData.popisSituaceRodina} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+        <div><label className="block text-xs font-semibold text-green-700 mb-1">Silné stránky a zdroje *</label><textarea name="silneStranky" required rows="2" value={formData.silneStranky} onChange={handleChange} className="w-full p-2 border border-green-300 bg-green-50 rounded"></textarea></div>
+        <div><label className="block text-xs font-semibold text-red-700 mb-1">Rizika pro dítě *</label><textarea name="rizikaProDite" required rows="2" value={formData.rizikaProDite} onChange={handleChange} className="w-full p-2 border border-red-300 bg-red-50 rounded"></textarea></div>
+        <div className="col-span-2"><label className="block text-xs font-semibold text-red-700 mb-1">Rizika pro rodinu (např. ztráta bydlení) *</label><input type="text" name="rizikaProRodinu" required value={formData.rizikaProRodinu} onChange={handleChange} className="w-full p-2 border border-red-300 bg-red-50 rounded" /></div>
+      </div>
+
+      <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+        <h4 className="font-bold text-blue-900 mb-3 border-b border-blue-200 pb-1">Kvantitativní hodnocení (Baseline 0-4) s komentářem</h4>
+        <div className="space-y-2">
+          {CISELNIKY.oblast_cile.map(k => (
+            <div key={k} className="flex gap-2 items-center bg-white p-2 rounded border border-gray-200">
+              <span className="w-1/3 text-xs font-semibold capitalize">{k.replace(/_/g, ' ')}</span>
+              <select value={formData.skore[k]} onChange={e => handleScore(k, e.target.value)} className="w-16 p-1 text-center font-bold border rounded bg-blue-50">{[0,1,2,3,4].map(n => <option key={n} value={n}>{n}</option>)}</select>
+              <input type="text" placeholder="Komentář k hodnocení..." value={formData.komentare[k]} onChange={e => handleComment(k, e.target.value)} className="flex-1 p-1 text-xs border rounded" required />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
+        <h4 className="font-bold text-gray-800 mb-3 border-b border-gray-200 pb-1">Pohled rodiny a návrh práce</h4>
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div><label className="block text-xs font-semibold mb-1">Hlavní problém dle rodiny *</label><input type="text" name="pohledRodinyHlavniProblem" required value={formData.pohledRodinyHlavniProblem} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+          <div><label className="block text-xs font-semibold mb-1">Co změnit jako první *</label><input type="text" name="pohledRodinyCoZmenitJakoPrvni" required value={formData.pohledRodinyCoZmenitJakoPrvni} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+          <div><label className="block text-xs font-semibold mb-1">Očekávání od služby *</label><input type="text" name="pohledRodinyOcekavaniOdSluzby" required value={formData.pohledRodinyOcekavaniOdSluzby} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+          <div><label className="block text-xs font-semibold mb-1">Míra naděje na změnu</label><select name="pohledRodinyMiraNadejeNaZmenu" value={formData.pohledRodinyMiraNadejeNaZmenu} onChange={handleChange} className="w-full p-2 border rounded">{CISELNIKY.mira_nadeje.map(m => <option key={m} value={m}>{m}</option>)}</select></div>
+        </div>
+        <div><label className="block text-xs font-semibold mb-1">Návrh prvních cílů pro IP *</label><textarea name="navrhPrvnichCiluIp" required rows="2" value={formData.navrhPrvnichCiluIp} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+        
+        {/* NOVÉ POLE: Poznámka pracovníka */}
+        <div className="mt-4"><label className="block text-xs font-semibold mb-1 text-blue-800">Poznámka pracovníka ke vstupu</label><textarea name="poznamkaPracovnika" rows="2" value={formData.poznamkaPracovnika} onChange={handleChange} className="w-full p-2 border border-blue-200 bg-blue-50/50 rounded"></textarea></div>
+
+        <h5 className="font-bold text-xs mt-4 mb-2 text-gray-600 uppercase">Potřeby další podpory (odhad ze vstupu)</h5>
+        <div className="grid grid-cols-3 gap-2 text-sm">
+          <label className="flex items-center gap-2"><input type="checkbox" checked={formData.zapojitPsychologa==='ano'} onChange={e => setFormData(p=>({...p, zapojitPsychologa: e.target.checked?'ano':'ne'}))} /> Psycholog</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={formData.zapojitMediatora==='ano'} onChange={e => setFormData(p=>({...p, zapojitMediatora: e.target.checked?'ano':'ne'}))} /> Mediátor</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={formData.resitFinancePrednostne==='ano'} onChange={e => setFormData(p=>({...p, resitFinancePrednostne: e.target.checked?'ano':'ne'}))} /> Finance přednostně</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={formData.resitBydleniPrednostne==='ano'} onChange={e => setFormData(p=>({...p, resitBydleniPrednostne: e.target.checked?'ano':'ne'}))} /> Bydlení přednostně</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={formData.resitNavaznostOspodIpod==='ano'} onChange={e => setFormData(p=>({...p, resitNavaznostOspodIpod: e.target.checked?'ano':'ne'}))} /> Provázat s IPOD</label>
+        </div>
+      </div>
+
+      <div className="pt-4 flex justify-end gap-3 sticky bottom-0 bg-white py-4 border-t border-gray-200">
+        <button type="button" onClick={onCancel} className="px-5 py-2.5 text-sm font-medium bg-gray-100 rounded-lg hover:bg-gray-200">Zrušit</button>
+        <button type="submit" className="px-6 py-2.5 text-sm font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow flex items-center gap-2"><Save size={18}/> Uložit Vstup</button>
+      </div>
+    </form>
+  );
+}
+
+function PlanForm({ onSave, onCancel }) {
+  // DOPLNĚNA POZNÁMKA
+  const [formData, setFormData] = useState({ datumZalozeni: new Date().toISOString().split('T')[0], verze: 'IP1', stav: 'aktivní', poznamka: '' });
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); onSave(formData); }} className="space-y-4">
+      <div><label className="block text-sm font-semibold mb-1">Datum založení IP *</label><input type="date" required value={formData.datumZalozeni} onChange={e => setFormData(p => ({...p, datumZalozeni: e.target.value}))} className="w-full p-2 border rounded" /></div>
+      <div><label className="block text-sm font-semibold mb-1">Označení (Verze) *</label><input type="text" required placeholder="IP1" value={formData.verze} onChange={e => setFormData(p => ({...p, verze: e.target.value}))} className="w-full p-2 border rounded" /></div>
+      <div><label className="block text-sm font-semibold mb-1">Poznámka k plánu</label><input type="text" value={formData.poznamka} onChange={e => setFormData(p => ({...p, poznamka: e.target.value}))} className="w-full p-2 border rounded" /></div>
+      <div className="pt-4 flex justify-end gap-2"><button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-100 rounded">Zrušit</button><button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded font-bold">Založit plán</button></div>
+    </form>
+  );
+}
+
+function RevizeForm({ onSave, onCancel }) {
+  const [formData, setFormData] = useState({ datum: new Date().toISOString().split('T')[0], coSeMeni: '', duvod: '', dohodnutoS: '' });
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); onSave(formData); }} className="space-y-4">
+      <div><label className="block text-sm font-semibold mb-1">Datum revize *</label><input type="date" required value={formData.datum} onChange={e => setFormData(p => ({...p, datum: e.target.value}))} className="w-full p-2 border rounded" /></div>
+      <div><label className="block text-sm font-semibold mb-1">Co se mění v IP *</label><textarea required value={formData.coSeMeni} onChange={e => setFormData(p => ({...p, coSeMeni: e.target.value}))} className="w-full p-2 border rounded"></textarea></div>
+      <div><label className="block text-sm font-semibold mb-1">Důvod změny *</label><input type="text" required value={formData.duvod} onChange={e => setFormData(p => ({...p, duvod: e.target.value}))} className="w-full p-2 border rounded" /></div>
+      <div><label className="block text-sm font-semibold mb-1">Dohodnuto s</label><input type="text" value={formData.dohodnutoS} onChange={e => setFormData(p => ({...p, dohodnutoS: e.target.value}))} className="w-full p-2 border rounded" /></div>
+      <div className="pt-4 flex justify-end gap-2"><button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-100 rounded">Zrušit</button><button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded font-bold">Zapsat revizi</button></div>
+    </form>
+  );
+}
+
+function CilForm({ onSave, onCancel }) {
+  const [formData, setFormData] = useState({
+    oblast: CISELNIKY.oblast_cile[0], priorita: '1', text: '', problem: '', vychoziStavPopis: '',
+    vychoziSkore: 0, cilovyStavPopis: '', ciloveSkore: 2, meritelnyUkazatel: '', dukazNaplneni: '',
+    krok1: '', krok2: '', podporaSluzby: '', odbornosti: [], vazbaNaIpod: 'ne', terminSplneni: new Date().toISOString().split('T')[0], odpovednaOsoba: 'Jan Novák'
+  });
+
+  const handleChange = (e) => setFormData(p => ({...p, [e.target.name]: e.target.value}));
+  const handleOdbornost = (role, checked) => {
+    setFormData(p => ({...p, odbornosti: checked ? [...p.odbornosti, role] : p.odbornosti.filter(r => r !== role)}));
+  };
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); onSave(formData); }} className="space-y-6">
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-xs font-semibold mb-1">Oblast cíle *</label><select name="oblast" required value={formData.oblast} onChange={handleChange} className="w-full p-2 border rounded">{CISELNIKY.oblast_cile.map(o => <option key={o} value={o}>{o.replace(/_/g, ' ')}</option>)}</select></div>
+        <div><label className="block text-xs font-semibold mb-1">Priorita *</label><select name="priorita" required value={formData.priorita} onChange={handleChange} className="w-full p-2 border rounded">{CISELNIKY.priorita.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
+      </div>
+      <div><label className="block text-xs font-semibold mb-1">Problém, který cíl řeší *</label><input type="text" name="problem" required value={formData.problem} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      <div><label className="block text-xs font-semibold mb-1">Formulace cíle (Text) *</label><textarea name="text" required rows="2" value={formData.text} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+      
+      <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <div><label className="block text-xs font-semibold mb-1">Výchozí stav - popis *</label><textarea name="vychoziStavPopis" required rows="2" value={formData.vychoziStavPopis} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+        <div><label className="block text-xs font-semibold mb-1">Cílový stav - popis *</label><textarea name="cilovyStavPopis" required rows="2" value={formData.cilovyStavPopis} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+        <div><label className="block text-xs font-semibold mb-1">Výchozí skóre (0-4) *</label><select name="vychoziSkore" required value={formData.vychoziSkore} onChange={handleChange} className="w-full p-2 border rounded">{[0,1,2,3,4].map(n => <option key={n} value={n}>{n}</option>)}</select></div>
+        <div><label className="block text-xs font-bold text-green-700 mb-1">Cílové skóre (0-4) *</label><select name="ciloveSkore" required value={formData.ciloveSkore} onChange={handleChange} className="w-full p-2 border border-green-300 bg-green-50 rounded text-green-900">{[0,1,2,3,4].map(n => <option key={n} value={n}>{n}</option>)}</select></div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-xs font-semibold mb-1">Krok 1 *</label><input type="text" name="krok1" required value={formData.krok1} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-xs font-semibold mb-1">Krok 2</label><input type="text" name="krok2" value={formData.krok2} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-xs font-semibold mb-1">Měřitelný ukazatel *</label><input type="text" name="meritelnyUkazatel" required value={formData.meritelnyUkazatel} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-xs font-semibold mb-1">Důkaz naplnění *</label><input type="text" name="dukazNaplneni" required value={formData.dukazNaplneni} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div className="col-span-2"><label className="block text-xs font-semibold mb-1">Podpora služby *</label><input type="text" name="podporaSluzby" required value={formData.podporaSluzby} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      </div>
+
+      <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
+        <label className="block text-xs font-bold text-purple-900 mb-2">Zapojené odbornosti na cíli (MDT)</label>
+        <div className="grid grid-cols-3 gap-2 text-xs">
+          {CISELNIKY.role_pracovnika.map(r => (
+            <label key={r} className="flex items-center gap-1"><input type="checkbox" checked={formData.odbornosti.includes(r)} onChange={e => handleOdbornost(r, e.target.checked)} /> {r.replace('_', ' ')}</label>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-4">
+        <div><label className="block text-xs font-semibold mb-1">Vazba na IPOD</label><select name="vazbaNaIpod" value={formData.vazbaNaIpod} onChange={handleChange} className="w-full p-2 border rounded"><option value="ne">Ne</option><option value="ano">Ano</option></select></div>
+        <div><label className="block text-xs font-semibold mb-1">Odpovědná osoba *</label><input type="text" name="odpovednaOsoba" required value={formData.odpovednaOsoba} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-xs font-semibold mb-1">Termín splnění *</label><input type="date" name="terminSplneni" required value={formData.terminSplneni} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      </div>
+
+      <div className="pt-4 flex justify-end gap-3 sticky bottom-0 bg-white py-4 border-t border-gray-200">
+        <button type="button" onClick={onCancel} className="px-5 py-2.5 text-sm bg-gray-100 rounded-lg">Zrušit</button>
+        <button type="submit" className="px-6 py-2.5 text-sm font-bold text-white bg-blue-600 rounded-lg shadow"><Save size={18} className="inline mr-2"/> Uložit cíl</button>
+      </div>
+    </form>
+  );
+}
+
+function EvaluationForm({ plany, onSave, onCancel }) {
+  const [formData, setFormData] = useState({
+    datum: new Date().toISOString().split('T')[0], typ: 'trimesicni', cilId: plany[0]?.cile[0]?.id || '',
+    hodnotitel: 'Petr Svoboda', skoreMinule: plany[0]?.cile[0]?.vychoziSkore || 0, skoreAktualni: 0,
+    dukaz: '', coPomohlo: '', coBrdilo: '', miraSplneni: 'nesplneno', potrebaUpravy: 'ne',
+    dalsiKrok: '', odpovednaOsoba: 'Petr Svoboda', terminDalsihoKroku: '', datumDalsihoHodnoceni: ''
+  });
+
+  const cileOptions = plany.flatMap(p => p.cile.map(c => ({ id: c.id, label: `${c.id}: ${c.text}`, defaultScore: c.vychoziSkore })));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'cilId') {
+      const sel = cileOptions.find(c => c.id === value);
+      setFormData(prev => ({ ...prev, cilId: value, skoreMinule: sel ? sel.defaultScore : 0 }));
+    } else { setFormData(prev => ({...prev, [name]: value})); }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave({ ...formData, skoreMinule: Number(formData.skoreMinule), skoreAktualni: Number(formData.skoreAktualni), zmena: Number(formData.skoreAktualni) - Number(formData.skoreMinule) });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-3 gap-4">
+        <div><label className="block text-xs font-semibold mb-1">Cíl IP *</label><select name="cilId" required value={formData.cilId} onChange={handleChange} className="w-full p-2 border rounded font-bold">{cileOptions.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
+        <div><label className="block text-xs font-semibold mb-1">Typ hodnocení *</label><select name="typ" value={formData.typ} onChange={handleChange} className="w-full p-2 border rounded">{CISELNIKY.typ_hodnoceni.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
+        <div><label className="block text-xs font-semibold mb-1">Datum *</label><input type="date" name="datum" required value={formData.datum} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-gray-50 p-4 rounded text-center border"><div className="text-xs uppercase mb-1">Minulé skóre</div><div className="text-xl font-bold text-gray-500">{formData.skoreMinule}</div></div>
+        <div className="bg-blue-50 p-4 rounded text-center border border-blue-200"><label className="block text-xs font-bold text-blue-700 uppercase mb-1">Aktuální skóre *</label><select name="skoreAktualni" required value={formData.skoreAktualni} onChange={handleChange} className="w-full text-lg font-bold p-1 border border-blue-400 bg-white rounded text-center">{[0,1,2,3,4].map(n => <option key={n} value={n}>{n}</option>)}</select></div>
+      </div>
+      <div><label className="block text-xs font-semibold mb-1">Aktuální stav a důkaz změny *</label><textarea name="dukaz" required rows="2" value={formData.dukaz} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-xs font-semibold text-green-700 mb-1">Co pomohlo</label><textarea name="coPomohlo" rows="2" value={formData.coPomohlo} onChange={handleChange} className="w-full p-2 border border-green-200 bg-green-50 rounded"></textarea></div>
+        <div><label className="block text-xs font-semibold text-red-700 mb-1">Co brzdilo</label><textarea name="coBrdilo" rows="2" value={formData.coBrdilo} onChange={handleChange} className="w-full p-2 border border-red-200 bg-red-50 rounded"></textarea></div>
+      </div>
+      <div className="grid grid-cols-3 gap-4">
+        <div><label className="block text-xs font-semibold mb-1">Míra splnění *</label><select name="miraSplneni" value={formData.miraSplneni} onChange={handleChange} className="w-full p-2 border rounded">{CISELNIKY.mira_splneni_cile.map(m => <option key={m} value={m}>{m}</option>)}</select></div>
+        <div><label className="block text-xs font-semibold mb-1">Potřeba úpravy IP?</label><select name="potrebaUpravy" value={formData.potrebaUpravy} onChange={handleChange} className="w-full p-2 border rounded"><option value="ne">Ne</option><option value="ano">Ano</option></select></div>
+        <div><label className="block text-xs font-semibold mb-1">Hodnotitel *</label><input type="text" name="hodnotitel" required value={formData.hodnotitel} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      </div>
+      <div className="bg-gray-50 p-4 rounded border border-gray-200">
+        <h5 className="font-bold text-xs uppercase mb-3">Závazky a další postup</h5>
+        <div className="grid grid-cols-2 gap-4 mb-3">
+          <div className="col-span-2"><label className="block text-xs font-semibold mb-1">Další krok na cíli *</label><input type="text" name="dalsiKrok" required value={formData.dalsiKrok} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+          <div><label className="block text-xs font-semibold mb-1">Odpovědná osoba *</label><input type="text" name="odpovednaOsoba" required value={formData.odpovednaOsoba} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+          <div><label className="block text-xs font-semibold mb-1">Termín provedení kroku</label><input type="date" name="terminDalsihoKroku" value={formData.terminDalsihoKroku} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        </div>
+        <div><label className="block text-xs font-semibold mb-1">Plánované datum dalšího hodnocení IP</label><input type="date" name="datumDalsihoHodnoceni" value={formData.datumDalsihoHodnoceni} onChange={handleChange} className="w-full p-2 border rounded w-1/2" /></div>
+      </div>
+      <div className="pt-4 flex justify-end gap-3"><button type="button" onClick={onCancel} className="px-5 py-2.5 text-sm bg-gray-100 rounded-lg">Zrušit</button><button type="submit" className="px-6 py-2.5 text-sm font-bold text-white bg-amber-500 rounded-lg shadow"><Save size={18} className="inline mr-2"/> Uložit revizi</button></div>
+    </form>
+  );
+}
+
+function InterventionForm({ plany, onSave, onCancel }) {
+  const defaultCilId = plany.length > 0 && plany[0].cile.length > 0 ? plany[0].cile[0].id : '';
+  const [formData, setFormData] = useState({ datum: new Date().toISOString().split('T')[0], pracovnik: 'Petr Svoboda', role: 'socialni_pracovnik', typ: 'socialni_poradenstvi', forma: 'teren', cilId: defaultCilId, delka: 60, popis: '', vysledek: '', dalsiKrok: '' });
+  const cileOptions = plany.flatMap(p => p.cile.map(c => ({ id: c.id, label: `${c.id}: ${c.text}` })));
+  const handleChange = (e) => setFormData(prev => ({...prev, [e.target.name]: e.target.value}));
+  const handleSubmit = (e) => { e.preventDefault(); onSave(formData); };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-sm font-semibold mb-1">Datum *</label><input type="date" name="datum" required value={formData.datum} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-sm font-semibold mb-1">Délka (minuty) *</label><input type="number" name="delka" required min="5" step="5" value={formData.delka} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-sm font-semibold mb-1">Role *</label><select name="role" value={formData.role} onChange={handleChange} className="w-full p-2 border rounded">{CISELNIKY.role_pracovnika.map(r => <option key={r} value={r}>{r.replace('_', ' ')}</option>)}</select></div>
+        <div className="flex gap-2">
+          <div className="w-2/3"><label className="block text-sm font-semibold mb-1">Typ *</label><select name="typ" value={formData.typ} onChange={handleChange} className="w-full p-2 border rounded">{CISELNIKY.typ_intervence.map(t => <option key={t} value={t}>{t.replace(/_/g, ' ')}</option>)}</select></div>
+          <div className="w-1/3"><label className="block text-sm font-semibold mb-1">Forma *</label><select name="forma" value={formData.forma} onChange={handleChange} className="w-full p-2 border rounded">{CISELNIKY.forma_intervence.map(f => <option key={f} value={f}>{f}</option>)}</select></div>
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm font-semibold mb-1">Vazba na Cíl IP *</label>
+        {cileOptions.length === 0 ? <div className="p-2 border border-red-300 bg-red-50 text-red-600 rounded">Nutno nejprve založit IP Cíl.</div> : <select name="cilId" required value={formData.cilId} onChange={handleChange} className="w-full p-2 border border-blue-300 bg-blue-50 rounded">{cileOptions.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}</select>}
+      </div>
+      <div><label className="block text-sm font-semibold mb-1">Popis průběhu *</label><textarea name="popis" required rows="2" value={formData.popis} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+      <div><label className="block text-sm font-semibold mb-1">Výsledek</label><input type="text" name="vysledek" value={formData.vysledek} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      <div><label className="block text-sm font-semibold mb-1">Další krok v intervencích</label><input type="text" name="dalsiKrok" value={formData.dalsiKrok} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      <div className="pt-4 flex justify-end gap-3"><button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-100 rounded">Zrušit</button><button type="submit" disabled={cileOptions.length===0} className="px-4 py-2 bg-blue-600 text-white rounded font-bold disabled:opacity-50">Uložit záznam</button></div>
+    </form>
+  );
+}
+
+function SetkaniForm({ plany, onSave, onCancel }) {
+  // DOPLNĚNA VAZBA NA CÍL IP
+  const defaultCilId = plany?.length > 0 && plany[0].cile.length > 0 ? plany[0].cile[0].id : '';
+  const [formData, setFormData] = useState({ datum: new Date().toISOString().split('T')[0], typ: 'MDT', ucastnici: '', rizika: '', dohody: '', ukoly: '', terminKontroly: '', vazbaNaIp: 'ne', vazbaNaIpod: 'ne', cilId: defaultCilId });
+  const cileOptions = plany ? plany.flatMap(p => p.cile.map(c => ({ id: c.id, label: `${c.id}: ${c.text}` }))) : [];
+  
+  const handleChange = (e) => setFormData(prev => ({...prev, [e.target.name]: e.target.value}));
+  const handleSubmit = (e) => { e.preventDefault(); onSave(formData); };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-sm font-semibold mb-1">Datum *</label><input type="date" name="datum" required value={formData.datum} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-sm font-semibold mb-1">Typ setkání *</label><select name="typ" value={formData.typ} onChange={handleChange} className="w-full p-2 border rounded">{CISELNIKY.typ_setkani.map(t => <option key={t} value={t}>{t.replace(/_/g, ' ')}</option>)}</select></div>
+      </div>
+      <div>
+        <label className="block text-sm font-semibold mb-1">Vazba na Cíl IP *</label>
+        {cileOptions.length === 0 ? <div className="p-2 border border-red-300 bg-red-50 text-red-600 rounded">Nutno nejprve založit IP Cíl pro navázání MDT.</div> : <select name="cilId" required value={formData.cilId} onChange={handleChange} className="w-full p-2 border border-purple-300 bg-purple-50 rounded">{cileOptions.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}</select>}
+      </div>
+      <div><label className="block text-sm font-semibold mb-1">Účastníci *</label><textarea name="ucastnici" required rows="2" value={formData.ucastnici} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+      <div><label className="block text-sm font-semibold mb-1">Identifikovaná rizika</label><input type="text" name="rizika" value={formData.rizika} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      <div><label className="block text-sm font-semibold mb-1">Dohody *</label><textarea name="dohody" required rows="2" value={formData.dohody} onChange={handleChange} className="w-full p-2 border rounded"></textarea></div>
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-sm font-semibold mb-1">Úkoly</label><input type="text" name="ukoly" value={formData.ukoly} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-sm font-semibold mb-1">Termín kontroly úkolů</label><input type="date" name="terminKontroly" value={formData.terminKontroly} onChange={handleChange} className="w-full p-2 border rounded" /></div>
+      </div>
+      <div className="flex gap-4">
+        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={formData.vazbaNaIpod==='ano'} onChange={e=>setFormData(p=>({...p,vazbaNaIpod:e.target.checked?'ano':'ne'}))} /> Vazba na IPOD</label>
+        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={formData.vazbaNaIp==='ano'} onChange={e=>setFormData(p=>({...p,vazbaNaIp:e.target.checked?'ano':'ne'}))} /> Vazba na interní IP</label>
+      </div>
+      <div className="pt-4 flex justify-end gap-3"><button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-100 rounded">Zrušit</button><button type="submit" disabled={cileOptions.length===0} className="px-4 py-2 bg-purple-600 text-white rounded font-bold disabled:opacity-50">Uložit setkání</button></div>
+    </form>
+  );
+}
+
+function VystupForm({ baselineSkore, onSave, onCancel }) {
+  const initSkore = Object.keys(baselineSkore).reduce((acc, key) => ({ ...acc, [key]: baselineSkore[key] }), {});
+  const [formData, setFormData] = useState({
+    datum: new Date().toISOString().split('T')[0], duvod: 'naplnění cílů',
+    popisVysledkuPracovnik: '', popisVysledkuRodina: '', shrnutiHlavnichZmen: '', nedokonceneOblasti: '', doporuceni: '',
+    skore: initSkore
+  });
+
+  const handleScoreChange = (domain, value) => setFormData(prev => ({ ...prev, skore: { ...prev.skore, [domain]: Number(value) } }));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(
+      { datum: formData.datum, skore: formData.skore, popisVysledkuPracovnik: formData.popisVysledkuPracovnik, popisVysledkuRodina: formData.popisVysledkuRodina, shrnutiHlavnichZmen: formData.shrnutiHlavnichZmen },
+      { datum: formData.datum, duvod: formData.duvod, shrnutiZm: formData.shrnutiHlavnichZmen, nedokonceneOblasti: formData.nedokonceneOblasti, doporuceni: formData.doporuceni }
+    );
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="bg-blue-50/50 p-5 rounded-xl border border-blue-100">
+        <h4 className="font-bold text-blue-900 mb-4 border-b border-blue-200 pb-2">1. Výstupní hodnocení - Aktuální stav (0-4)</h4>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+          {Object.keys(baselineSkore).map(key => (
+            <div key={key} className="flex justify-between items-center bg-white p-2 rounded shadow-sm border border-gray-200">
+              <div><div className="text-sm font-semibold capitalize">{key.replace(/_/g, ' ')}</div><div className="text-xs text-gray-500">Baseline: <strong>{baselineSkore[key]}</strong></div></div>
+              <select value={formData.skore[key]} onChange={(e) => handleScoreChange(key, e.target.value)} className="w-16 p-1.5 text-center font-bold border border-blue-300 rounded bg-blue-50">
+                {[0,1,2,3,4].map(num => <option key={num} value={num}>{num}</option>)}
+              </select>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-sm font-semibold mb-1">Datum ukončení *</label><input type="date" required value={formData.datum} onChange={(e) => setFormData(p => ({...p, datum: e.target.value}))} className="w-full p-2 border rounded" /></div>
+        <div><label className="block text-sm font-semibold mb-1">Důvod ukončení *</label><select required value={formData.duvod} onChange={(e) => setFormData(p => ({...p, duvod: e.target.value}))} className="w-full p-2 border rounded">{CISELNIKY.duvod_ukonceni_pripadu.map(d => <option key={d} value={d}>{d}</option>)}</select></div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div><label className="block text-sm font-semibold mb-1">Popis výsledku (pracovník) *</label><textarea required rows="2" value={formData.popisVysledkuPracovnik} onChange={(e) => setFormData(p => ({...p, popisVysledkuPracovnik: e.target.value}))} className="w-full p-2 border rounded"></textarea></div>
+        <div><label className="block text-sm font-semibold mb-1">Popis výsledku (rodina) *</label><textarea required rows="2" value={formData.popisVysledkuRodina} onChange={(e) => setFormData(p => ({...p, popisVysledkuRodina: e.target.value}))} className="w-full p-2 border rounded"></textarea></div>
+      </div>
+      <div><label className="block text-sm font-semibold mb-1">Shrnutí hlavních změn (Výsledek práce) *</label><textarea required rows="2" value={formData.shrnutiHlavnichZmen} onChange={(e) => setFormData(p => ({...p, shrnutiHlavnichZmen: e.target.value}))} className="w-full p-2 border rounded"></textarea></div>
+      <div><label className="block text-sm font-semibold mb-1">Nedokončené oblasti</label><input type="text" value={formData.nedokonceneOblasti} onChange={(e) => setFormData(p => ({...p, nedokonceneOblasti: e.target.value}))} className="w-full p-2 border rounded" /></div>
+      <div><label className="block text-sm font-semibold mb-1">Doporučení navazující péče</label><input type="text" value={formData.doporuceni} onChange={(e) => setFormData(p => ({...p, doporuceni: e.target.value}))} className="w-full p-2 border rounded" /></div>
+      <div className="pt-4 flex justify-end gap-3 sticky bottom-0 bg-white py-4 border-t"><button type="button" onClick={onCancel} className="px-5 py-2.5 text-sm bg-gray-100 rounded">Zrušit</button><button type="submit" className="px-6 py-2.5 text-sm font-bold text-white bg-red-600 rounded flex items-center gap-2"><Lock size={18} /> Uzavřít případ</button></div>
+    </form>
+  );
+}

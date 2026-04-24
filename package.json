@@ -1,0 +1,13 @@
+{
+  "name": "mosty-v-rodine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aplikace pro záznam sociální služby a evaluaci projektu Mosty v rodině",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

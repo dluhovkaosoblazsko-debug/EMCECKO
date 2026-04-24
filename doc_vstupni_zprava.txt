@@ -1,0 +1,180 @@
+Vstupní evaluaèní zpráva projektu „Mosty v rodinì“
+Návrh formálního textu VEZ
+
+Projekt: Mosty v rodinì
+Typ dokumentu: Vstupní evaluaèní zpráva
+Verze: pracovní návrh
+Datum: bøezen 2026
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. Úvod3
+2. Struènı popis projektu3
+2.1 Cíle projektu3
+2.2 Cílové skupiny3
+2.3 Klíèové aktivity projektu4
+2.4 Vymezení èásti projektu, která je pøedmìtem evaluace4
+3. Design evaluace4
+3.1 Cíle evaluace4
+3.2 Typ evaluace4
+3.3 Vızkumnı design5
+3.4 Evaluaèní otázky5
+4. Metodologie evaluace6
+4.1 Metodologickı pøístup6
+4.2 Zdroje dat6
+4.3 Respondenti a pøedpokládanı rozsah sbìru dat6
+4.4 Metody sbìru dat7
+4.5 Periodicita sbìru dat7
+4.6 Vazba metod sbìru dat na evaluaèní otázky8
+4.7 Analıza dat8
+4.8 Etika a limity evaluace8
+5. Harmonogram evaluace8
+5.1 Pøípravná fáze8
+5.2 Vstupní sbìr dat8
+5.3 Prùbìné hodnocení9
+5.4 Závìreènı sbìr dat9
+5.5 Analıza a zpracování závìreèné evaluaèní zprávy9
+6. Nástroje sbìru dat9
+6.1 Vstupní dotazník / vstupní hodnoticí formuláø pro rodinu9
+6.2 Záznam z hodnocení individuálního plánu9
+6.3 Scénáø polostrukturovaného rozhovoru s klientem / rodinou9
+6.4 Scénáø polostrukturovaného rozhovoru s pracovníkem projektu9
+6.5 Scénáø rozhovoru s externím partnerem9
+6.6 Šablona pøípadové studie10
+7. Závìr10
+
+
+1. Úvod
+Tato Vstupní evaluaèní zpráva pøedstavuje finální návrh evaluace projektu „Mosty v rodinì“. Jejím úèelem je jasnì vymezit, co bude v rámci projektu evaluováno, jak bude evaluace provedena, z jakıch dat bude vycházet, v jakém èase bude probíhat a jaké nástroje sbìru dat budou vyuity. Zpráva je zpracována tak, aby vytvoøila pevnı metodickı základ pro prùbìné i závìreèné hodnocení projektu a souèasnì poskytla realizaènímu tımu srozumitelnı rámec pro sbìr a interpretaci dat.
+Evaluace je v projektu chápána jako nástroj øízení kvality i jako nástroj ovìøení vısledkù. Jejím cílem není pouze popsat, zda projekt probíhal podle plánu, ale také zjistit, zda u cílové skupiny došlo ke zmìnì v klíèovıch oblastech ohroení dítìte a rodiny, jaká byla povaha této zmìny a jakımi mechanismy byla podpoøena. Vstupní evaluaèní zpráva proto propojuje procesní a vısledkovı pohled a vytváøí základ pro systematické sledování zmìn v èase.
+2. Struènı popis projektu
+Projekt „Mosty v rodinì“ reaguje na situaci ohroenıch dìtí a rodin v území ORP Valašské Meziøíèí. Zamìøuje se na rodiny, u nich se kumulují sociální, ekonomické, vztahové a vıchovné obtíe, které mohou vést k dlouhodobé destabilizaci rodinného prostøedí a v krajním pøípadì i k odebrání dítìte z rodiny. Projekt usiluje o to, aby byla rodinám poskytnuta vèasná, koordinovaná a dostateènì intenzivní podpora zamìøená na odstranìní koøenovıch pøíèin ohroení a na posílení schopnosti rodiny zvládat svoji situaci samostatnìji a bezpeènìji.
+Podstatou projektu je pøechod od dosavadního modelu podpory poskytované na základì povìøení OSPOD k novì registrované sociálnì aktivizaèní slubì pro rodiny s dìtmi. Tato transformace má pøinést vyšší stabilitu, metodickou ukotvenost, lepší provázání s dalšími systémy podpory a vìtší dostupnost sluby pro rodiny, které potøebují intenzivní a dlouhodobìjší pomoc.
+2.1 Cíle projektu
+Hlavním cílem projektu je pøispìt ke stabilizaci rodin, v nich je ohroen øádnı vıvoj dítìte, a sníit riziko, e dítì bude muset bıt oddìleno od své biologické rodiny. Projekt sleduje zejména posilování rodièovskıch kompetencí, zlepšení komunikace v rodinì, zmírnìní dopadù rodinnıch konfliktù a traumatickıch zkušeností, posílení orientace rodin v systému podpory, zlepšení jejich schopnosti øešit finanèní, bytové a administrativní obtíe a celkové zvıšení jejich samostatnosti.
+2.2 Cílové skupiny
+Cílovou skupinu tvoøí dìti a jejich rodiny ve vìku 0–18 let, které se nacházejí v nepøíznivé sociální situaci a souèasnì èelí více faktorùm ohroení. Typicky se jedná o rodiny se slabšími rodièovskımi dovednostmi, s nízkou finanèní gramotností, s problémy v hospodaøení, s nestabilním bydlením, s vıraznımi vztahovımi konflikty, s obtíemi v komunikaci s institucemi a se sociální izolací. Vıznamnou èást tvoøí také rodiny, v nich dìti zaívají traumatické situace související s konfliktem rodièù, domácím násilím, rozchodem rodièù nebo jinımi destabilizaèními faktory.
+2.3 Klíèové aktivity projektu
+Projekt je strukturován do nìkolika klíèovıch aktivit, které dohromady vytváøejí provázanı model podpory rodin. Klíèová aktivita KA1 pøedstavuje pøímou práci s rodinami v reimu sociálnì aktivizaèní sluby pro rodiny s dìtmi. Tato práce probíhá pøevánì v terénu, doplòkovì ambulantnì, a zahrnuje sociální práci, psychologickou podporu, mediaci, podpùrnou terapeutickou práci, právní poradenství, facilitaci jednání a další navazující formy pomoci.
+Klíèová aktivita KA2 zajišuje systémové øízení kvality, case management, koordinaci multidisciplinárního tımu, pravidelné vyhodnocování individuálních plánù a provázanost podpory s poadavky systému sociálnì-právní ochrany dìtí. Klíèová aktivita KA3 rozšiøuje podporu o nadstandardní èinnosti pro klienty, zejména svépomocné skupiny, vrstevnickou podporu a krátké vzdìlávací moduly. Klíèová aktivita KA4 je zamìøena na podporu odbornıch pracovníkù prostøednictvím vzdìlávání a supervize. Klíèová aktivita KA5 pøedstavuje vlastní evaluaci projektu.
+2.4 Vymezení èásti projektu, která je pøedmìtem evaluace
+Evaluace se primárnì zamìøuje na klíèové aktivity KA1 a KA2. Dùvodem je skuteènost, e právì v tìchto dvou aktivitách se soustøeïuje hlavní intervenèní logika projektu a zde lze oèekávat nejvıraznìjší zmìny u cílové skupiny. Hodnocena bude jak pøímá podpora rodinám, tak systémová role case managementu, koordinace multidisciplinárního tımu a pravidelnıch revizí individuálních plánù. Aktivity KA3 a KA4 budou do evaluace zahrnuty doplòkovì, a to zejména v rozsahu, v jakém ovlivòují kvalitu a udritelnost podpory poskytované v KA1 a KA2.
+3. Design evaluace
+3.1 Cíle evaluace
+Hlavním cílem evaluace je ovìøit, zda projekt „Mosty v rodinì“ vede ke zmìnì situace ohroenıch dìtí a rodin v oblastech, které projekt oznaèuje jako klíèové, a souèasnì posoudit, jak k tìmto zmìnám pøispívá spojení pøímé práce s rodinou, multidisciplinární podpory a case managementu.
+Dílèí cíle evaluace jsou následující:
+vyhodnotit zmìnu u cílové skupiny v oblastech rodièovskıch kompetencí, rodinného konfliktu, psychické zátìe dítìte, finanèní stability, bydlení, orientace v systému podpory a samostatnosti rodiny;
+posoudit kvalitu a prùbìh realizace klíèovıch aktivit KA1 a KA2, zejména fungování case managementu, revizí individuálních plánù, multidisciplinární spolupráce a návaznosti na IPOD;
+popsat mechanismy zmìny, tedy identifikovat, které formy podpory a které podmínky byly pro dosaené zmìny nejvıznamnìjší;
+formulovat doporuèení pro další rozvoj a metodické ukotvení sluby a pro její dlouhodobou udritelnost.
+3.2 Typ evaluace
+Navrhovaná evaluace je smíšená. Zahrnuje procesní sloku, která sleduje prùbìh realizace projektu, kvalitu jeho provedení a funkènost klíèovıch mechanismù podpory, a souèasnì sloku vısledkovou, která sleduje, zda u cílové skupiny došlo v prùbìhu podpory ke zmìnì. Procesní èást má formativní charakter, protoe má poskytovat prùbìnou zpìtnou vazbu realizátorùm projektu. Vısledková èást má charakter sumativnì orientovaného hodnocení, protoe ovìøuje, zda projekt naplnil své deklarované cíle.
+3.3 Vızkumnı design
+Evaluace bude sledovat, jestli se situace rodin v prùbìhu podpory mìní, a zároveò co k této zmìnì nejvíc pøispívá. Nebudeme porovnávat rodiny s nìjakou „kontrolní skupinou“ ani je rozdìlovat do rùznıch typù podpory. To by u tohoto projektu nebylo vhodné ani prakticky moné.Místo toho budeme u rodin sledovat jejich situaci na zaèátku spolupráce, v jejím prùbìhu a na konci.Budeme pøitom pracovat jak s èíselnımi údaji o zmìnì v jednotlivıch oblastech, tak s popisem zkušeností a prùbìhu spolupráce, abychom vìdìli nejen to, zda se nìco zmìnilo, ale také jak a proè ke zmìnì došlo. Evaluace souèasnì vychází z logiky teorie zmìny projektu. Pøedpokládá, e ke zmìnì situace rodiny dochází tehdy, kdy je pøímá práce s rodinou dostateènì intenzivní, dlouhodobá a koordinovaná, je opøena o multidisciplinární spolupráci a je prùbìnì vyhodnocována prostøednictvím case managementu a revizí individuálního plánu. Design evaluace proto sleduje nejen vısledky, ale i to, jakım zpùsobem byly tyto vısledky vytváøeny.
+3.4 Evaluaèní otázky
+Evaluace bude postavena na tøech hlavních evaluaèních otázkách.
+Hlavní evaluaèní otázka 1
+Do jaké míry projekt pøispívá ke zmìnì situace rodin v klíèovıch oblastech ohroení dítìte?
+K této otázce se vztahují zejména následující pomocné otázky:
+Došlo ke zmìnì v rodièovskıch kompetencích a v kadodenním fungování rodiny?
+Došlo ke sníení konfliktu mezi rodièi a ke zlepšení psychické pohody dítìte?
+Došlo ke zlepšení orientace rodiny v systému podpory a ke zvıšení její samostatnosti pøi jednání s institucemi?
+Hlavní evaluaèní otázka 2
+Jakım zpùsobem a za jakıch podmínek pøispívá k dosaené zmìnì propojení pøímé práce, multidisciplinárního tımu a case managementu?
+K této otázce se vztahují zejména následující pomocné otázky:
+Jaká byla role jednotlivıch odborností v práci s rùznımi typy pøípadù?
+Jak pøispíval case management a pravidelné revize individuálních plánù ke koordinaci podpory a k prokazatelnosti vısledkù?
+Za jakıch okolností se propojení pøímé práce a systémové koordinace ukazovalo jako nejúèinnìjší?
+Hlavní evaluaèní otázka 3
+Byly klíèové aktivity KA1 a KA2 realizovány kvalitnì, vèas a v souladu s projektovım zámìrem?
+K této otázce se vztahují zejména následující pomocné otázky:
+Probíhaly revize individuálních plánù v plánované frekvenci a s dostateènou kvalitou?
+Byly role v multidisciplinárním tımu a ve vztahu k OSPOD jasnì vymezené a funkèní?
+Umoòovala dokumentace projektu a záznamy z intervencí prùbìné vyhodnocování a závìreènou interpretaci vısledkù?
+V pøípadì první evaluaèní otázky je dùleité, e její zodpovìzení vyaduje zachycení stavu cílové skupiny pøed intervencí a po intervenci. Tomu odpovídá i navrená metodologie a sada nástrojù, které umoní srovnání vıchozího a vıstupního stavu a zároveò prùbìné sledování zmìny v èase.
+4. Metodologie evaluace
+4.1 Metodologickı pøístup
+Metodologie evaluace kombinuje kvantitativní a kvalitativní pøístupy. Kvantitativní èást slouí k zachycení zmìny stavu u jednotlivıch pøípadù a k prùbìnému sledování plnìní cílù individuálních plánù. Kvalitativní èást slouí k hlubšímu porozumìní tomu, jak klienti a pracovníci vnímají prùbìh podpory, jaké faktory zmìnu usnadòují nebo naopak brzdí a jak funguje koordinace péèe v rámci multidisciplinárního tımu a case managementu.
+4.2 Zdroje dat
+Evaluace bude pracovat s primárními i sekundárními zdroji dat.
+Primárními zdroji dat budou zejména:
+rodiny zapojené do projektu;
+èlenové realizaèního tımu a multidisciplinárního tımu;
+vedení sluby a odborné role projektu;
+vybraní externí partneøi, zejména pracovníci OSPOD a další spolupracující instituce, pokud to bude pro zodpovìzení evaluaèních otázek potøebné.
+Sekundárními zdroji dat budou zejména:
+vstupní sociální šetøení a vstupní hodnoticí formuláøe;
+individuální plány a jejich pravidelné revize;
+záznamy z intervencí a z práce jednotlivıch odborností;
+záznamy z multidisciplinárních setkání, pøípadovıch konferencí a jednání s OSPOD;
+další interní dokumentace projektu vztahující se k prùbìhu podpory a plnìní klíèovıch aktivit.
+4.3 Respondenti a pøedpokládanı rozsah sbìru dat
+Kvantitativní èást evaluace bude pracovat se souborem všech rodin, u nich bude moné zachytit vstupní stav a následnì alespoò jedno prùbìné nebo vıstupní hodnocení. Cílem je vyuít maximum dostupnıch dat z bìného provozu sluby a nesniovat vypovídací hodnotu evaluace zbyteènì úzkım vıbìrem pøípadù.
+Kvalitativní èást bude zaloena na zámìrném vıbìru respondentù a pøípadù. Pøedpokládá se zapojení pøiblinì deseti a patnácti rodin nebo pøípadù do hloubkovìjších rozhovorù èi pøípadovıch studií. Souèasnì budou realizovány rozhovory s klíèovımi èleny realizaèního tımu a podle potøeby i s vybranımi externími partnery. Cílem není statistická reprezentativnost, ale zachycení rùznıch typù zkušeností, rùznıch trajektorií zmìny a rùznıch podmínek, v nich intervence probíhá.
+4.4 Metody sbìru dat
+4.4.1 Vstupní dotazník / vstupní hodnoticí formuláø
+Vstupní dotazník bude slouit k zachycení vıchozí situace rodiny pøi vstupu do sluby. Bude mapovat klíèové oblasti zmìny, zejména rodièovské kompetence, rodinné fungování, konflikt mezi rodièi, psychickou zátì dítìte, finanèní stabilitu, bydlení, orientaci v systému podpory a samostatnost vùèi institucím. Tento nástroj bude tvoøit základ pro pozdìjší srovnání se stavem pøi ukonèení podpory.
+4.4.2 Záznam z hodnocení individuálního plánu
+Formalizované hodnocení IP bude jedinım hlavním formuláøem pro prùbìné i závìreèné hodnocení zmìny u klienta. Jeho souèástí bude krátká sekce „Klientská reflexe“, která zachytí klientskı pohled na zmìnu, hlavní pøínos sluby a pøetrvávající bariéry. Tento pøístup sniuje administrativní zátì, nevytváøí paralelní evidenci a souèasnì umoòuje doplnit odborné hodnocení pracovníka o struènou perspektivu klienta. Model je v souladu s projektovou logikou, která staví na formalizovanıch revizích IP a na prùbìném vyhodnocování pokroku rodiny, a zároveò odpovídá poadavku zachytit zmìnu u cílové skupiny pøed intervencí a po intervenci. 
+
+4.4.3 Polostrukturované rozhovory s klienty a rodinami
+Polostrukturované rozhovory s klienty doplní kvantitativní data o zkušenost klientù se slubou. Zamìøí se na to, co se podle klientù zmìnilo, co jim v prùbìhu podpory nejvíce pomohlo, jak vnímali roli jednotlivıch odborností, co povaovali za bariéry zmìny a do jaké míry se po ukonèení podpory cítí samostatnìjší.
+4.4.4 Polostrukturované rozhovory s pracovníky projektu
+Rozhovory s pracovníky projektu budou slouit k popisu mechanismù zmìny, podmínek realizace, fungování multidisciplinární spolupráce a praktického pøínosu case managementu. Budou se zamìøovat také na kvalitu dokumentace, funkènost revizí individuálních plánù, na koordinaci s dalšími institucemi a na faktory, které podporují nebo ohroují efektivitu poskytované podpory.
+4.4.5 Rozhovory s externími partnery
+V pøípadì potøeby budou realizovány také rozhovory s externími partnery, zejména s pracovníky OSPOD a pøípadnì s dalšími spolupracujícími aktéry. Tyto rozhovory pomohou posoudit, zda je spolupráce mezi projektem a navazujícími institucemi funkèní, srozumitelná a pøínosná pro rodiny.
+4.4.6 Analıza interní dokumentace a pøípadovıch studií
+Dùleitou souèástí evaluace bude také analıza interní dokumentace a tvorba pøípadovıch studií. Pøípadové studie umoní propojit vstupní situaci rodiny, prùbìh intervence, zapojení rùznıch odborností a dosaenı vısledek do jednoho celku. Budou slouit zejména pro interpretaci kvalitativních souvislostí a pro formulaci doporuèení pro další rozvoj sluby.
+4.5 Periodicita sbìru dat
+Sbìr dat bude nastaven tak, aby odpovídal logice projektu a navazoval na jeho bìné procesy. Vstupní data budou sbírána pøi zahájení spolupráce s rodinou. Prùbìná data budou sbírána pøi revizích individuálního plánu, a to minimálnì jednou za tøi mìsíce nebo pøi vıznamné zmìnì situace rodiny. Vıstupní data budou sbírána pøi ukonèení podpory. U èásti pøípadù mùe bıt sbìr doplnìn o následnı follow-up, kterı umoní lépe posoudit udritelnost dosaenıch zmìn.
+4.6 Vazba metod sbìru dat na evaluaèní otázky
+První evaluaèní otázka bude zodpovídána pøedevším prostøednictvím vstupních a vıstupních hodnoticích nástrojù, prùbìnıch revizí individuálních plánù a rozhovorù s rodinami. Druhá evaluaèní otázka bude zodpovídána zejména pomocí rozhovorù s pracovníky a klienty, analızy dokumentace, záznamù z multidisciplinárních setkání a pøípadovıch studií. Tøetí evaluaèní otázka bude opøena o analızu dokumentace, o rozhovory s pracovníky a partnery a o posouzení prùbìhu revizí a koordinace podpory v praxi.
+4.7 Analıza dat
+Kvantitativní data budou analyzována pøedevším deskriptivnì. Pozornost bude vìnována srovnání vstupního a vıstupního stavu, vıvoji jednotlivıch indikátorù v prùbìhu podpory a podílu pøípadù, u nich došlo ke zlepšení, stagnaci nebo zhoršení. Kvalitativní data budou analyzována tematicky. Cílem bude identifikovat opakující se vzorce, bariéry, pøínosy rùznıch forem podpory a podmínky, za nich se zmìna u rodin daøí nebo naopak nedaøí. V závìreèné interpretaci budou oba typy dat propojeny.
+4.8 Etika a limity evaluace
+Evaluace pracuje s citlivımi údaji o dìtech a rodinách, proto bude dùslednì dbát na ochranu osobních údajù a na dùstojnost všech respondentù. Data budou pro analytické úèely pseudonymizována a zpracovávána pouze v rozsahu nezbytném pro zodpovìzení evaluaèních otázek. Zvláštní dùraz bude kladen na citlivı pøístup v situacích, které se dotıkají traumatu dítìte, rodinného konfliktu nebo vysoké míry ohroení.
+Mezi limity evaluace patøí zejména neexperimentální charakter designu, kterı neumoòuje prokázat kauzalitu v pøísném metodologickém smyslu. Zmìny v situaci rodin mohou bıt ovlivnìny i vnìjšími faktory, napøíklad rozhodnutími soudu, zmìnami bydlení, pracovního uplatnìní nebo dalšími zásahy ze strany institucí. Smyslem evaluace proto není laboratorní dùkaz úèinku, ale vìrohodné a prakticky vyuitelné posouzení zmìny a jejích pravdìpodobnıch mechanismù v reálném provozu sluby.
+5. Harmonogram evaluace
+Evaluace bude rozloena do nìkolika navazujících fází tak, aby odpovídala harmonogramu projektu a respektovala rytmus práce s rodinami. Jednotlivé kroky budou probíhat prùbìnì po celou dobu realizace projektu, pøièem dùraz bude kladen na vèasné nastavení systému sbìru dat, na prùbìné vyhodnocování a na dostateènı èasovı prostor pro závìreènou analızu a interpretaci.
+5.1 Pøípravná fáze
+V pøípravné fázi bude dokonèena Vstupní evaluaèní zpráva, budou stabilizovány nástroje sbìru dat, nastaveny role jednotlivıch èlenù tımu ve vztahu k evidenci a vyhodnocování dat a bude ovìøena pouitelnost navrenıch formuláøù v praxi. Tato fáze je klíèová pro to, aby evaluace byla od poèátku sladìna s kadodenním provozem sluby.
+5.2 Vstupní sbìr dat
+Ve fázi vstupního sbìru dat budou pøi zahájení spolupráce s rodinami vyplòovány vstupní hodnoticí formuláøe, zpracovávány individuální plány a nastavovány první mìøitelné cíle práce s rodinou. Souèástí této fáze bude také prùbìné ovìøování toho, zda nástroje poskytují dostateènì kvalitní a srovnatelná data.
+5.3 Prùbìné hodnocení
+V prùbìné fázi budou pravidelnì realizovány revize individuálních plánù, budou shromaïována data z intervencí a budou probíhat kvalitativní rozhovory s vybranımi respondenty. V této fázi bude evaluace plnit i formativní funkci, protoe její prùbìné závìry mohou slouit jako podklad pro úpravy metodiky nebo organizace práce.
+5.4 Závìreènı sbìr dat
+V závìreèné fázi budou dokonèována vıstupní hodnocení pøípadù, realizovány vıstupní rozhovory s klienty a pracovníky a pøipravovány pøípadové studie. Cílem této fáze je zachytit jak vısledek podpory, tak celkové vyznìní zkušenosti respondentù s projektem.
+5.5 Analıza a zpracování závìreèné evaluaèní zprávy
+Poslední fáze bude vìnována souhrnné analıze dat, formulaci závìrù a doporuèení a zpracování závìreèné evaluaèní zprávy. Tato fáze naváe na prùbìnì shromaïovaná data a vyústí ve finální posouzení pøínosu projektu pro cílovou skupinu a pro rozvoj sluby.
+6. Nástroje sbìru dat
+Nástroje sbìru dat byly navreny tak, aby odpovídaly logice evaluace, umoòovaly srovnání vıchozího a vıstupního stavu a souèasnì byly pouitelné v kadodenní praxi sluby. Kadı z nástrojù má jasnì vymezenı úèel, okruh respondentù a vazbu na konkrétní evaluaèní otázky.
+6.1 Vstupní dotazník / vstupní hodnoticí formuláø pro rodinu
+Tento nástroj zachycuje vıchozí situaci rodiny v klíèovıch oblastech zmìny a poskytuje základ pro tvorbu individuálního plánu. Souèasnì vytváøí vıchozí bod pro evaluaci dopadu projektu na cílovou skupinu.
+6.2 Záznam z hodnocení individuálního plánu
+Tento nástroj slouí k prùbìnému i závìreènému hodnocení plnìní cílù práce s rodinou. Umoòuje sledovat zmìnu v èase, zaznamenávat dùkazy zmìny a formulovat další kroky podpory.
+6.3 Scénáø polostrukturovaného rozhovoru s klientem / rodinou
+Tento scénáø je urèen pro kvalitativní zachycení zkušenosti klienta s podporou, vnímanıch zmìn, bariér a pøínosù projektu. Vyuívá se zejména u vybranıch pøípadù a pøi ukonèení podpory.
+6.4 Scénáø polostrukturovaného rozhovoru s pracovníkem projektu
+Tento scénáø je zamìøen na fungování multidisciplinární spolupráce, case managementu, kvalitu provádìní intervencí a praktické podmínky realizace projektu. Poskytuje dùleitı podklad pro procesní èást evaluace.
+6.5 Scénáø rozhovoru s externím partnerem
+Tento nástroj slouí k zachycení pohledu spolupracujících institucí na funkènost koordinace, návaznost podpory a pøínos projektu pro práci s ohroenımi dìtmi a rodinami.
+6.6 Šablona pøípadové studie
+Pøípadová studie propojuje kvantitativní a kvalitativní informace o vybraném pøípadu do uceleného analytického popisu. Je vhodná zejména pro závìreènou interpretaci mechanismù zmìny a pro formulaci doporuèení pro další rozvoj sluby.
+7. Závìr
+Navrená Vstupní evaluaèní zpráva vytváøí jednotnı rámec pro evaluaci projektu „Mosty v rodinì“. Stanovuje cíle evaluace, vymezuje její design, urèuje metodologii, harmonogram a základní nástroje sbìru dat. Souèasnì vytváøí podmínky pro to, aby evaluace nebyla oddìlenım administrativním úkonem, ale pøirozenou souèástí øízení kvality sluby a prùbìného uèení se z praxe. Další krok bude spoèívat v dopracování evaluaèní matice a ve finálním sladìní sbìrnıch nástrojù s potøebami realizaèního tımu a s logikou následného zpracování dat.

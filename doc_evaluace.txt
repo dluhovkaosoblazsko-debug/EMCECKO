@@ -1,0 +1,77 @@
+Evaluaèní matice projektu „Mosty v rodinì“
+Pøíloha k Vstupní evaluaèní zprávì
+1. Úvodní text k evaluaèní matici
+Evaluaèní matice propojuje cíle evaluace, evaluaèní otázky, indikátory zmìny, zdroje dat, nástroje sbìru dat, periodicitu sbìru a zpùsob vyhodnocení. Jejím úèelem je zajistit, aby byla evaluace vnitønì konzistentní a aby kadá evaluaèní otázka mìla odpovídající datovou oporu.
+Matice vychází z logiky projektu „Mosty v rodinì“, zejména z návaznosti mezi pøímou prací s rodinami v rámci klíèové aktivity KA1 a systémovım øízením kvality, case managementem a pravidelnımi revizemi individuálních plánù v rámci klíèové aktivity KA2.
+Primární dùraz je kladen na sledování zmìny situace rodin v èase, tedy od vstupu do sluby pøes prùbìné hodnocení a po ukonèení podpory. Souèasnì matice umoòuje zachytit i procesní stránku projektu, tedy kvalitu realizace, funkènost multidisciplinární spolupráce a podmínky, které dosaení zmìny podporují nebo naopak brzdí.
+Matice je zpracována tak, aby mohla bıt vyuita jako metodickı základ pro nastavení sbìrnıch nástrojù, prùbìné evidování dat i pro závìreènou interpretaci vısledkù evaluace.
+
+
+
+
+
+
+
+
+
+2. Evaluaèní matice
+Cíl evaluace
+Evaluaèní otázka
+Typ otázky
+Co budeme zjišovat / indikátory
+Zdroje dat a respondenti
+Metody a nástroje
+Kdy se sbírá
+Jak se budou data vyhodnocovat
+1. Ovìøit, zda projekt vede ke zmìnì situace rodin v klíèovıch oblastech ohroení dítìte.
+EO1: Do jaké míry projekt pøispívá ke zmìnì situace rodin v klíèovıch oblastech ohroení dítìte?
+Vısledková / dopadová
+Zmìna v rodièovskıch kompetencích; zmìna v kadodenním fungování rodiny; zmìna v míøe konfliktu mezi rodièi; zmìna v psychické zátìi dítìte; zmìna ve finanèní stabilitì, bydlení, orientaci v systému a samostatnosti pøi jednání s institucemi.
+Rodiny zapojené do KA1; interní dokumentace sluby; individuální plány a jejich revize; záznamy z intervencí.
+Vstupní dotazník / vstupní hodnoticí formuláø; záznam z hodnocení IP; vıstupní hodnocení; polostrukturované rozhovory s rodinami.
+Pøi vstupu do sluby; pøi prùbìnıch revizích IP; pøi ukonèení podpory; pøípadnì ve follow-upu.
+Srovnání vstupního a vıstupního stavu; prùbìné sledování zmìny v èase; tematická interpretace zkušeností rodin.
+2. Ovìøit, jak ke zmìnì pøispívá propojení pøímé práce, multidisciplinárního tımu a case managementu.
+EO2: Jakım zpùsobem a za jakıch podmínek pøispívá k dosaené zmìnì propojení pøímé práce, multidisciplinárního tımu a case managementu?
+Procesní + vysvìtlující
+Role sociálního pracovníka, psychologa, mediátora a dalších odborností; pøínos case managementu; pøínos pravidelnıch revizí IP; provázanost podpory s IPOD; faktory, které zmìnu podporují nebo brzdí.
+Pracovníci projektu; case manager; vedoucí sluby; odbornı garant; vybrané rodiny; pøípadnì OSPOD a další partneøi.
+Polostrukturované rozhovory s pracovníky; rozhovory s rodinami; analıza dokumentace; záznamy MDT a pøípadovıch jednání; pøípadové studie.
+Prùbìnì v prùbìhu realizace; souhrnnì v závìru projektu.
+Tematická analıza; srovnání typù pøípadù; pøípadové studie; identifikace mechanismù zmìny.
+3. Ovìøit kvalitu a prùbìh realizace klíèovıch aktivit KA1 a KA2.
+EO3: Byly klíèové aktivity KA1 a KA2 realizovány kvalitnì, vèas a v souladu s projektovım zámìrem?
+Procesní / formativní
+Zda probíhaly revize IP v plánované frekvenci; zda byla dokumentace úplná a vyuitelná; zda fungovala koordinace s OSPOD a dalšími aktéry; zda byly role v MDT jasné a funkèní.
+Interní dokumentace projektu; záznamy z revizí IP; záznamy MDT; pracovníci projektu; externí partneøi.
+Analıza dokumentace; checklist realizace; polostrukturované rozhovory s pracovníky; rozhovory s partnery.
+Prùbìnì; souhrnnì pøed závìreènou zprávou.
+Kontrola souladu realizace s projektovım nastavením; tematická analıza; souhrn procesních zjištìní a doporuèení.
+4. Formulovat doporuèení pro další rozvoj a metodické ukotvení sluby.
+EO4: Jaká doporuèení pro další rozvoj a metodické ukotvení sluby vyplıvají z prùbìhu a vısledkù projektu?
+Interpretaèní / doporuèující
+Silná a slabá místa sluby; pøínos jednotlivıch forem podpory; slabá místa koordinace; opakující se bariéry v práci s rodinami; pøenositelné prvky modelu SAS RD + MDT + case management.
+Vıstupní data z pøípadù; rozhovory s rodinami; rozhovory s pracovníky; dokumentace ukonèenıch pøípadù; pøípadnì expertní reflexe.
+Vıstupní rozhovory; syntéza pøípadovıch studií; expertní rozhovory; souhrnná analıza interní dokumentace.
+V závìreèné fázi projektu.
+Syntéza zjištìní napøíè metodami; formulace doporuèení pro metodiku, organizaci práce a další rozvoj sluby.
+3. Dílèí rozpad evaluaèních otázek
+EO1 – zmìna u rodin
+Došlo ke zmìnì v rodièovskıch kompetencích a v kadodenním fungování rodiny?
+Došlo ke sníení konfliktu mezi rodièi a ke zlepšení psychické pohody dítìte?
+Došlo ke zlepšení orientace rodiny v systému podpory a ke zvıšení její samostatnosti pøi jednání s institucemi?
+Došlo ke zmìnì ve finanèní stabilitì, v práci s rozpoètem a v oblasti bydlení?
+EO2 – mechanismy zmìny
+Jakou roli mìly v jednotlivıch typech pøípadù sociální práce, psychologická podpora, mediace a další odborné vstupy?
+Jak pøispíval case management ke koordinaci podpory a k revizi cílù?
+Jaká kombinace podpory se ukazuje jako nejúèinnìjší u rùznıch typù rodin?
+EO3 – kvalita realizace
+Probíhaly revize IP nejménì jednou za tøi mìsíce a byly vyuitelné pro øízení podpory?
+Byla dokumentace vedená tak, aby umonila prùbìné a závìreèné vyhodnocení?
+Byla spolupráce mezi slubou, OSPOD a dalšími aktéry funkèní a srozumitelná?
+EO4 – doporuèení pro další rozvoj sluby
+Které prvky podpory se v praxi ukazují jako nejpøínosnìjší?
+Kde se nejèastìji objevují slabá místa v koordinaci, dokumentaci nebo návaznosti podpory?
+Co je potøeba metodicky nebo organizaènì upravit pro další rozvoj sluby?
+4. Závìreèná metodická poznámka
+Evaluaèní matice je zpracována jako závaznı rámec pro nastavení sbìrnıch nástrojù, prùbìné evidence dat a závìreèného vyhodnocení projektu. Její finální podoba má zajistit, aby mezi cíli evaluace, otázkami, indikátory, metodami a harmonogramem existovala jasná a pøehledná návaznost.

@@ -1,0 +1,1424 @@
+Finální technická specifikace pro programátora
+Datovı model hlavního programu a exportù pro evaluaci projektu „Mosty v rodinì“
+Verze 1.0
+
+1. Úèel dokumentu
+Dokument definuje finální datovı model hlavního programu, vazby mezi entitami, technické datové typy polí, povinnost vyplnìní a exportní logiku pro evaluaci projektu. Dokument je urèen pro programátora / dodavatele systému a má slouit jako závaznı podklad pro implementaci.
+2. Základní zásady návrhu
+Hlavní program je jedinı zdroj pravdy pro provozní evidenci pøípadu, IP, pravidelné hodnocení, intervence, koordinaèní setkání, vıstup a ukonèení pøípadu.
+Evaluaèní vrstva je oddìlená a pracuje jen s pseudonymizovanımi exporty z hlavního programu.
+Osobní údaje klientù jsou vedeny oddìlenì od provozních a exportních dat.
+Jedna rodina / pøípad mùe mít více plánù IP v èase.
+Jeden plán IP mùe mít více cílù.
+Pravidelné hodnocení, intervence i koordinaèní setkání se vdy váou ke konkrétnímu cíli IP, pokud není vıslovnì uvedeno jinak.
+Vıstupní dotazník a ukonèení pøípadu jsou na úrovni pøípadu jako celku, ne na úrovni cíle.
+3. Hierarchickı model
+Rodina_ID+¦¦ Karta_pripadu_ID+¦¦ Osobni_udaje_ID+¦¦ Vstup_ID+¦¦ Plan_IP_ID (IP1, IP2, …)-   +¦¦ Revize_planu_IP_ID-   L¦¦ IP_Cil_ID-       +¦¦ Pravidelne_hodnoceni_IP_ID-       +¦¦ Intervence_ID-       L¦¦ Koordinacni_setkani_ID+¦¦ Vystup_IDL¦¦ Ukonceni_pripadu_ID
+4. Kardinality a vazby
+Nadøazená entita
+Podøízená entita
+Kardinalita
+Poznámka
+Rodina_ID
+Karta_pripadu_ID
+1:1
+Jeden pøípad má jednu hlavní kartu pøípadu.
+Rodina_ID
+Osobni_udaje_ID
+1:1
+Osobní údaje jsou oddìlené a neexportují se do evaluace.
+Rodina_ID
+Vstup_ID
+1:1 nebo 1:N
+Standardnì jeden vstup do sluby; pokud sluba potøebuje opakovanı vstup, mùe bıt více záznamù.
+Rodina_ID
+Plan_IP_ID
+1:N
+Jeden pøípad mùe mít více plánù IP v èase.
+Plan_IP_ID
+Revize_planu_IP_ID
+0:N
+Jeden plán mùe mít více revizí plánu.
+Plan_IP_ID
+IP_Cil_ID
+1:N
+Jeden plán mùe mít více cílù.
+IP_Cil_ID
+Pravidelne_hodnoceni_IP_ID
+0:N
+Jeden cíl mùe mít více pravidelnıch hodnocení.
+IP_Cil_ID
+Intervence_ID
+0:N
+Jeden cíl mùe mít více intervencí.
+IP_Cil_ID
+Koordinacni_setkani_ID
+0:N
+Jeden cíl mùe mít více koordinaèních setkání.
+Rodina_ID
+Vystup_ID
+0:1
+Vıstupní dotazník je na úrovni pøípadu.
+Rodina_ID
+Ukonceni_pripadu_ID
+0:1
+Ukonèení pøípadu je na úrovni pøípadu.
+5. Pouité technické typy
+textové pole = text / string
+èíselník = vıbìr z pøedem definovanıch hodnot
+datum = datumové pole
+èíselná hodnota = integer / decimal podle potøeby
+povinné = bez vyplnìní nelze záznam uloit nebo exportovat jako úplnı
+volitelné = lze ponechat prázdné
+6.1 Karta_pripadu_ID
+Trvalı provozní rámec pøípadu na úrovni rodiny. Obsahuje základní systémové údaje o pøípadu.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Karta_pripadu_ID
+textové pole
+Ano
+ne
+Ne
+Systémovı identifikátor karty pøípadu.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Hlavní identifikátor pøípadu / rodiny.
+Datum_zalozeni_pripadu
+datum
+Ano
+ne
+Ano
+Datum zaloení pøípadu.
+Stav_pripadu
+èíselník
+Ano
+ano
+Ano
+aktivní / pozastavenı / ukonèenı
+KP
+textové pole
+Ano
+ne
+Ano
+Klíèovı pracovník.
+Case_manager
+textové pole
+Ano
+ne
+Ano
+Case manager pøípadu.
+Zdroj_doporuceni
+èíselník
+Ano
+ano
+Ano
+Zdroj vstupu do sluby.
+Typ_zakazky
+èíselník
+Ano
+ano
+Ano
+Typ zakázky.
+Pocet_deti
+èíselná hodnota
+Ano
+ne
+Ano
+Poèet dìtí v rodinì.
+Vek_deti
+textové pole
+Ano
+ne
+Ano
+Vìk nebo struènı zápis vìkové struktury.
+OSPOD_ano_ne
+èíselník
+Ano
+ano
+Ano
+ano / ne
+Mira_ohrozeni_ditete
+èíselník
+Ano
+ano
+Ano
+nízké / støední / vysoké
+Vazba_na_IPOD
+èíselník
+Ne
+ano
+Ano
+ano / ne
+Poznamka
+textové pole
+Ne
+ne
+Ne
+Volitelná provozní poznámka.
+
+6.2 Osobni_udaje_ID
+Oddìlená entita pro citlivé osobní údaje. Neexportuje se do evaluace.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Osobni_udaje_ID
+textové pole
+Ano
+ne
+Ne
+Systémovı identifikátor osobních údajù.
+Rodina_ID
+textové pole
+Ano
+ne
+Ne
+Vazba na pøípad.
+Jmeno_rodiny_nebo_klienta
+textové pole
+Ano
+ne
+Ne
+Plná identifikace.
+Adresa
+textové pole
+Ne
+ne
+Ne
+Adresa.
+Telefon
+textové pole
+Ne
+ne
+Ne
+Telefonní kontakt.
+Email
+textové pole
+Ne
+ne
+Ne
+E-mail.
+Datum_narozeni
+datum
+Ne
+ne
+Ne
+Datum narození.
+Dalsi_ident_udaje
+textové pole
+Ne
+ne
+Ne
+Další citlivé identifikaèní údaje.
+
+6.3 Vstup_ID
+Vstupní dotazník / vstupní hodnocení. Zachycuje vıchozí stav pøípadu a baseline pro evaluaci.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Vstup_ID
+textové pole
+Ano
+ne
+Ano
+Identifikátor vstupního záznamu.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na pøípad.
+Datum_vstupu
+datum
+Ano
+ne
+Ano
+Datum vstupního hodnocení.
+Popis_situace_pracovnik
+textové pole
+Ano
+ne
+Ano
+Popis situace pracovníkem.
+Popis_situace_rodina
+textové pole
+Ano
+ne
+Ano
+Jak situaci popisuje rodina.
+Delka_trvani_problemu
+textové pole
+Ne
+ne
+Ano
+Volitelnì délka trvání obtíí.
+Rodicovske_kompetence_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Rodicovske_kompetence_komentar
+textové pole
+Ano
+ne
+Ano
+Krátkı komentáø.
+Kazdodenni_fungovani_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Kazdodenni_fungovani_komentar
+textové pole
+Ano
+ne
+Ano
+Krátkı komentáø.
+Konflikt_mezi_rodici_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Konflikt_mezi_rodici_komentar
+textové pole
+Ano
+ne
+Ano
+Krátkı komentáø.
+Psychicka_zatez_ditete_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Psychicka_zatez_ditete_komentar
+textové pole
+Ano
+ne
+Ano
+Krátkı komentáø.
+Finance_hospodareni_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Finance_hospodareni_komentar
+textové pole
+Ano
+ne
+Ano
+Krátkı komentáø.
+Bydleni_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Bydleni_komentar
+textové pole
+Ano
+ne
+Ano
+Krátkı komentáø.
+Orientace_v_systemu_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Orientace_v_systemu_komentar
+textové pole
+Ano
+ne
+Ano
+Krátkı komentáø.
+Samostatnost_vuci_institucim_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Samostatnost_vuci_institucim_komentar
+textové pole
+Ano
+ne
+Ano
+Krátkı komentáø.
+Pohled_rodiny_hlavni_problem
+textové pole
+Ano
+ne
+Ano
+Klientskı pohled na hlavní problém.
+Pohled_rodiny_co_zmenit_jako_prvni
+textové pole
+Ano
+ne
+Ano
+Co zmìnit jako první.
+Pohled_rodiny_ocekavani_od_sluzby
+textové pole
+Ano
+ne
+Ano
+Oèekávání od sluby.
+Pohled_rodiny_mira_nadeje_na_zmenu
+èíselník
+Ano
+ano
+Ano
+míra nadìje na zmìnu
+Silne_stranky_a_oporne_zdroje
+textové pole
+Ano
+ne
+Ano
+Silné stránky a oporné zdroje.
+Riziko_pro_dite
+textové pole
+Ano
+ne
+Ano
+Rizika pro dítì.
+Riziko_pro_rodinu
+textové pole
+Ano
+ne
+Ano
+Rizika pro rodinu.
+Nutnost_okamziteho_reseni
+èíselník
+Ano
+ano
+Ano
+ano / ne
+Priorita_1
+èíselník
+Ano
+ano
+Ano
+hlavní oblast cíle
+Priorita_2
+èíselník
+Ne
+ano
+Ano
+další oblast cíle
+Priorita_3
+èíselník
+Ne
+ano
+Ano
+další oblast cíle
+Navrh_prvnich_cilu_IP
+textové pole
+Ano
+ne
+Ano
+Návrh prvních cílù.
+Zapojit_psychologa
+èíselník
+Ne
+ano
+Ano
+ano / ne
+Zapojit_mediatora
+èíselník
+Ne
+ano
+Ano
+ano / ne
+Resit_finance_prednostne
+èíselník
+Ne
+ano
+Ano
+ano / ne
+Resit_bydleni_prednostne
+èíselník
+Ne
+ano
+Ano
+ano / ne
+Resit_navaznost_OSPOD_IPOD
+èíselník
+Ne
+ano
+Ano
+ano / ne / zatím nejasné
+Poznamka_pracovnika
+textové pole
+Ne
+ne
+Ano
+Volitelná poznámka.
+
+6.4 Plan_IP_ID
+Hlavièka jednoho samostatného plánu IP. Jedna rodina mùe mít více plánù IP v èase.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Plan_IP_ID
+textové pole
+Ano
+ne
+Ano
+Identifikátor plánu IP.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na pøípad.
+Datum_zalozeni_IP
+datum
+Ano
+ne
+Ano
+Datum zaloení plánu.
+Stav_IP
+èíselník
+Ano
+ano
+Ano
+aktivní / ukonèenı / nahrazenı
+Datum_ukonceni_IP
+datum
+Ne
+ne
+Ano
+Datum ukonèení plánu.
+Duvod_ukonceni_IP
+èíselník
+Ne
+ano
+Ano
+dùvod ukonèení plánu
+Vazba_na_IPOD
+èíselník
+Ne
+ano
+Ano
+ano / ne
+Verze_IP
+textové pole
+Ne
+ne
+Ano
+Napø. IP1, IP2.
+Poznamka
+textové pole
+Ne
+ne
+Ne
+Volitelná poznámka.
+
+6.5 Revize_planu_IP_ID
+Revize samotného plánu IP jako celku. Nejde o pravidelné hodnocení cíle, ale o zmìny struktury nebo obsahu plánu.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Revize_planu_IP_ID
+textové pole
+Ano
+ne
+Ano
+Identifikátor revize plánu.
+Plan_IP_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na plán.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na pøípad.
+Datum_revize_planu
+datum
+Ano
+ne
+Ano
+Datum revize plánu.
+Co_se_meni_v_IP
+textové pole
+Ano
+ne
+Ano
+Co se v plánu mìní.
+Duvod_zmeny
+textové pole
+Ano
+ne
+Ano
+Dùvod zmìny.
+Dohodnuto_s
+textové pole
+Ne
+ne
+Ano
+S kım byla zmìna dohodnuta.
+Poznamka
+textové pole
+Ne
+ne
+Ne
+Volitelná poznámka.
+
+6.6 IP_Cil_ID
+Jedna poloka = jeden konkrétní cíl v rámci plánu IP.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+IP_Cil_ID
+textové pole
+Ano
+ne
+Ano
+Identifikátor cíle.
+Plan_IP_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na plán.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na pøípad.
+Oblast_cile
+èíselník
+Ano
+ano
+Ano
+hlavní oblast cíle
+Priorita
+èíselník
+Ano
+ano
+Ano
+1 / 2 / 3
+Problem_ktery_cil_resi
+textové pole
+Ano
+ne
+Ano
+Struènı popis problému.
+Text_cile
+textové pole
+Ano
+ne
+Ano
+Formulace cíle.
+Vychozi_stav_popis
+textové pole
+Ano
+ne
+Ano
+Vıchozí stav.
+Vychozi_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Cilovy_stav_popis
+textové pole
+Ano
+ne
+Ano
+Cílovı stav.
+Cilove_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Meritelny_ukazatel
+textové pole
+Ano
+ne
+Ano
+Jak poznáme naplnìní cíle.
+Dukaz_naplneni
+textové pole
+Ano
+ne
+Ano
+Jakı dùkaz bude pouit.
+Krok_1
+textové pole
+Ano
+ne
+Ano
+První krok.
+Krok_2
+textové pole
+Ne
+ne
+Ano
+Druhı krok.
+Podpora_sluzby
+textové pole
+Ano
+ne
+Ano
+Jakou podporu poskytne sluba.
+Zapojene_odbornosti
+èíselník
+Ano
+ano
+Ano
+vícevıbìr odborností
+Vazba_na_IPOD
+èíselník
+Ne
+ano
+Ano
+ano / ne
+Termin_splneni
+datum
+Ano
+ne
+Ano
+Plánovanı termín.
+Odpovedna_osoba
+textové pole
+Ano
+ne
+Ano
+Odpovìdná osoba.
+Stav_cile
+èíselník
+Ano
+ano
+Ano
+provozní stav cíle
+Datum_ukonceni_cile
+datum
+Ne
+ne
+Ano
+Datum ukonèení cíle.
+Naplneni_cile
+èíselník
+Ne
+ano
+Ano
+evaluaèní vyhodnocení cíle
+Duvod_ukonceni_cile
+èíselník
+Ne
+ano
+Ano
+dùvod uzavøení cíle
+Poznamka
+textové pole
+Ne
+ne
+Ne
+Volitelná poznámka.
+
+6.7 Pravidelne_hodnoceni_IP_ID
+Formalizované pravidelné hodnocení konkrétního cíle IP. Hlavní prùbìnı evaluaèní nástroj.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Pravidelne_hodnoceni_IP_ID
+textové pole
+Ano
+ne
+Ano
+Identifikátor hodnocení.
+IP_Cil_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na cíl.
+Plan_IP_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na plán.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na pøípad.
+Datum_hodnoceni
+datum
+Ano
+ne
+Ano
+Datum pravidelného hodnocení.
+Typ_hodnoceni
+èíselník
+Ano
+ano
+Ano
+vstupní / trimesicni / mimoradne / vystupni
+Hodnotitel
+textové pole
+Ano
+ne
+Ano
+Kdo hodnocení provedl.
+Skore_vychozi
+èíselná hodnota
+Ano
+ne
+Ano
+Vıchozí skóre cíle.
+Skore_minule
+èíselná hodnota
+Ano
+ne
+Ano
+Pøedchozí skóre.
+Skore_aktualni
+èíselná hodnota
+Ano
+ne
+Ano
+Aktuální skóre.
+Zmena
+èíselná hodnota
+Ano
+ne
+Ano
+Aktuální mínus minulé.
+Aktualni_stav_a_dukaz
+textové pole
+Ano
+ne
+Ano
+Aktuální stav a dùkaz zmìny.
+Co_pomohlo
+textové pole
+Ano
+ne
+Ano
+Co zmìnu podpoøilo.
+Co_brdilo
+textové pole
+Ano
+ne
+Ano
+Co zmìnu brzdilo.
+Mira_splneni_cile
+èíselník
+Ano
+ano
+Ano
+míra splnìní cíle
+Potreba_upravy_IP
+èíselník
+Ano
+ano
+Ano
+ano / ne
+Dalsi_krok
+textové pole
+Ano
+ne
+Ano
+Další krok.
+Odpovedna_osoba
+textové pole
+Ano
+ne
+Ano
+Kdo pokraèuje dál.
+Termin_dalsiho_kroku
+datum
+Ne
+ne
+Ano
+Termín dalšího kroku.
+Datum_dalsiho_hodnoceni
+datum
+Ne
+ne
+Ano
+Plán dalšího hodnocení.
+Poznamka
+textové pole
+Ne
+ne
+Ne
+Volitelná poznámka.
+
+6.8 Intervence_ID
+Jedna poloka = jedna intervence jednoho pracovníka v jedné roli a jednom typu intervence vùèi jednomu cíli IP.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Intervence_ID
+textové pole
+Ano
+ne
+Ano
+Identifikátor intervence.
+IP_Cil_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na cíl.
+Plan_IP_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na plán.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na pøípad.
+Datum
+datum
+Ano
+ne
+Ano
+Datum intervence.
+Pracovnik
+textové pole
+Ano
+ne
+Ano
+Konkrétní pracovník.
+Role_pracovnika
+èíselník
+Ano
+ano
+Ano
+odborná role pracovníka
+Typ_intervence
+èíselník
+Ano
+ano
+Ano
+obsah intervence
+Forma_intervence
+èíselník
+Ano
+ano
+Ano
+forma kontaktu
+Delka_min
+èíselná hodnota
+Ano
+ne
+Ano
+Délka v minutách.
+Vazba_na_cil_IP
+textové pole
+Ano
+ne
+Ano
+Technicky obvykle stejné jako IP_Cil_ID.
+Strucny_popis
+textové pole
+Ano
+ne
+Ano
+Struènı popis.
+Vysledek
+textové pole
+Ne
+ne
+Ano
+Bezprostøední vısledek.
+Dalsi_krok
+textové pole
+Ne
+ne
+Ano
+Navazující krok.
+Poznamka
+textové pole
+Ne
+ne
+Ne
+Volitelná poznámka.
+
+6.9 Koordinacni_setkani_ID
+Koordinaèní nebo pøípadové jednání (OSPOD, MDT, pøípadová konference, síování). Není to bìná intervence.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Koordinacni_setkani_ID
+textové pole
+Ano
+ne
+Ano
+Identifikátor setkání.
+IP_Cil_ID
+textové pole
+Ne
+ne
+Ano
+Pokud se setkání vztahuje ke konkrétnímu cíli.
+Plan_IP_ID
+textové pole
+Ne
+ne
+Ano
+Pokud se vztahuje k plánu jako celku.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na pøípad.
+Datum
+datum
+Ano
+ne
+Ano
+Datum setkání.
+Typ_setkani
+èíselník
+Ano
+ano
+Ano
+typ koordinaèního setkání
+Ucastnici
+textové pole
+Ano
+ne
+Ano
+Seznam úèastníkù nebo vazba na úèastnickou tabulku.
+Rizika
+textové pole
+Ne
+ne
+Ano
+Hlavní identifikovaná rizika.
+Dohody
+textové pole
+Ano
+ne
+Ano
+Pøijaté dohody.
+Ukoly
+textové pole
+Ne
+ne
+Ano
+Rozdìlení úkolù.
+Termin_kontroly
+datum
+Ne
+ne
+Ano
+Termín další kontroly.
+Vazba_na_IP
+èíselník
+Ne
+ano
+Ano
+ano / ne
+Vazba_na_IPOD
+èíselník
+Ne
+ano
+Ano
+ano / ne
+Poznamka
+textové pole
+Ne
+ne
+Ne
+Volitelná poznámka.
+
+6.10 Vystup_ID
+Vıstupní dotazník / vıstupní hodnocení pøípadu. Je na úrovni pøípadu jako celku.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Vystup_ID
+textové pole
+Ano
+ne
+Ano
+Identifikátor vıstupního záznamu.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na pøípad.
+Datum_vystupu
+datum
+Ano
+ne
+Ano
+Datum vıstupního hodnocení.
+Popis_vysledku_pracovnik
+textové pole
+Ano
+ne
+Ano
+Shrnutí pracovníkem.
+Popis_vysledku_rodina
+textové pole
+Ano
+ne
+Ano
+Jak vısledek popisuje rodina.
+Rodicovske_kompetence_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Kazdodenni_fungovani_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Konflikt_mezi_rodici_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Psychicka_zatez_ditete_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Finance_hospodareni_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Bydleni_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Orientace_v_systemu_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Samostatnost_vuci_institucim_skore
+èíselná hodnota
+Ano
+ne
+Ano
+0–4
+Shrnuti_hlavnich_zmen
+textové pole
+Ano
+ne
+Ano
+Souhrn hlavních zmìn.
+Poznamka
+textové pole
+Ne
+ne
+Ne
+Volitelná poznámka.
+
+6.11 Ukonceni_pripadu_ID
+Provozní uzavøení pøípadu. Je na úrovni pøípadu jako celku.
+Pole
+Technickı typ
+Povinné
+Èíselník
+Export do evaluace
+Poznámka
+Ukonceni_pripadu_ID
+textové pole
+Ano
+ne
+Ano
+Identifikátor ukonèení pøípadu.
+Rodina_ID
+textové pole
+Ano
+ne
+Ano
+Vazba na pøípad.
+Datum_ukonceni
+datum
+Ano
+ne
+Ano
+Datum ukonèení pøípadu.
+Duvod_ukonceni
+èíselník
+Ano
+ano
+Ano
+dùvod ukonèení pøípadu
+Shrnuti_dosazenych_zmen
+textové pole
+Ano
+ne
+Ano
+Souhrn vısledku práce.
+Nedokoncene_oblasti
+textové pole
+Ne
+ne
+Ano
+Co zùstalo neuzavøené.
+Doporuceni_navazujici_pece
+textové pole
+Ne
+ne
+Ano
+Doporuèení navazující péèe.
+Poznamka
+textové pole
+Ne
+ne
+Ne
+Volitelná poznámka.
+
+7. Èíselníky
+Stav_pripadu
+aktivní
+pozastavenı
+ukonèenı
+Zdroj_doporuceni
+OSPOD
+škola
+samopøíchod
+soud
+jiná sluba
+zdravotnictví
+Typ_zakazky
+vıchovné obtíe
+konflikt / porozvodová situace
+finance / dluhy
+bydlení
+škola / dítì
+kombinovaná zakázka
+Mira_ohrozeni_ditete
+nízké
+støední
+vysoké
+Mira_nadeje_na_zmenu
+vùbec
+spíš ne
+èásteènì ano
+spíš ano
+ano, vıraznì
+Oblast_cile
+rodicovske_kompetence
+kazdodenni_fungovani_rodiny
+konflikt_mezi_rodici
+psychicka_zatez_ditete
+finance_a_hospodareni
+bydleni
+orientace_v_systemu_podpory
+samostatnost_pri_jednani_s_institucemi
+Stav_IP
+aktivní
+ukonèenı
+nahrazenı
+Duvod_ukonceni_IP
+plán_naplnìn
+nahrazen_novım_plánem
+ukonèení_spolupráce
+jinı_dùvod
+Priorita
+1
+2
+3
+Zapojene_odbornosti
+socialni_pracovnik
+case_manager
+psycholog
+mediator
+terapeut
+facilitator
+pravnik
+vedouci_sluzby
+odborny_garant
+Stav_cile
+planovano
+probiha
+pozastaveno
+splneno
+ukonceno_bez_splneni
+Naplneni_cile
+nesplneno
+castecne_splneno
+splneno
+Duvod_ukonceni_cile
+cil_naplnen
+cil_castecne_naplnen
+zmena_situace_rodiny
+cil_uz_neni_relevantni
+nahrazen_novym_cilem
+ukonceni_spoluprace
+jiny_duvod
+Typ_hodnoceni
+vstupní
+trimesicni
+mimoradne
+vystupni
+Mira_splneni_cile
+nesplneno
+castecne_splneno
+splneno
+Potreba_upravy_IP
+ano
+ne
+Role_pracovnika
+socialni_pracovnik
+case_manager
+psycholog
+mediator
+terapeut
+facilitator
+pravnik
+vedouci_sluzby
+odborny_garant
+Typ_intervence
+vstupni_setreni
+socialni_poradenstvi
+psychologicka_podpora
+mediace
+case_management
+nacvik_dovednosti
+doprovod
+krizova_intervence
+poradenstvi
+administrativni_podpora
+jine
+Forma_intervence
+teren
+ambulance
+telefon
+online
+jine
+Typ_setkani
+MDT
+pripadova_konference
+jednani_s_OSPOD
+sitovani
+interna_konzultace
+Ano_ne
+ano
+ne
+Ano_ne_nejasne
+ano
+ne
+zatím nejasné
+Duvod_ukonceni_pripadu
+naplnìní cílù
+pøedèasné ukonèení
+pøedání jiné slubì
+ztráta kontaktu
+jinı dùvod
+Skala_0_4
+0 = kritickı stav
+1 = vıraznı problém
+2 = èásteènì funkèní jen s vıraznou podporou
+3 = pøevánì funkèní s obèasnou podporou
+4 = stabilní / samostatnì zvládá
+8. Exportní logika pro evaluaci
+Program musí umìt vytváøet jeden exportní soubor .xlsx s více listy. Do evaluace se exportují pouze pseudonymizovaná data bez osobních údajù.
+Exportní list
+Zdrojová entita
+Exportovat do evaluace
+Rodiny
+Karta_pripadu_ID
+Ano
+Vstup
+Vstup_ID
+Ano
+IP_Hlavicka
+Plan_IP_ID
+Ano
+Revize_planu_IP
+Revize_planu_IP_ID
+Ano
+IP_Cile
+IP_Cil_ID
+Ano
+Pravidelne_hodnoceni_IP
+Pravidelne_hodnoceni_IP_ID
+Ano
+Intervence
+Intervence_ID
+Ano
+Koordinacni_setkani
+Koordinacni_setkani_ID
+Ano
+Vystup
+Vystup_ID
+Ano
+Ukonceni_pripadu
+Ukonceni_pripadu_ID
+Ano
+Osobni_udaje
+Osobni_udaje_ID
+Ne
+9. Akceptaèní kritéria
+Program obsahuje všechny vıše popsané entity a pole, nebo jejich funkènì rovnocennou implementaci.
+Jsou dodreny uvedené vazby a kardinality.
+Èíselníky jsou implementovány jednotnì a bez duplicitních variant hodnot.
+Osobní údaje jsou oddìlené a neexportují se do evaluace.
+Export .xlsx je moné bez ruèního zásahu naèíst do evaluaèního Excelu.
+Pravidelné hodnocení, intervence a koordinaèní setkání lze jednoznaènì navázat na konkrétní cíl IP.
+Je moné evidovat více plánù IP u jedné rodiny v èase.
+

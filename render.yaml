@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: mosty-v-rodine
+    env: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: GEMINI_API_KEY
+        sync: false
+    disk:
+      name: mosty-v-rodine-data
+      mountPath: /var/data
+      sizeGB: 1
