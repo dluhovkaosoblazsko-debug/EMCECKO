@@ -59,17 +59,28 @@ async function ensureStateSheet() {
     });
   }
 
-  await sheets.spreadsheets.values.update({
+  const headerResponse = await sheets.spreadsheets.values.get({
     spreadsheetId: sheetsId,
-    range: `${sheetsTab}!A1:B2`,
-    valueInputOption: "RAW",
-    requestBody: {
-      values: [
-        ["key", "value"],
-        ["appState", ""]
-      ]
-    }
-  }).catch(() => {});
+    range: `${sheetsTab}!A1:B2`
+  }).catch(() => ({ data: { values: [] } }));
+
+  const rows = headerResponse.data.values || [];
+  const firstRow = rows[0] || [];
+  const secondRow = rows[1] || [];
+
+  if (!firstRow[0] || !firstRow[1] || !secondRow[0]) {
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: sheetsId,
+      range: `${sheetsTab}!A1:B2`,
+      valueInputOption: "RAW",
+      requestBody: {
+        values: [
+          ["key", "value"],
+          ["appState", secondRow[1] || ""]
+        ]
+      }
+    });
+  }
 }
 
 async function readStateFromSheets() {
