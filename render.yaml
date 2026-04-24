@@ -10,6 +10,14 @@ services:
         value: /var/data
       - key: GEMINI_API_KEY
         sync: false
+      - key: GOOGLE_SHEETS_ID
+        sync: false
+      - key: GOOGLE_SERVICE_ACCOUNT_EMAIL
+        sync: false
+      - key: GOOGLE_PRIVATE_KEY
+        sync: false
+      - key: GOOGLE_SHEETS_STATE_TAB
+        value: AppState
     disk:
       name: mosty-v-rodine-data
       mountPath: /var/data

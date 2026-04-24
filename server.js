@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const { google } = require("googleapis");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -8,32 +9,152 @@ const dataDir = process.env.DATA_DIR || path.join(__dirname, "data");
 const dataFile = path.join(dataDir, "app-state.json");
 const geminiApiKey = process.env.GEMINI_API_KEY || "";
 
+const sheetsId = process.env.GOOGLE_SHEETS_ID || "";
+const sheetsTab = process.env.GOOGLE_SHEETS_STATE_TAB || "AppState";
+const googleClientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || "";
+const googlePrivateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+
 fs.mkdirSync(dataDir, { recursive: true });
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.static(__dirname));
 
+function isSheetsConfigured() {
+  return Boolean(sheetsId && googleClientEmail && googlePrivateKey);
+}
+
+function getGoogleAuth() {
+  return new google.auth.JWT({
+    email: googleClientEmail,
+    key: googlePrivateKey,
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"]
+  });
+}
+
+function getSheetsClient() {
+  return google.sheets({ version: "v4", auth: getGoogleAuth() });
+}
+
+async function ensureStateSheet() {
+  const sheets = getSheetsClient();
+  const metadata = await sheets.spreadsheets.get({ spreadsheetId: sheetsId });
+  const exists = (metadata.data.sheets || []).some(
+    sheet => sheet.properties?.title === sheetsTab
+  );
+
+  if (!exists) {
+    await sheets.spreadsheets.batchUpdate({
+      spreadsheetId: sheetsId,
+      requestBody: {
+        requests: [
+          {
+            addSheet: {
+              properties: {
+                title: sheetsTab
+              }
+            }
+          }
+        ]
+      }
+    });
+  }
+
+  await sheets.spreadsheets.values.update({
+    spreadsheetId: sheetsId,
+    range: `${sheetsTab}!A1:B2`,
+    valueInputOption: "RAW",
+    requestBody: {
+      values: [
+        ["key", "value"],
+        ["appState", ""]
+      ]
+    }
+  }).catch(() => {});
+}
+
+async function readStateFromSheets() {
+  await ensureStateSheet();
+  const sheets = getSheetsClient();
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: sheetsId,
+    range: `${sheetsTab}!A2:B2`
+  });
+
+  const row = response.data.values?.[0] || [];
+  const raw = row[1] || "";
+  return raw ? JSON.parse(raw) : {};
+}
+
+async function writeStateToSheets(state) {
+  await ensureStateSheet();
+  const sheets = getSheetsClient();
+  await sheets.spreadsheets.values.update({
+    spreadsheetId: sheetsId,
+    range: `${sheetsTab}!A2:B2`,
+    valueInputOption: "RAW",
+    requestBody: {
+      values: [["appState", JSON.stringify(state || {})]]
+    }
+  });
+}
+
+function readStateFromFile() {
+  if (!fs.existsSync(dataFile)) {
+    return {};
+  }
+  const raw = fs.readFileSync(dataFile, "utf8");
+  return raw ? JSON.parse(raw) : {};
+}
+
+function writeStateToFile(state) {
+  fs.writeFileSync(dataFile, JSON.stringify(state || {}, null, 2), "utf8");
+}
+
+async function readState() {
+  if (isSheetsConfigured()) {
+    try {
+      return await readStateFromSheets();
+    } catch (error) {
+      console.error("Sheets read failed, falling back to file storage:", error);
+    }
+  }
+  return readStateFromFile();
+}
+
+async function writeState(state) {
+  if (isSheetsConfigured()) {
+    try {
+      await writeStateToSheets(state);
+      return { backend: "google-sheets" };
+    } catch (error) {
+      console.error("Sheets write failed, falling back to file storage:", error);
+    }
+  }
+  writeStateToFile(state);
+  return { backend: "file" };
+}
+
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true });
+  res.json({
+    ok: true,
+    storage: isSheetsConfigured() ? "google-sheets" : "file"
+  });
 });
 
-app.get("/api/state", (_req, res) => {
+app.get("/api/state", async (_req, res) => {
   try {
-    if (!fs.existsSync(dataFile)) {
-      return res.json({});
-    }
-    const raw = fs.readFileSync(dataFile, "utf8");
-    return res.json(raw ? JSON.parse(raw) : {});
+    const state = await readState();
+    return res.json(state);
   } catch (error) {
     console.error("GET /api/state failed:", error);
     return res.status(500).json({ error: "Nepodařilo se načíst uložený stav." });
   }
 });
 
-app.put("/api/state", (req, res) => {
+app.put("/api/state", async (req, res) => {
   try {
-    fs.writeFileSync(dataFile, JSON.stringify(req.body || {}, null, 2), "utf8");
-    return res.json({ ok: true, savedAt: new Date().toISOString() });
+    const result = await writeState(req.body || {});
+    return res.json({ ok: true, savedAt: new Date().toISOString(), backend: result.backend });
   } catch (error) {
     console.error("PUT /api/state failed:", error);
     return res.status(500).json({ error: "Nepodařilo se uložit stav." });
